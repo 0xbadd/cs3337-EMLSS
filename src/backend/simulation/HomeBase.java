@@ -5,17 +5,16 @@ import javafx.geometry.Point2D;
 public class HomeBase {
     private final int id;
     private final Point2D location;
-    private int capacity;
-    private int numAmbulances;
+    private int currentCapacity;
 
-    HomeBase(int id, Point2D location, int capacity) {
+    HomeBase(int id, Point2D location, int initialCapacity) {
         this.id = id;
         this.location = location;
-        this.capacity = capacity;
+        this.currentCapacity = initialCapacity;
     }
 
     public void houseAmbulance() {
-        capacity--;
+        currentCapacity--;
     }
 
     public int getId() {
@@ -26,7 +25,7 @@ public class HomeBase {
         return location;
     }
 
-    public int getCapacity() {
-        return capacity;
+    public int getCurrentCapacity() {
+        return currentCapacity;
     }
 }
