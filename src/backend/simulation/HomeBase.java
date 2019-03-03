@@ -1,4 +1,4 @@
-package backend;
+package backend.simulation;
 
 import javafx.geometry.Point2D;
 
@@ -8,11 +8,11 @@ public class HomeBase {
     private int capacity;
     private int numAmbulances;
 
-    public HomeBase(int id, Point2D location, int capacity, int numAmbulances) {
+    public HomeBase(int id, Point2D location, int capacity) {
         this.id = id;
         this.location = location;
         this.capacity = capacity;
-        this.numAmbulances = numAmbulances;
+        this.numAmbulances = 0;
     }
 
     public int getId() {
