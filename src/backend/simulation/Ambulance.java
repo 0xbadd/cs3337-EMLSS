@@ -3,7 +3,7 @@ package backend.simulation;
 import javafx.geometry.Point2D;
 
 public class Ambulance {
-    private int id;
+    private final int id;
     private Point2D location;
     private double fuel;
     private int homeBase;

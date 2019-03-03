@@ -7,9 +7,9 @@ enum Severity {
 }
 
 public class Patient {
-    private int id;
+    private final int id;
     private Point2D location;
-    private Severity injurySeverity;
+    private final Severity injurySeverity;
 
     public Patient(int id, Point2D location, Severity injurySeverity) {
         this.id = id;

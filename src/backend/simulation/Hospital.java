@@ -3,7 +3,7 @@ package backend.simulation;
 import javafx.geometry.Point2D;
 
 public class Hospital {
-    private int id;
+    private final int id;
     private Point2D location;
 
     Hospital(int id, Point2D location) {

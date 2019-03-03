@@ -3,8 +3,8 @@ package backend.simulation;
 import javafx.geometry.Point2D;
 
 public class HomeBase {
-    private int id;
-    private Point2D location;
+    private final int id;
+    private final Point2D location;
     private int capacity;
     private int numAmbulances;
 
