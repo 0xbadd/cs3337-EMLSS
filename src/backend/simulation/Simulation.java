@@ -24,7 +24,7 @@ public class Simulation {
         // just test locations
         for (HomeBase hb : homeBases) {
             ambs.add(new Ambulance(idgen++, hb.getLocation(), hb.getId()));
-            hb.setNumAmbulances(hb.getNumAmbulances() + 1);
+            hb.houseAmbulance();
         }
         return ambs;
     }

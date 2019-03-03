@@ -12,7 +12,10 @@ public class HomeBase {
         this.id = id;
         this.location = location;
         this.capacity = capacity;
-        this.numAmbulances = 0;
+    }
+
+    public void houseAmbulance() {
+        capacity--;
     }
 
     public int getId() {
@@ -25,13 +28,5 @@ public class HomeBase {
 
     public int getCapacity() {
         return capacity;
-    }
-
-    public int getNumAmbulances() {
-        return numAmbulances;
-    }
-
-    public void setNumAmbulances(int numAmbulances) {
-        this.numAmbulances = numAmbulances;
     }
 }

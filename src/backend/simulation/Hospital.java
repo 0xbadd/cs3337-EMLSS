@@ -6,7 +6,7 @@ public class Hospital {
     private int id;
     private Point2D location;
 
-    public Hospital(int id, Point2D location) {
+    Hospital(int id, Point2D location) {
         this.id = id;
         this.location = location;
     }
