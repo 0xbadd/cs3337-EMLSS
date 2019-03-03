@@ -9,7 +9,7 @@ public class Ambulance {
     private int homeBase;
     private int patientsLoaded;
 
-    public Ambulance(int id, Point2D location, int homeBase) {
+    Ambulance(int id, Point2D location, int homeBase) {
         this.id = id;
         this.location = location;
         this.fuel = 100.0;
@@ -39,10 +39,6 @@ public class Ambulance {
 
     public int getPatientsLoaded() {
         return patientsLoaded;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public void setLocation(Point2D location) {

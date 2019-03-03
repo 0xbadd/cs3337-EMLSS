@@ -8,7 +8,7 @@ public class HomeBase {
     private int capacity;
     private int numAmbulances;
 
-    public HomeBase(int id, Point2D location, int capacity) {
+    HomeBase(int id, Point2D location, int capacity) {
         this.id = id;
         this.location = location;
         this.capacity = capacity;
@@ -19,24 +19,12 @@ public class HomeBase {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public Point2D getLocation() {
         return location;
     }
 
-    public void setLocation(Point2D location) {
-        this.location = location;
-    }
-
     public int getCapacity() {
         return capacity;
-    }
-
-    public void setCapacity(int capacity) {
-        this.capacity = capacity;
     }
 
     public int getNumAmbulances() {

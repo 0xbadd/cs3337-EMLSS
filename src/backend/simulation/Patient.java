@@ -29,15 +29,7 @@ public class Patient {
         return injurySeverity;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public void setLocation(Point2D location) {
         this.location = location;
-    }
-
-    public void setInjurySeverity(Severity injurySeverity) {
-        this.injurySeverity = injurySeverity;
     }
 }
