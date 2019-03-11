@@ -14,7 +14,6 @@ public class Ambulance {
         this.location = location;
         this.fuel = 100.0;
         this.homeBase = homeBase;
-        this.patientsLoaded = 0;
     }
 
     public void driveTo(Point2D location) {
@@ -37,10 +36,6 @@ public class Ambulance {
         return homeBase;
     }
 
-    public int getPatientsLoaded() {
-        return patientsLoaded;
-    }
-
     public void setLocation(Point2D location) {
         this.location = location;
     }
@@ -51,9 +46,5 @@ public class Ambulance {
 
     public void setHomeBase(int homeBase) {
         this.homeBase = homeBase;
-    }
-
-    public void setPatientsLoaded(int patientsLoaded) {
-        this.patientsLoaded = patientsLoaded;
     }
 }
