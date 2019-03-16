@@ -2,45 +2,47 @@ package backend.simulation;
 
 import javafx.geometry.Point2D;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class Simulation {
-    private static int idgen = 0;
-    private List<Ambulance> amulances;
-    private List<Patient> patients;
-    private List<HomeBase> homeBases;
-    private List<Hospital> hospitals;
+    private static int idGen = 0;
+    private Map<Integer, Ambulance> ambulances;
+    private Map<Integer, Patient> patients;
+    private Map<Integer, HomeBase> homeBases;
+    private Map<Integer, Hospital> hospitals;
 
     public Simulation() {
         homeBases = generateHomeBases();
-        amulances = generateAmbulances(homeBases);
-        patients = new ArrayList<>();
+        ambulances = generateAmbulances(homeBases);
+        patients = new LinkedHashMap<>();
         hospitals = generateHospitals();
     }
 
-    private List<Ambulance> generateAmbulances(List<HomeBase> homeBases) {
-        List<Ambulance> ambs = new ArrayList<>();
+    private Map<Integer, Ambulance> generateAmbulances(Map<Integer, HomeBase> homeBases) {
+        Map<Integer, Ambulance> ambulances = new LinkedHashMap<>();
         // just test locations
-        for (HomeBase hb : homeBases) {
-            ambs.add(new Ambulance(idgen++, hb.getLocation(), hb.getId()));
+        for (HomeBase hb : homeBases.values()) {
+            int id = idGen++;
+            ambulances.put(id, new Ambulance(hb.getLocation(), id));
             hb.houseAmbulance();
         }
-        return ambs;
+        return ambulances;
     }
 
-    private List<HomeBase> generateHomeBases() {
-        List<HomeBase> hbs = new ArrayList<>();
+    private Map<Integer, HomeBase> generateHomeBases() {
+        Map<Integer, HomeBase> homeBases = new LinkedHashMap<>();
         // just test locations
-        hbs.add(new HomeBase(idgen++, new Point2D(25, 25), 3));
-        hbs.add(new HomeBase(idgen++, new Point2D(100, 100), 3));
-        return hbs;
+        homeBases.put(idGen++, (new HomeBase(new Point2D(25, 10), 3)));
+        homeBases.put(idGen++, (new HomeBase(new Point2D(80, 80), 3)));
+        homeBases.put(idGen++, (new HomeBase(new Point2D(80, 60), 3)));
+        return homeBases;
     }
 
-    private List<Hospital> generateHospitals() {
-        List<Hospital> hs = new ArrayList<>();
+    private Map<Integer, Hospital> generateHospitals() {
+        Map<Integer, Hospital> hospitals = new LinkedHashMap<>();
         // just test locations
-        hs.add(new Hospital(idgen++, new Point2D(55, 55)));
-        return hs;
+        hospitals.put(idGen++, (new Hospital(new Point2D(55, 55))));
+        return hospitals;
     }
 }

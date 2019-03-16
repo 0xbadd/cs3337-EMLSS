@@ -7,18 +7,12 @@ enum Severity {
 }
 
 public class Patient {
-    private final int id;
     private Point2D location;
     private final Severity injurySeverity;
 
     public Patient(int id, Point2D location, Severity injurySeverity) {
-        this.id = id;
         this.location = location;
         this.injurySeverity = injurySeverity;
-    }
-
-    public int getId() {
-        return id;
     }
 
     public Point2D getLocation() {
