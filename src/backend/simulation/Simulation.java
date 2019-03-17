@@ -3,10 +3,8 @@ package backend.simulation;
 import backend.algorithm.Algorithm;
 import backend.algorithm.Assignment;
 
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.*;
 
 class Simulation {
     private static int idGen = 0;
@@ -30,8 +28,42 @@ class Simulation {
 
     public void startSimulation() {
         Algorithm algorithm = new Algorithm(this.ambulances);
-        //#TODO make threads to spawn Patients randomly and to progress assignments simultaneously
-        progressAssignments();
+
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        Runnable patientCreator = () -> {
+            while (true) {
+                int spawnTime = (int)(Math.random() * 60 + 1); // 1 - 60 seconds
+                try {
+                    Thread.sleep(spawnTime * 1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                Patient patient = spawnPatient();
+                patients.put(idGen++, patient);
+            }
+        };
+        executorService.submit(patientCreator);
+
+        while (true) {
+            progressAssignments();
+        }
+
+    }
+
+    private Patient spawnPatient() {
+        int patient_x = (int)(Math.random() * (MAP_SIZE_X + 1));
+        int patient_y = (int)(Math.random() * (MAP_SIZE_Y + 1));
+
+        int injurySeverityRoll = (int)(Math.random() * 101);
+        InjurySeverity injurySeverity;
+        if (injurySeverityRoll >= 90) {
+            injurySeverity = InjurySeverity.NON_LIFE_THREATENING;
+        } else {
+            injurySeverity = InjurySeverity.LIFE_THREATENING;
+        }
+
+        return new Patient(new Point(patient_x,patient_y), injurySeverity);
     }
 
     private void progressAssignments() {

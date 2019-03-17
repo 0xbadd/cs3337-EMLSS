@@ -1,14 +1,12 @@
 package backend.simulation;
 
-enum Severity {
-    LIFE_THREATENING, NON_LIFE_THREATENING
-}
+
 
 public class Patient {
     private Point location;
-    private final Severity injurySeverity;
+    private final InjurySeverity injurySeverity;
 
-    public Patient(Point location, Severity injurySeverity) {
+    public Patient(Point location, InjurySeverity injurySeverity) {
         this.location = location;
         this.injurySeverity = injurySeverity;
     }
@@ -17,7 +15,7 @@ public class Patient {
         return location;
     }
 
-    public Severity getInjurySeverity() {
+    public InjurySeverity getInjurySeverity() {
         return injurySeverity;
     }
 }
