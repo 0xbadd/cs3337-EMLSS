@@ -100,7 +100,7 @@ public class Algorithm {
 
     public int getShortestDistance(Point startPoint, Map<Integer, Point> endPoints) {
         Map<Double, Integer> distances = new LinkedHashMap<>();
-        List<Double> distancesList = new LinkedList<>();
+        LinkedList<Double> distancesList = new LinkedList<>();
         for (Map.Entry<Integer, Point> pair : endPoints.entrySet()) {
             int id = pair.getKey();
             Point endPoint = pair.getValue();
@@ -119,7 +119,7 @@ public class Algorithm {
         };
         distancesList.sort(comp);
 
-        double shortestDistance = ((LinkedList<Double>) distancesList).getFirst();
+        double shortestDistance = distancesList.getFirst();
 
         return distances.get(shortestDistance);
     }
