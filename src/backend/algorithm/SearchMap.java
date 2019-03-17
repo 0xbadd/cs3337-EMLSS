@@ -1,9 +1,5 @@
 package backend.algorithm;
 
-import backend.simulation.Point;
-
-import java.util.Queue;
-
 public class SearchMap {
     private int[][] grid;
 
