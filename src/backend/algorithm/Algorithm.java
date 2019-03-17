@@ -1,10 +1,45 @@
 package backend.algorithm;
 
+import backend.simulation.Ambulance;
+import backend.simulation.Hospital;
+import backend.simulation.Patient;
 import backend.simulation.Point;
 
 import java.util.*;
 
 public class Algorithm {
+    private Map<Integer, Ambulance> availableAmbulances;
+
+    public Algorithm(Map<Integer, Ambulance> ambulances) {
+        this.availableAmbulances = ambulances;
+    }
+
+    public Assignment makeAssignment(int[][] mapGrid, Map.Entry<Integer, Patient> patient, Map<Integer, Ambulance> ambulances, Map<Integer, Hospital> hospitals) {
+        Map<Integer, Point> availableAmbulanceLocations = new LinkedHashMap<>();
+        Point patientLocation = patient.getValue().getLocation();
+        for (Map.Entry<Integer, Ambulance> pair : availableAmbulances.entrySet()) {
+            int id = pair.getKey();
+            Point ambulanceLocation = pair.getValue().getLocation();
+            availableAmbulanceLocations.put(id, ambulanceLocation);
+        }
+        int ambulanceId = getShortestDistance(patientLocation, availableAmbulanceLocations);
+        Point ambulanceLocation = availableAmbulances.get(ambulanceId).getLocation();
+        Stack<Point> path = getPath(mapGrid, patientLocation, ambulanceLocation);
+
+       Map<Integer, Point> hospitalLocations = new LinkedHashMap<>();
+       for (Map.Entry<Integer, Hospital> pair : hospitals.entrySet()) {
+            int id = pair.getKey();
+            Point hospitalLocation = pair.getValue().getLocation();
+            hospitalLocations.put(id, hospitalLocation);
+       }
+       int hospitalId = getShortestDistance(patientLocation, hospitalLocations);
+       Point hospitalLocation = hospitals.get(hospitalId).getLocation();
+       Stack<Point> pathToHospital = getPath(mapGrid, patientLocation, hospitalLocation);
+       path.addAll(pathToHospital);
+
+       return new Assignment(ambulanceId, patient.getKey(), hospitalId, path);
+    }
+
     public Stack<Point> getPath(int[][] mapGrid, Point startPoint, Point endPoint) {
         Stack<Point> path = new Stack<>();
         SearchMap map = new SearchMap(mapGrid);
@@ -12,6 +47,7 @@ public class Algorithm {
 
         boolean done = false;
         queue.add(new Cell(startPoint.getX(), startPoint.getY(), null));
+        // breadth first search
         while (!queue.isEmpty()) {
             Cell c = queue.poll();
 
