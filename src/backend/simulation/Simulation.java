@@ -1,6 +1,11 @@
 package backend.simulation;
 
+import backend.algorithm.Algorithm;
+import backend.algorithm.Assignment;
+
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 public class Simulation {
@@ -11,6 +16,7 @@ public class Simulation {
     private Map<Integer, Patient> patients;
     private Map<Integer, HomeBase> homeBases;
     private Map<Integer, Hospital> hospitals;
+    private List<Assignment> assignments;
     private int[][] mapGrid;
 
     public Simulation() {
@@ -18,7 +24,29 @@ public class Simulation {
         ambulances = generateAmbulances(homeBases);
         patients = new LinkedHashMap<>();
         hospitals = generateHospitals();
+        assignments = new LinkedList<>();
         mapGrid = new int[MAX_MAP_X][MAX_MAP_Y];
+    }
+
+    public void startSimulation() {
+        //#TODO make threads to spawn Patients randomly and to progress assignments simultaneously
+        progressAssignments();
+    }
+
+    private void progressAssignments() {
+        if (!assignments.isEmpty()) {
+            for (Assignment assignment : assignments) {
+                int ambulanceId = assignment.getAmbulanceId();
+                Ambulance ambulance = ambulances.get(ambulanceId);
+                Point nextDestination = assignment.getNextMovementPoint();
+
+                ambulance.driveTo(nextDestination);
+
+                if (assignment.getPath().empty()) {
+                    assignments.remove(assignment);
+                }
+            }
+        }
     }
 
     private Map<Integer, Ambulance> generateAmbulances(Map<Integer, HomeBase> homeBases) {

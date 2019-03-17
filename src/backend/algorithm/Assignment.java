@@ -17,6 +17,10 @@ public class Assignment {
         this.path = path;
     }
 
+    public Point getNextMovementPoint() {
+        return path.pop();
+    }
+
     public int getAmbulanceId() {
         return ambulanceId;
     }
