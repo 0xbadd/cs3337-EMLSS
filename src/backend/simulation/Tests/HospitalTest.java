@@ -10,8 +10,8 @@ class HospitalTest {
 
     @Test
     void getLocation() {
-        Hospital hospital = new Hospital(new Point(0, 0));
-        Point expected = new Point(0, 0);
+        Hospital hospital = new Hospital(new Point(0, 1));
+        Point expected = new Point(0, 1);
         Point actual = hospital.getLocation();
         assertEquals(expected, actual);
     }

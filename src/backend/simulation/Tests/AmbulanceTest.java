@@ -19,15 +19,15 @@ class AmbulanceTest {
 
     @Test
     void getLocation() {
-        Ambulance ambulance = new Ambulance(new Point(0, 0), 0);
-        Point expected = new Point(0, 0);
+        Ambulance ambulance = new Ambulance(new Point(0, 1), 0);
+        Point expected = new Point(0, 1);
         Point actual = ambulance.getLocation();
         assertEquals(expected, actual);
     }
 
     @Test
     void getFuel() {
-        Ambulance ambulance = new Ambulance(new Point(0, 0), 0);
+        Ambulance ambulance = new Ambulance(new Point(0, 1), 0);
         double expected = 100.0;
         double actual = ambulance.getFuel();
         assertEquals(expected, actual);
@@ -35,7 +35,7 @@ class AmbulanceTest {
 
     @Test
     void getHomeBase() {
-        Ambulance ambulance = new Ambulance(new Point(0, 0), 0);
+        Ambulance ambulance = new Ambulance(new Point(0, 1), 0);
         int expected = 0;
         int actual = ambulance.getHomeBase();
         assertEquals(expected, actual);
@@ -43,7 +43,7 @@ class AmbulanceTest {
 
     @Test
     void setFuel() {
-        Ambulance ambulance = new Ambulance(new Point(0, 0), 0);
+        Ambulance ambulance = new Ambulance(new Point(0, 1), 0);
         ambulance.setFuel(50.0);
         double expected = 50.0;
         double actual = ambulance.getFuel();
@@ -52,7 +52,7 @@ class AmbulanceTest {
 
     @Test
     void setHomeBase() {
-        Ambulance ambulance = new Ambulance(new Point(0, 0), 0);
+        Ambulance ambulance = new Ambulance(new Point(0, 1), 0);
         ambulance.setHomeBase(10);
         int expected = 10;
         int actual = ambulance.getHomeBase();

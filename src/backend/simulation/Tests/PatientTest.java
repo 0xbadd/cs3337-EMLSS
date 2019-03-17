@@ -11,15 +11,15 @@ class PatientTest {
 
     @Test
     void getLocation() {
-        Patient patient = new Patient(new Point(0, 0), InjurySeverity.NON_LIFE_THREATENING);
-        Point expected = new Point(0, 0);
+        Patient patient = new Patient(new Point(0, 1), InjurySeverity.NON_LIFE_THREATENING);
+        Point expected = new Point(0, 1);
         Point actual = patient.getLocation();
         assertEquals(expected, actual);
     }
 
     @Test
     void getInjurySeverity() {
-        Patient patient = new Patient(new Point(0, 0), InjurySeverity.NON_LIFE_THREATENING);
+        Patient patient = new Patient(new Point(0, 1), InjurySeverity.NON_LIFE_THREATENING);
         InjurySeverity expected = InjurySeverity.NON_LIFE_THREATENING;
         InjurySeverity actual = patient.getInjurySeverity();
         assertEquals(expected, actual);
