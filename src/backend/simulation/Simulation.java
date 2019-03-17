@@ -6,7 +6,7 @@ import backend.algorithm.Assignment;
 import java.util.*;
 import java.util.concurrent.*;
 
-class Simulation {
+public class Simulation {
     private static int idGen = 0;
     private static final int MAP_SIZE_X = 100;
     private static final int MAP_SIZE_Y = 100;
@@ -51,7 +51,7 @@ class Simulation {
 
     }
 
-    private Patient spawnPatient() {
+    Patient spawnPatient() {
         int patient_x = (int)(Math.random() * (MAP_SIZE_X + 1));
         int patient_y = (int)(Math.random() * (MAP_SIZE_Y + 1));
 
@@ -66,7 +66,7 @@ class Simulation {
         return new Patient(new Point(patient_x,patient_y), injurySeverity);
     }
 
-    private void progressAssignments() {
+    void progressAssignments() {
         if (!assignments.isEmpty()) {
             for (Assignment assignment : assignments) {
                 int ambulanceId = assignment.getAmbulanceId();
@@ -82,7 +82,7 @@ class Simulation {
         }
     }
 
-    private Map<Integer, Ambulance> generateAmbulances(Map<Integer, HomeBase> homeBases) {
+    Map<Integer, Ambulance> generateAmbulances(Map<Integer, HomeBase> homeBases) {
         Map<Integer, Ambulance> ambulances = new LinkedHashMap<>();
         // just test locations
         for (HomeBase hb : homeBases.values()) {
@@ -93,7 +93,7 @@ class Simulation {
         return ambulances;
     }
 
-    private Map<Integer, HomeBase> generateHomeBases() {
+    Map<Integer, HomeBase> generateHomeBases() {
         Map<Integer, HomeBase> homeBases = new LinkedHashMap<>();
         // just test locations
         homeBases.put(idGen++, (new HomeBase(new Point(25, 10), 3)));
@@ -102,7 +102,7 @@ class Simulation {
         return homeBases;
     }
 
-    private Map<Integer, Hospital> generateHospitals() {
+    Map<Integer, Hospital> generateHospitals() {
         Map<Integer, Hospital> hospitals = new LinkedHashMap<>();
         // just test locations
         hospitals.put(idGen++, (new Hospital(new Point(55, 55))));

@@ -1,4 +1,4 @@
-package backend.simulation.Tests;
+package backend.simulation.tests;
 
 import backend.simulation.Point;
 import org.junit.jupiter.api.Test;
