@@ -4,7 +4,7 @@ public class HomeBase {
     private final Point location;
     private int currentCapacity;
 
-    HomeBase(Point location, int initialCapacity) {
+    public HomeBase(Point location, int initialCapacity) {
         this.location = location;
         this.currentCapacity = initialCapacity;
     }
