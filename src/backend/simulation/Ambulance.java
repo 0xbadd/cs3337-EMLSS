@@ -5,7 +5,7 @@ public class Ambulance {
     private double fuel;
     private int homeBase;
 
-    Ambulance(Point location, int homeBase) {
+    public Ambulance(Point location, int homeBase) {
         this.location = location;
         this.fuel = 100.0;
         this.homeBase = homeBase;
@@ -25,10 +25,6 @@ public class Ambulance {
 
     public int getHomeBase() {
         return homeBase;
-    }
-
-    public void setLocation(Point location) {
-        this.location = location;
     }
 
     public void setFuel(double fuel) {

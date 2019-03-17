@@ -13,16 +13,8 @@ public class Point {
         return x;
     }
 
-    public void setX(int x) {
-        this.x = x;
-    }
-
     public int getY() {
         return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
     }
 
     public double distanceTo(Point endPoint) {
@@ -32,5 +24,19 @@ public class Point {
         double y2 = endPoint.y;
 
         return Math.sqrt(Math.pow((x1 - x2), 2) + Math.pow((y1 - y2), 2));
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (obj == null || (this.getClass() != obj.getClass())) {
+            return false;
+        }
+
+        Point other = (Point) obj;
+        return (this.x == other.x) && (this.y == other.y);
     }
 }
