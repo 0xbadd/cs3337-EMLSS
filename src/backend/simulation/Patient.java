@@ -1,7 +1,7 @@
 package backend.simulation;
 
 enum Severity {
-    LIFE_THREATING, NON_LIFE_THREATING
+    LIFE_THREATENING, NON_LIFE_THREATENING
 }
 
 public class Patient {
