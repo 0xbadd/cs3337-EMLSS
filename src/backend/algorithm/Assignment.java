@@ -1,14 +1,20 @@
 package backend.algorithm;
 
+import backend.simulation.Point;
+
+import java.util.Stack;
+
 public class Assignment {
     private int ambulanceId;
     private int patientId;
     private int hospitalId;
+    private Stack<Point> path;
 
-    public Assignment(int ambulanceId, int patientId, int hospitalId) {
+    public Assignment(int ambulanceId, int patientId, int hospitalId, Stack<Point> path) {
         this.ambulanceId = ambulanceId;
         this.patientId = patientId;
         this.hospitalId = hospitalId;
+        this.path = path;
     }
 
     public int getAmbulanceId() {
@@ -33,5 +39,9 @@ public class Assignment {
 
     public void setHospitalId(int hospitalId) {
         this.hospitalId = hospitalId;
+    }
+
+    public Stack<Point> getPath() {
+        return path;
     }
 }

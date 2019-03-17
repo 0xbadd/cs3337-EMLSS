@@ -1,5 +1,9 @@
 package backend.algorithm;
 
+import backend.simulation.Point;
+
+import java.util.Queue;
+
 public class SearchMap {
     private int[][] grid;
 
@@ -25,7 +29,4 @@ public class SearchMap {
     public void setCell(int row, int col, int value) {
         grid[row][col] = value;
     }
-
-    public int getNumRows() {return grid.length;}
-    public int getNumCols() {return grid[0].length;}
 }
