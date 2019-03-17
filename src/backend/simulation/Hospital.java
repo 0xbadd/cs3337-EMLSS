@@ -1,19 +1,17 @@
 package backend.simulation;
 
-import javafx.geometry.Point2D;
-
 public class Hospital {
-    private Point2D location;
+    private Point location;
 
-    Hospital(Point2D location) {
+    Hospital(Point location) {
         this.location = location;
     }
 
-    public Point2D getLocation() {
+    public Point getLocation() {
         return location;
     }
 
-    public void setLocation(Point2D location) {
+    public void setLocation(Point location) {
         this.location = location;
     }
 }

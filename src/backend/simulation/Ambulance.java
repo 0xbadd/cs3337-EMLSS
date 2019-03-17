@@ -1,23 +1,21 @@
 package backend.simulation;
 
-import javafx.geometry.Point2D;
-
 public class Ambulance {
-    private Point2D location;
+    private Point location;
     private double fuel;
     private int homeBase;
 
-    Ambulance(Point2D location, int homeBase) {
+    Ambulance(Point location, int homeBase) {
         this.location = location;
         this.fuel = 100.0;
         this.homeBase = homeBase;
     }
 
-    public void driveTo(Point2D location) {
+    public void driveTo(Point location) {
         this.location = location;
     }
 
-    public Point2D getLocation() {
+    public Point getLocation() {
         return location;
     }
 
@@ -29,7 +27,7 @@ public class Ambulance {
         return homeBase;
     }
 
-    public void setLocation(Point2D location) {
+    public void setLocation(Point location) {
         this.location = location;
     }
 

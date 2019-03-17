@@ -1,12 +1,10 @@
 package backend.simulation;
 
-import javafx.geometry.Point2D;
-
 public class HomeBase {
-    private final Point2D location;
+    private final Point location;
     private int currentCapacity;
 
-    HomeBase(Point2D location, int initialCapacity) {
+    HomeBase(Point location, int initialCapacity) {
         this.location = location;
         this.currentCapacity = initialCapacity;
     }
@@ -15,7 +13,7 @@ public class HomeBase {
         currentCapacity--;
     }
 
-    public Point2D getLocation() {
+    public Point getLocation() {
         return location;
     }
 
