@@ -29,6 +29,7 @@ public class Simulation {
     }
 
     public void startSimulation() {
+        Algorithm algorithm = new Algorithm(this.ambulances);
         //#TODO make threads to spawn Patients randomly and to progress assignments simultaneously
         progressAssignments();
     }

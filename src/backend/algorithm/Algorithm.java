@@ -26,6 +26,8 @@ public class Algorithm {
         Point ambulanceLocation = availableAmbulances.get(ambulanceId).getLocation();
         Stack<Point> path = getPath(mapGrid, patientLocation, ambulanceLocation);
 
+        availableAmbulances.remove(ambulanceId);
+
        Map<Integer, Point> hospitalLocations = new LinkedHashMap<>();
        for (Map.Entry<Integer, Hospital> pair : hospitals.entrySet()) {
             int id = pair.getKey();
