@@ -1,6 +1,6 @@
 package backend.algorithm;
 
-public class SearchMap {
+class SearchMap {
     private int[][] grid;
 
     public SearchMap(int[][] mapGrid) {

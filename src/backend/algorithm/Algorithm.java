@@ -42,7 +42,7 @@ public class Algorithm {
        return new Assignment(ambulanceId, patient.getKey(), hospitalId, path);
     }
 
-    public Stack<Point> getPath(int[][] mapGrid, Point startPoint, Point endPoint) {
+    private Stack<Point> getPath(int[][] mapGrid, Point startPoint, Point endPoint) {
         Stack<Point> path = new Stack<>();
         SearchMap map = new SearchMap(mapGrid);
         Queue<Cell> queue = new LinkedList<>();
@@ -98,7 +98,7 @@ public class Algorithm {
         return path;
     }
 
-    public int getShortestDistance(Point startPoint, Map<Integer, Point> endPoints) {
+    private int getShortestDistance(Point startPoint, Map<Integer, Point> endPoints) {
         Map<Double, Integer> distances = new LinkedHashMap<>();
         LinkedList<Double> distancesList = new LinkedList<>();
         for (Map.Entry<Integer, Point> pair : endPoints.entrySet()) {

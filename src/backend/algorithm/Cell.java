@@ -1,6 +1,6 @@
 package backend.algorithm;
 
-public class Cell {
+class Cell {
     int row;
     int col;
     private Cell parent;

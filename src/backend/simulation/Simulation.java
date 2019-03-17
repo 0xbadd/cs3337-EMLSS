@@ -8,7 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public class Simulation {
+class Simulation {
     private static int idGen = 0;
     private static final int MAP_SIZE_X = 100;
     private static final int MAP_SIZE_Y = 100;
