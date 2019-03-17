@@ -1,6 +1,6 @@
 package backend.algorithm;
 
-class SearchMap {
+public class SearchMap {
     private int[][] grid;
 
     public SearchMap(int[][] mapGrid) {
@@ -20,6 +20,10 @@ class SearchMap {
 
         return result;
 
+    }
+
+    public int getCell(int row, int col) {
+        return grid[row][col];
     }
 
     public void setCell(int row, int col, int value) {
