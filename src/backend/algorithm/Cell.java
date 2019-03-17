@@ -1,6 +1,6 @@
 package backend.algorithm;
 
-class Cell {
+public class Cell {
     int row;
     int col;
     private Cell parent;
@@ -12,4 +12,18 @@ class Cell {
     }
 
     public Cell getParent() { return parent; }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (obj == null || (this.getClass() != obj.getClass())) {
+            return false;
+        }
+
+        Cell other = (Cell) obj;
+        return (this.row == other.row) && (this.col == other.col) && (this.parent == other.parent);
+    }
 }
