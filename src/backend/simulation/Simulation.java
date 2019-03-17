@@ -10,8 +10,8 @@ import java.util.Map;
 
 public class Simulation {
     private static int idGen = 0;
-    private static final int MAX_MAP_X = 100;
-    private static final int MAX_MAP_Y = 100;
+    private static final int MAP_SIZE_X = 100;
+    private static final int MAP_SIZE_Y = 100;
     private Map<Integer, Ambulance> ambulances;
     private Map<Integer, Patient> patients;
     private Map<Integer, HomeBase> homeBases;
@@ -25,7 +25,7 @@ public class Simulation {
         patients = new LinkedHashMap<>();
         hospitals = generateHospitals();
         assignments = new LinkedList<>();
-        mapGrid = new int[MAX_MAP_X][MAX_MAP_Y];
+        mapGrid = new int[MAP_SIZE_X][MAP_SIZE_Y];
     }
 
     public void startSimulation() {
