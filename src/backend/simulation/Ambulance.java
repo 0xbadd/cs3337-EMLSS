@@ -7,7 +7,6 @@ public class Ambulance {
     private Point2D location;
     private double fuel;
     private int homeBase;
-    private int patientsLoaded;
 
     Ambulance(int id, Point2D location, int homeBase) {
         this.id = id;
