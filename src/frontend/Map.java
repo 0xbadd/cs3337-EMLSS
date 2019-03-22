@@ -54,4 +54,10 @@ public void DisplayMapValues() {
 public Location[][] getMap() {
 	return grid;
 }
+
+public boolean checkIfAvailable (double x, double y){
+
+		return true;
+	}
 }
+
