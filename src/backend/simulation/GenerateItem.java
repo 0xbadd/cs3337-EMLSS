@@ -24,9 +24,6 @@ public class GenerateItem {
         }
         else{
             Point2D location= new Point2D(x,y);
-            testBase= new HomeBase(1, location, 1);
-
-            //place homebase on map.
 
         }
 

@@ -1,6 +1,9 @@
 package frontend;
 
+import backend.simulation.GenerateItem;
+
 public class Map {
+	public GenerateItem item = new GenerateItem();
  private Location[][] grid = new Location[100][100];
 public void setMap() {
 	//B = building, S = street , A = ambulance, H = hospital, P =  patient, O = origin or homebase. for values
