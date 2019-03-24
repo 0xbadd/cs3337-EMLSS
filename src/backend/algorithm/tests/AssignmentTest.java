@@ -15,7 +15,7 @@ class AssignmentTest {
         Stack<Point> actualPath = new Stack<>();
         actualPath.push(new Point(1,1));
         actualPath.push(new Point(2, 2));
-        Assignment assignment = new Assignment(0, 1, 2, actualPath);
+        Assignment assignment = new Assignment(0, 1, actualPath);
 
         Point expected = new Point(2,2);
         Point actual = assignment.getNextMovementPoint();
@@ -27,7 +27,7 @@ class AssignmentTest {
         Stack<Point> actualPath = new Stack<>();
         actualPath.push(new Point(1,1));
         actualPath.push(new Point(2, 2));
-        Assignment assignment = new Assignment(0, 1, 2, actualPath);
+        Assignment assignment = new Assignment(0, 1, actualPath);
 
         int expected = 0;
         int actual = assignment.getAmbulanceId();
@@ -35,26 +35,14 @@ class AssignmentTest {
     }
 
     @Test
-    void getPatientId() {
+    void getDestinationId() {
         Stack<Point> actualPath = new Stack<>();
         actualPath.push(new Point(1,1));
         actualPath.push(new Point(2, 2));
-        Assignment assignment = new Assignment(0, 1, 2, actualPath);
+        Assignment assignment = new Assignment(0, 1, actualPath);
 
         int expected = 1;
-        int actual = assignment.getPatientId();
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void getHospitalId() {
-        Stack<Point> actualPath = new Stack<>();
-        actualPath.push(new Point(1,1));
-        actualPath.push(new Point(2, 2));
-        Assignment assignment = new Assignment(0, 1, 2, actualPath);
-
-        int expected = 2;
-        int actual = assignment.getHospitalId();
+        int actual = assignment.getDestinationId();
         assertEquals(expected, actual);
     }
 
@@ -63,12 +51,23 @@ class AssignmentTest {
         Stack<Point> actualPath = new Stack<>();
         actualPath.push(new Point(1,1));
         actualPath.push(new Point(2, 2));
-        Assignment assignment = new Assignment(0, 1, 2, actualPath);
+        Assignment assignment = new Assignment(0, 1, actualPath);
 
         Stack<Point> expected = new Stack<>();
         expected.push(new Point(1,1));
         expected.push(new Point(2, 2));
         Stack<Point> actual = assignment.getPath();
         assertEquals(expected, actual);
+    }
+
+    @Test
+    void equals() {
+        Stack<Point> path1 = new Stack<>();
+        path1.push(new Point(1,1));
+        Stack<Point> path2 = new Stack<>();
+        path2.push(new Point(1,1));
+        Assignment assignment1 = new Assignment(0,1, path1);
+        Assignment assignment2 = new Assignment(0, 1, path2);
+        assertEquals(assignment1, assignment2);
     }
 }

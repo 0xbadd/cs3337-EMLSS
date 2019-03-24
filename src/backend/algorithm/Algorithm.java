@@ -1,9 +1,6 @@
 package backend.algorithm;
 
-import backend.simulation.Ambulance;
-import backend.simulation.Hospital;
-import backend.simulation.Patient;
-import backend.simulation.Point;
+import backend.simulation.*;
 
 import java.util.*;
 
@@ -14,7 +11,7 @@ public class Algorithm {
         this.availableAmbulances = ambulances;
     }
 
-    public Assignment makeAssignment(int[][] mapGrid, Map.Entry<Integer, Patient> patient, Map<Integer, Ambulance> ambulances, Map<Integer, Hospital> hospitals) {
+    public Assignment makePatientAssignment(int[][] mapGrid, Map.Entry<Integer, Patient> patient) {
         Map<Integer, Point> availableAmbulanceLocations = new LinkedHashMap<>();
         Point patientLocation = patient.getValue().getLocation();
         for (Map.Entry<Integer, Ambulance> pair : availableAmbulances.entrySet()) {
@@ -24,25 +21,38 @@ public class Algorithm {
         }
         int ambulanceId = getShortestDistance(patientLocation, availableAmbulanceLocations);
         Point ambulanceLocation = availableAmbulances.get(ambulanceId).getLocation();
-        Stack<Point> path = getPath(mapGrid, patientLocation, ambulanceLocation);
+        Stack<Point> path = getPath(mapGrid, ambulanceLocation, patientLocation);
 
-        availableAmbulances.remove(ambulanceId);
+        //availableAmbulances.remove(ambulanceId);
 
-       Map<Integer, Point> hospitalLocations = new LinkedHashMap<>();
-       for (Map.Entry<Integer, Hospital> pair : hospitals.entrySet()) {
+       return new Assignment(ambulanceId, patient.getKey(), path);
+    }
+
+    public Assignment makeHospitalAssignment(int[][] mapGrid, Map.Entry<Integer, Ambulance> ambulance, Map<Integer, Hospital> hospitals) {
+        Map<Integer, Point> hospitalLocations = new LinkedHashMap<>();
+        for (Map.Entry<Integer, Hospital> pair : hospitals.entrySet()) {
             int id = pair.getKey();
             Point hospitalLocation = pair.getValue().getLocation();
             hospitalLocations.put(id, hospitalLocation);
-       }
-       int hospitalId = getShortestDistance(patientLocation, hospitalLocations);
-       Point hospitalLocation = hospitals.get(hospitalId).getLocation();
-       Stack<Point> pathToHospital = getPath(mapGrid, patientLocation, hospitalLocation);
-       path.addAll(pathToHospital);
+        }
+        Point ambulanceLocation = ambulance.getValue().getLocation();
+        int hospitalId = getShortestDistance(ambulanceLocation, hospitalLocations);
+        Point hospitalLocation = hospitals.get(hospitalId).getLocation();
+        Stack<Point> path = getPath(mapGrid, ambulanceLocation, hospitalLocation);
 
-       return new Assignment(ambulanceId, patient.getKey(), hospitalId, path);
+        return new Assignment(ambulance.getKey(), hospitalId, path);
     }
 
-    private Stack<Point> getPath(int[][] mapGrid, Point startPoint, Point endPoint) {
+    public Assignment makeHomeBaseAssignment(int[][] mapGrid, Map.Entry<Integer, Ambulance> ambulance, Map<Integer, HomeBase> homeBases) {
+        int homeBaseId =ambulance.getValue().getHomeBase();
+        Point homeBaseLocation = homeBases.get(homeBaseId).getLocation();
+        Point ambulanceLocation = ambulance.getValue().getLocation();
+        Stack<Point> path = getPath(mapGrid, ambulanceLocation, homeBaseLocation);
+
+        return new Assignment(ambulance.getKey(), homeBaseId, path);
+    }
+
+    public Stack<Point> getPath(int[][] mapGrid, Point startPoint, Point endPoint) {
         Stack<Point> path = new Stack<>();
         SearchMap map = new SearchMap(mapGrid);
         Queue<Cell> queue = new LinkedList<>();
@@ -98,7 +108,7 @@ public class Algorithm {
         return path;
     }
 
-    private int getShortestDistance(Point startPoint, Map<Integer, Point> endPoints) {
+    public int getShortestDistance(Point startPoint, Map<Integer, Point> endPoints) {
         Map<Double, Integer> distances = new LinkedHashMap<>();
         LinkedList<Double> distancesList = new LinkedList<>();
         for (Map.Entry<Integer, Point> pair : endPoints.entrySet()) {
@@ -110,9 +120,9 @@ public class Algorithm {
         }
         Comparator<Double> comp = (Double a, Double b) -> {
           if (a < b) {
-              return 1;
+              return -1;
           } else if (a > b) {
-              return 2;
+              return 1;
           } else {
               return 0;
           }

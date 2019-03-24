@@ -1,6 +1,5 @@
 package backend.algorithm.tests;
 
-import backend.algorithm.Cell;
 import backend.algorithm.SearchMap;
 import org.junit.jupiter.api.Test;
 
