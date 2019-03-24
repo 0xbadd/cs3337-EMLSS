@@ -68,6 +68,7 @@ class AlgorithmTest {
 
         Assignment expected = new Assignment(2,0, expectedPath);
         Assignment actual = algorithm.makeHospitalAssignment(mapGrid, ambulanceEntry, hospitals);
+        assertEquals(expected, actual);
     }
 
     @Test
