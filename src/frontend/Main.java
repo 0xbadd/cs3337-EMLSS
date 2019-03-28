@@ -6,6 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -17,11 +18,16 @@ public class Main extends Application {
         primaryStage.setScene(new Scene(root, 800, 600));
         primaryStage.show();
     		GridPane gp = new GridPane();
+    		BorderPane bp = new BorderPane();
     		Map newMap = new Map();
     		newMap.setMap();
     		GUIController gui = new GUIController();
     		gui.setMapLabels(gp, newMap);
-    		Scene sc = new Scene(gp);
+    		bp.setCenter(gp);
+    		HBox top = new HBox();
+    		gui.setButtons(top);
+    		bp.setTop(top);
+    		Scene sc = new Scene(bp);
     		sc.getStylesheets().add("styles.css");
     		primaryStage.setScene(sc);
     		primaryStage.show();

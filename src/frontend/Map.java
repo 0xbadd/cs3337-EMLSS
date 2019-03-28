@@ -23,23 +23,8 @@ public void setMap() {
 		}
 		count=count+2;
 	}
-	/*
-	for(int count =10;count<14;count++) {
-		for(int index=10;index<16;index++) {
-			grid[count][index].setValue('H');
-		}
-	}
-	for(int count =60;count<64;count++) {
-		for(int index=20;index<26;index++) {
-			grid[count][index].setValue('H');
-		}
-	}
-	for(int count =50;count<54;count++) {
-		for(int index=90;index<96;index++) {
-			grid[count][index].setValue('H');
-		}
-	}
-*/
+	
+
 
 }
 public void DisplayMapValues() {
