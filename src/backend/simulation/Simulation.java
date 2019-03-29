@@ -57,7 +57,7 @@ public class Simulation {
 
         int injurySeverityRoll = (int)(Math.random() * 101);
         InjurySeverity injurySeverity;
-        if (injurySeverityRoll >= 90) {
+        if (injurySeverityRoll <= 90) {
             injurySeverity = InjurySeverity.NON_LIFE_THREATENING;
         } else {
             injurySeverity = InjurySeverity.LIFE_THREATENING;
