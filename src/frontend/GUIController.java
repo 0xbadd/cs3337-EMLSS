@@ -18,7 +18,7 @@ import javafx.scene.layout.HBox;
 
 public class GUIController {
 	private int x;
-	private int labelSize = 15;
+	private int labelSize = 40;
 	private Label[][] values = new Label[100][100];
 	public GUIController() {
 	for (int count = 0; count < values.length; count++) {

@@ -1,9 +1,15 @@
 package frontend;
 
+import java.awt.Scrollbar;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.ScrollBar;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -27,7 +33,11 @@ public class Main extends Application {
     		HBox top = new HBox();
     		gui.setButtons(top);
     		bp.setTop(top);
-    		Scene sc = new Scene(bp);
+    		ScrollPane scrollPane = new ScrollPane();
+    		scrollPane.setVbarPolicy(ScrollBarPolicy.ALWAYS);
+    		 scrollPane.setHbarPolicy(ScrollBarPolicy.ALWAYS);
+    		 scrollPane.setContent(bp);
+    		Scene sc = new Scene(scrollPane);
     		sc.getStylesheets().add("styles.css");
     		primaryStage.setScene(sc);
     		primaryStage.show();
