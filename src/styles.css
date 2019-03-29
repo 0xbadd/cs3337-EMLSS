@@ -6,24 +6,24 @@
 }
 .building{
 	-fx-background-color:#c0c0c0;
-	-fx-background-image: url("office_building.png")
+	-fx-background-image: url("/assets/office_building.png")
    
 
 }
 
 .homebase{
 	-fx-background-color:#ffff00;
-			-fx-background-image: url("homebase.png")
+			-fx-background-image: url("/assets/homebase.png")
 }
 .hospital{
 	-fx-background-color:#ffccff;
-		-fx-background-image: url("hospital.png")
+		-fx-background-image: url("/assets/hospital.png")
 }
 .patient{
 	-fx-background-color:#ff0000;
-		-fx-background-image: url("emergency.png")
+		-fx-background-image: url("/assets/emergency.png")
 }
 .ambulance{
 	-fx-background-color:#000000;
-	-fx-background-image: url("ambulance.png")
+	-fx-background-image: url("/assets/ambulance.png")
 }
