@@ -1,46 +1,111 @@
 package backend.simulation;
 
-import javafx.geometry.Point2D;
+import backend.algorithm.Algorithm;
+import backend.algorithm.Assignment;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.*;
 
 public class Simulation {
-    private static int idgen = 0;
-    private List<Ambulance> amulances;
-    private List<Patient> patients;
-    private List<HomeBase> homeBases;
-    private List<Hospital> hospitals;
+    private static int idGen = 0;
+    private static final int MAP_SIZE_X = 100;
+    private static final int MAP_SIZE_Y = 100;
+    private Map<Integer, Ambulance> ambulances;
+    private Map<Integer, Patient> patients;
+    private Map<Integer, HomeBase> homeBases;
+    private Map<Integer, Hospital> hospitals;
+    private List<Assignment> assignments;
+    private int[][] mapGrid;
 
     public Simulation() {
         homeBases = generateHomeBases();
-        amulances = generateAmbulances(homeBases);
-        patients = new ArrayList<>();
+        ambulances = generateAmbulances(homeBases);
+        patients = new LinkedHashMap<>();
         hospitals = generateHospitals();
+        assignments = new LinkedList<>();
+        mapGrid = new int[MAP_SIZE_X][MAP_SIZE_Y];
     }
 
-    private List<Ambulance> generateAmbulances(List<HomeBase> homeBases) {
-        List<Ambulance> ambs = new ArrayList<>();
+    public void startSimulation() {
+        Algorithm algorithm = new Algorithm(this.ambulances);
+
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        Runnable patientCreator = () -> {
+            while (true) {
+                int spawnTime = (int)(Math.random() * 60 + 1); // 1 - 60 seconds
+                try {
+                    Thread.sleep(spawnTime * 1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                Patient patient = spawnPatient();
+                patients.put(idGen++, patient);
+            }
+        };
+        executorService.submit(patientCreator);
+
+        while (true) {
+            progressAssignments();
+        }
+
+    }
+
+    Patient spawnPatient() {
+        int patient_x = (int)(Math.random() * (MAP_SIZE_X + 1));
+        int patient_y = (int)(Math.random() * (MAP_SIZE_Y + 1));
+
+        int injurySeverityRoll = (int)(Math.random() * 101);
+        InjurySeverity injurySeverity;
+        if (injurySeverityRoll <= 90) {
+            injurySeverity = InjurySeverity.NON_LIFE_THREATENING;
+        } else {
+            injurySeverity = InjurySeverity.LIFE_THREATENING;
+        }
+
+        return new Patient(new Point(patient_x,patient_y), injurySeverity);
+    }
+
+    void progressAssignments() {
+        if (!assignments.isEmpty()) {
+            for (Assignment assignment : assignments) {
+                int ambulanceId = assignment.getAmbulanceId();
+                Ambulance ambulance = ambulances.get(ambulanceId);
+                Point nextDestination = assignment.getNextMovementPoint();
+
+                ambulance.driveTo(nextDestination);
+
+                if (assignment.getPath().empty()) {
+                    assignments.remove(assignment);
+                }
+            }
+        }
+    }
+
+    Map<Integer, Ambulance> generateAmbulances(Map<Integer, HomeBase> homeBases) {
+        Map<Integer, Ambulance> ambulances = new LinkedHashMap<>();
         // just test locations
-        for (HomeBase hb : homeBases) {
-            ambs.add(new Ambulance(idgen++, hb.getLocation(), hb.getId()));
+        for (HomeBase hb : homeBases.values()) {
+            int id = idGen++;
+            ambulances.put(id, new Ambulance(hb.getLocation(), id));
             hb.houseAmbulance();
         }
-        return ambs;
+        return ambulances;
     }
 
-    private List<HomeBase> generateHomeBases() {
-        List<HomeBase> hbs = new ArrayList<>();
+    Map<Integer, HomeBase> generateHomeBases() {
+        Map<Integer, HomeBase> homeBases = new LinkedHashMap<>();
         // just test locations
-        hbs.add(new HomeBase(idgen++, new Point2D(25, 25), 3));
-        hbs.add(new HomeBase(idgen++, new Point2D(100, 100), 3));
-        return hbs;
+        homeBases.put(idGen++, (new HomeBase(new Point(25, 10), 3)));
+        homeBases.put(idGen++, (new HomeBase(new Point(80, 80), 3)));
+        homeBases.put(idGen++, (new HomeBase(new Point(80, 60), 3)));
+        return homeBases;
     }
 
-    private List<Hospital> generateHospitals() {
-        List<Hospital> hs = new ArrayList<>();
+    Map<Integer, Hospital> generateHospitals() {
+        Map<Integer, Hospital> hospitals = new LinkedHashMap<>();
         // just test locations
-        hs.add(new Hospital(idgen++, new Point2D(55, 55)));
-        return hs;
+        hospitals.put(idGen++, (new Hospital(new Point(55, 55))));
+        return hospitals;
     }
 }

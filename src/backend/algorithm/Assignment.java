@@ -1,37 +1,47 @@
 package backend.algorithm;
 
+import backend.simulation.Point;
+
+import java.util.Stack;
+
 public class Assignment {
     private int ambulanceId;
-    private int patientId;
-    private int hospitalId;
+    private int destinationId;
+    private Stack<Point> path;
 
-    public Assignment(int ambulanceId, int patientId, int hospitalId) {
+    public Assignment(int ambulanceId, int destinationId, Stack<Point> path) {
         this.ambulanceId = ambulanceId;
-        this.patientId = patientId;
-        this.hospitalId = hospitalId;
+        this.destinationId = destinationId;
+        this.path = path;
+    }
+
+    public Point getNextMovementPoint() {
+        return path.pop();
     }
 
     public int getAmbulanceId() {
         return ambulanceId;
     }
 
-    public void setAmbulanceId(int ambulanceId) {
-        this.ambulanceId = ambulanceId;
+    public int getDestinationId() {
+        return destinationId;
     }
 
-    public int getPatientId() {
-        return patientId;
+    public Stack<Point> getPath() {
+        return path;
     }
 
-    public void setPatientId(int patientId) {
-        this.patientId = patientId;
-    }
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
 
-    public int getHospitalId() {
-        return hospitalId;
-    }
+        if (obj == null || (this.getClass() != obj.getClass())) {
+            return false;
+        }
 
-    public void setHospitalId(int hospitalId) {
-        this.hospitalId = hospitalId;
+        Assignment other = (Assignment) obj;
+        return (this.ambulanceId == other.ambulanceId) && (this.destinationId == other.destinationId) && (this.path.equals(other.path));
     }
 }
