@@ -18,8 +18,12 @@ import javafx.scene.layout.HBox;
 
 public class GUIController {
 	private char x;
-
+	private Thread th1= new Thread();
+	private Thread th2= new Thread();
+	private Thread th3= new Thread();
+	private boolean simStatus = false;
 	private int labelSize = 40;
+	private int patientMax=0;
 	private Label[][] values = new Label[100][100];
 	public GUIController(Map map, GridPane gp) {
 	for (int count = 0; count < values.length; count++) {
@@ -28,6 +32,9 @@ public class GUIController {
 		}
 	}
 }
+	public boolean getSimStatus() {
+		return simStatus;
+	}
 	//sets up buildings and streets in grid
 	
 	public void refreshMapLabels(GridPane gp,Map map) {
@@ -157,7 +164,37 @@ public class GUIController {
 		r.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
-				//begins the app
+				//begins the sim
+				simStatus = true;
+				
+				if(simStatus) {
+					//code to continue sim until stop button is hit
+					//test code
+					System.out.println("the sim is on");
+					while(patientMax>0) {
+						System.out.println("getting patients to hospitals");
+						System.out.println("one patient got to hospital. "+patientMax+" patients to go");
+						patientMax--;
+						if(simStatus==false) {
+							break;
+						}
+					}
+					
+				}
+				//to show sim loop stopped
+				System.out.println("the sim is off");
+
+			}
+	
+});
+		Button s = new Button();
+		s.setText("Stop");
+		s.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<Event>() {
+			@Override
+			public void handle(Event event) {
+				//stops the sim
+				simStatus = false;
+				//not implemented yet
 
 			}
 	
@@ -228,6 +265,7 @@ public class GUIController {
 			public void handle(Event event) {
 				String num = tx2.getText();
 				int patients= Integer.parseInt(num);
+				patientMax = patients;
 				//code to change number of patients, or frequency
 				patientNum.setText("    "+Integer.toString(patients)+" Patients ");
 				tx2.clear();
@@ -238,6 +276,7 @@ public class GUIController {
 
 		
 		hb.getChildren().add(0,r);
+		hb.getChildren().add(0,s);
 		hb.getChildren().add(1,ambu);
 	hb.getChildren().add(ambulanceNum);
 		hb.getChildren().add(2,tx1);

@@ -26,7 +26,6 @@ public class Main extends Application {
     		newMap.setMap();
     		GUIController gui = new GUIController(newMap, gp);
     		gui.refreshMapLabels(gp, newMap);
-    	
     		bp.setCenter(gp);
     		HBox top = new HBox();
     		gui.setButtons(top);
@@ -36,6 +35,7 @@ public class Main extends Application {
     		 scrollPane.setHbarPolicy(ScrollBarPolicy.ALWAYS);
     		 scrollPane.setContent(bp);
     		Scene sc = new Scene(scrollPane);
+    		
     		sc.getStylesheets().add("styles.css");
     		primaryStage.setScene(sc);
     		primaryStage.show();
