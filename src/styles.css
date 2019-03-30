@@ -23,7 +23,11 @@
 	-fx-background-color:#ff0000;
 		-fx-background-image: url("/assets/emergency.png")
 }
-.ambulance{
+.inActiveAmbulance{
 	-fx-background-color:#000000;
-	-fx-background-image: url("/assets/ambulance.png")
+	-fx-background-image: url("/assets/inActiveAmbulance.png")
+}
+.activeAmbulance{
+	-fx-background-color:#000000;
+	-fx-background-image: url("/assets/activeAmbulance.png")
 }

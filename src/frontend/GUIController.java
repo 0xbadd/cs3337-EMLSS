@@ -17,14 +17,14 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 
 public class GUIController {
-	private int x;
+	private char x;
+
 	private int labelSize = 40;
 	private Label[][] values = new Label[100][100];
-	public GUIController() {
+	public GUIController(Map map, GridPane gp) {
 	for (int count = 0; count < values.length; count++) {
 		for (int index = 0; index < values.length; index++) {
 			values[count][index] = new Label();
-
 		}
 	}
 }
@@ -40,7 +40,19 @@ public class GUIController {
 
 					values[count][index].setMinWidth(labelSize);
 					values[count][index].setMinHeight(labelSize);
+					int n = count;
+					int m = index;
+					values[count][index].addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<Event>() {
+						@Override
+						public void handle(Event event) {
+							
+							map.getMap()[n][m].setValue(x);
+							refreshMapLabels(gp,map);
 
+						}
+					
+				
+			});
 					gp.add(values[count][index], count, index);
 
 				} else if (map.getMap()[count][index].getValue() == 'S') {
@@ -48,7 +60,19 @@ public class GUIController {
 					values[count][index].getStyleClass().add("street");
 					values[count][index].setMinWidth(labelSize);
 					values[count][index].setMinHeight(labelSize);
+					int n = count;
+					int m = index;
+					values[count][index].addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<Event>() {
+						@Override
+						public void handle(Event event) {
+							
+							map.getMap()[n][m].setValue(x);
+							refreshMapLabels(gp,map);
 
+						}
+					
+				
+			});
 					gp.add(values[count][index], count, index);
 				}
 				else if (map.getMap()[count][index].getValue() == 'P') {
@@ -56,7 +80,8 @@ public class GUIController {
 					values[count][index].getStyleClass().add("patient");
 					values[count][index].setMinWidth(labelSize);
 					values[count][index].setMinHeight(labelSize);
-
+					int n = count;
+					int m = index;
 					gp.add(values[count][index], count, index);
 				}
 				else if (map.getMap()[count][index].getValue() == 'O') {
@@ -64,7 +89,19 @@ public class GUIController {
 					values[count][index].getStyleClass().add("homebase");
 					values[count][index].setMinWidth(labelSize);
 					values[count][index].setMinHeight(labelSize);
+					int n = count;
+					int m = index;
+					values[count][index].addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<Event>() {
+						@Override
+						public void handle(Event event) {
+							
+							map.getMap()[n][m].setValue(x);
+							refreshMapLabels(gp,map);
 
+						}
+					
+				
+			});
 					gp.add(values[count][index], count, index);
 				}
 				else if (map.getMap()[count][index].getValue() == 'H') {
@@ -72,12 +109,32 @@ public class GUIController {
 					values[count][index].getStyleClass().add("hospital");
 					values[count][index].setMinWidth(labelSize);
 					values[count][index].setMinHeight(labelSize);
+					int n = count;
+					int m = index;
+					values[count][index].addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<Event>() {
+						@Override
+						public void handle(Event event) {
+							
+							map.getMap()[n][m].setValue(x);
+							refreshMapLabels(gp,map);
 
+						}
+					
+				
+			});
 					gp.add(values[count][index], count, index);
 				}
 				else if (map.getMap()[count][index].getValue() == 'A') {
 					values[count][index] = new Label(" ");
-					values[count][index].getStyleClass().add("ambulance");
+					values[count][index].getStyleClass().add("activeAmbulance");
+					values[count][index].setMinWidth(labelSize);
+					values[count][index].setMinHeight(labelSize);
+
+					gp.add(values[count][index], count, index);
+				}
+				else if (map.getMap()[count][index].getValue() == 'U') {
+					values[count][index] = new Label(" ");
+					values[count][index].getStyleClass().add("inActiveAmbulance");
 					values[count][index].setMinWidth(labelSize);
 					values[count][index].setMinHeight(labelSize);
 
@@ -100,7 +157,47 @@ public class GUIController {
 		r.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
+				//begins the app
 
+			}
+	
+});
+		Button placeHospital = new Button();
+		placeHospital.setText("Hospital Placement");
+		placeHospital.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<Event>() {
+			@Override
+			public void handle(Event event) {
+				x = 'H';
+
+			}
+	
+});
+		Button placeHomebase = new Button();
+		placeHomebase.setText("HomeBase Placement");
+		placeHomebase.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<Event>() {
+			@Override
+			public void handle(Event event) {
+				x = 'O';
+
+			}
+	
+});
+		Button placeStreet = new Button();
+		placeStreet.setText("Street Placement");
+		placeStreet.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<Event>() {
+			@Override
+			public void handle(Event event) {
+				x = 'S';
+
+			}
+	
+});
+		Button placeBuilding = new Button();
+		placeBuilding.setText("Building Placement");
+		placeBuilding.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<Event>() {
+			@Override
+			public void handle(Event event) {
+				x = 'B';
 
 			}
 	
@@ -116,7 +213,7 @@ public class GUIController {
 				//code to change number of ambulances  in map
 
 		
-				ambulanceNum.setText("   "+Integer.toString(ambulances)+" Ambulances");
+				ambulanceNum.setText("   "+Integer.toString(ambulances)+" Ambulances ");
 	
 				tx1.clear();
 
@@ -132,13 +229,13 @@ public class GUIController {
 				String num = tx2.getText();
 				int patients= Integer.parseInt(num);
 				//code to change number of patients, or frequency
-				patientNum.setText("    "+Integer.toString(patients)+" Patients");
+				patientNum.setText("    "+Integer.toString(patients)+" Patients ");
 				tx2.clear();
 			}
 		
 	
 });
-		
+
 		
 		hb.getChildren().add(0,r);
 		hb.getChildren().add(1,ambu);
@@ -148,6 +245,10 @@ public class GUIController {
 		hb.getChildren().add(1,pat);
 		hb.getChildren().add(patientNum);
 		hb.getChildren().add(2,tx2);
+		hb.getChildren().add(placeHospital);
+		hb.getChildren().add(placeHomebase);
+		hb.getChildren().add(placeBuilding);
+		hb.getChildren().add(placeStreet);
 }
 
 }

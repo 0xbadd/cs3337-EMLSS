@@ -3,7 +3,7 @@ package frontend;
 public class Map {
  private Location[][] grid = new Location[100][100];
 public void setMap() {
-	//B = building, S = street , A = ambulance, H = hospital, P =  patient, O = origin or homebase. for values
+	//B = building, S = street , A =  active ambulance,U = inactive ambulance H = hospital, P =  patient, O = origin or homebase. for values
 	for (int count =0;count<grid.length;count++) {
 		for(int index=0;index<grid.length;index++) {
 			grid[count][index] = new Location(count,index,'B');
@@ -23,12 +23,13 @@ public void setMap() {
 		}
 		count=count+2;
 	}
-	/*
-	grid[0][0].setValue('A');
-	grid[0][1].setValue('O');
+	
+	grid[0][0].setValue('U');
+	grid[0][4].setValue('O');
 	grid[0][2].setValue('H');
 	grid[0][3].setValue('P');
-*/
+	grid[0][1].setValue('A');
+
 	
 
 }
@@ -43,5 +44,8 @@ public void DisplayMapValues() {
 }
 public Location[][] getMap() {
 	return grid;
+}
+public Location findEntry(int x, int y){
+	return grid[x][y];
 }
 }
