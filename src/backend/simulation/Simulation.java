@@ -29,7 +29,8 @@ public class Simulation {
     public void startSimulation() {
         Algorithm algorithm = new Algorithm(this.ambulances);
 
-        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        ExecutorService executor = Executors.newFixedThreadPool(2);
+
         Runnable patientCreator = () -> {
             while (true) {
                 int spawnTime = (int)(Math.random() * 60 + 1); // 1 - 60 seconds
@@ -43,12 +44,20 @@ public class Simulation {
                 patients.put(idGen++, patient);
             }
         };
-        executorService.submit(patientCreator);
+        executor.submit(patientCreator);
 
-        while (true) {
-            progressAssignments();
-        }
+        Runnable assignmentAdvance = () -> {
+            while (true) {
+                progressAssignments();
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
 
+            }
+        };
+        executor.submit(assignmentAdvance);
     }
 
     Patient spawnPatient() {
