@@ -4,10 +4,10 @@ import backend.simulation.*;
 
 import java.util.*;
 
-public class Algorithm {
+public class AssignmentGenerator {
     private Map<Integer, Ambulance> availableAmbulances;
 
-    public Algorithm(Map<Integer, Ambulance> ambulances) {
+    public AssignmentGenerator(Map<Integer, Ambulance> ambulances) {
         this.availableAmbulances = ambulances;
     }
 

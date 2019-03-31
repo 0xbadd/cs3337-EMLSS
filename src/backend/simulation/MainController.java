@@ -1,12 +1,12 @@
 package backend.simulation;
 
-import backend.algorithm.Algorithm;
+import backend.algorithm.AssignmentGenerator;
 import backend.algorithm.Assignment;
 
 import java.util.*;
 import java.util.concurrent.*;
 
-public class Simulation {
+public class MainController {
     private static int idGen = 0;
     private static final int MAP_SIZE_X = 100;
     private static final int MAP_SIZE_Y = 100;
@@ -17,7 +17,7 @@ public class Simulation {
     private List<Assignment> assignments;
     private int[][] mapGrid;
 
-    public Simulation() {
+    public MainController() {
         homeBaseDirectory = generateHomeBases();
         ambulanceDirectory = generateAmbulances(homeBaseDirectory);
         patientDirectory = new LinkedHashMap<>();
@@ -27,7 +27,7 @@ public class Simulation {
     }
 
     public void startSimulation() {
-        Algorithm algorithm = new Algorithm(this.ambulanceDirectory);
+        AssignmentGenerator assignmentGenerator = new AssignmentGenerator(this.ambulanceDirectory);
 
         ExecutorService executor = Executors.newFixedThreadPool(2);
 
