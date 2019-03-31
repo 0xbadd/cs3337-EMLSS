@@ -10,24 +10,24 @@ public class Simulation {
     private static int idGen = 0;
     private static final int MAP_SIZE_X = 100;
     private static final int MAP_SIZE_Y = 100;
-    private Map<Integer, Ambulance> ambulances;
-    private Map<Integer, Patient> patients;
-    private Map<Integer, HomeBase> homeBases;
-    private Map<Integer, Hospital> hospitals;
+    private Map<Integer, Ambulance> ambulanceDirectory;
+    private Map<Integer, Patient> patientDirectory;
+    private Map<Integer, HomeBase> homeBaseDirectory;
+    private Map<Integer, Hospital> hospitalDirectory;
     private List<Assignment> assignments;
     private int[][] mapGrid;
 
     public Simulation() {
-        homeBases = generateHomeBases();
-        ambulances = generateAmbulances(homeBases);
-        patients = new LinkedHashMap<>();
-        hospitals = generateHospitals();
+        homeBaseDirectory = generateHomeBases();
+        ambulanceDirectory = generateAmbulances(homeBaseDirectory);
+        patientDirectory = new LinkedHashMap<>();
+        hospitalDirectory = generateHospitals();
         assignments = new LinkedList<>();
         mapGrid = new int[MAP_SIZE_X][MAP_SIZE_Y];
     }
 
     public void startSimulation() {
-        Algorithm algorithm = new Algorithm(this.ambulances);
+        Algorithm algorithm = new Algorithm(this.ambulanceDirectory);
 
         ExecutorService executor = Executors.newFixedThreadPool(2);
 
@@ -41,7 +41,7 @@ public class Simulation {
                 }
 
                 Patient patient = spawnPatient();
-                patients.put(idGen++, patient);
+                patientDirectory.put(idGen++, patient);
             }
         };
         executor.submit(patientCreator);
@@ -79,7 +79,7 @@ public class Simulation {
         if (!assignments.isEmpty()) {
             for (Assignment assignment : assignments) {
                 int ambulanceId = assignment.getAmbulanceId();
-                Ambulance ambulance = ambulances.get(ambulanceId);
+                Ambulance ambulance = ambulanceDirectory.get(ambulanceId);
                 Point nextDestination = assignment.getNextMovementPoint();
 
                 ambulance.driveTo(nextDestination);

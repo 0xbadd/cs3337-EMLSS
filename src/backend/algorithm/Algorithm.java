@@ -28,24 +28,24 @@ public class Algorithm {
        return new Assignment(ambulanceId, patient.getKey(), path);
     }
 
-    public Assignment makeHospitalAssignment(int[][] mapGrid, Map.Entry<Integer, Ambulance> ambulance, Map<Integer, Hospital> hospitals) {
+    public Assignment makeHospitalAssignment(int[][] mapGrid, Map.Entry<Integer, Ambulance> ambulance, Map<Integer, Hospital> hospitalDirectory) {
         Map<Integer, Point> hospitalLocations = new LinkedHashMap<>();
-        for (Map.Entry<Integer, Hospital> pair : hospitals.entrySet()) {
+        for (Map.Entry<Integer, Hospital> pair : hospitalDirectory.entrySet()) {
             int id = pair.getKey();
             Point hospitalLocation = pair.getValue().getLocation();
             hospitalLocations.put(id, hospitalLocation);
         }
         Point ambulanceLocation = ambulance.getValue().getLocation();
         int hospitalId = getShortestDistance(ambulanceLocation, hospitalLocations);
-        Point hospitalLocation = hospitals.get(hospitalId).getLocation();
+        Point hospitalLocation = hospitalDirectory.get(hospitalId).getLocation();
         Stack<Point> path = getPath(mapGrid, ambulanceLocation, hospitalLocation);
 
         return new Assignment(ambulance.getKey(), hospitalId, path);
     }
 
-    public Assignment makeHomeBaseAssignment(int[][] mapGrid, Map.Entry<Integer, Ambulance> ambulance, Map<Integer, HomeBase> homeBases) {
+    public Assignment makeHomeBaseAssignment(int[][] mapGrid, Map.Entry<Integer, Ambulance> ambulance, Map<Integer, HomeBase> homeBaseDirectory) {
         int homeBaseId =ambulance.getValue().getHomeBase();
-        Point homeBaseLocation = homeBases.get(homeBaseId).getLocation();
+        Point homeBaseLocation = homeBaseDirectory.get(homeBaseId).getLocation();
         Point ambulanceLocation = ambulance.getValue().getLocation();
         Stack<Point> path = getPath(mapGrid, ambulanceLocation, homeBaseLocation);
 
