@@ -1,12 +1,15 @@
 package frontend;
 
+import backend.simulation.Point;
+
 public class Map {
  private Location[][] grid = new Location[100][100];
 public void setMap() {
 	//B = building, S = street , A =  active ambulance,U = inactive ambulance H = hospital, P =  patient, O = origin or homebase. for values
 	for (int count =0;count<grid.length;count++) {
 		for(int index=0;index<grid.length;index++) {
-			grid[count][index] = new Location(count,index,'B');
+			Point p = new Point(count,index);
+			grid[count][index] = new Location(p,'B',null);
 			//turning entire grid into buildings
 		}
 	}

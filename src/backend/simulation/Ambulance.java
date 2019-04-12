@@ -1,5 +1,7 @@
 package backend.simulation;
 
+
+
 public class Ambulance {
     private Point location;
     private double fuel;

@@ -1,14 +1,20 @@
 package frontend;
 
+import backend.simulation.Point;
+
 public class Location {
 	private int row,column;
 	private char value;
+	private Object object;
 	//integers record position,char value records  what is in the position
-	public Location(int y,int x,char val) {
+	public Location(Point p,char val, Object inObj) {
 		//constructor for location
-		column=y;
-		row=x;
+		column=p.getY();
+		row=p.getX();
 		value=val;
+		if(inObj!=null) {
+			object = inObj;
+		}
 	}
 	public int getRow() {
 		return row;
