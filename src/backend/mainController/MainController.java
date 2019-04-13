@@ -30,7 +30,7 @@ public class MainController {
     }
 
     public void startAcceptingEmergencyCalls() {
-        ExecutorService executor = Executors.newFixedThreadPool(2);
+        ExecutorService executor = Executors.newFixedThreadPool(3);
 
         Runnable patientCreator = () -> {
             while (true) {
