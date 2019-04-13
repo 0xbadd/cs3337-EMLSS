@@ -1,6 +1,6 @@
-package backend.algorithm.tests;
+package backend.ambulanceAssignmentGenerator.tests;
 
-import backend.algorithm.SearchMap;
+import backend.ambulanceAssignmentGenerator.SearchMap;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

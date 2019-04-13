@@ -1,6 +1,6 @@
-package backend.algorithm;
+package backend.ambulanceAssignmentGenerator;
 
-import backend.simulation.Point;
+import backend.mainController.Point;
 
 import java.util.Stack;
 
