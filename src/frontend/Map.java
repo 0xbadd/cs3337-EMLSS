@@ -26,13 +26,13 @@ public void setMap() {
 		}
 		count=count+2;
 	}
-	
+	/*
 	grid[0][0].setValue('U');
 	grid[0][4].setValue('O');
 	grid[0][2].setValue('H');
 	grid[0][3].setValue('P');
 	grid[0][1].setValue('A');
-
+*/
 	
 
 }

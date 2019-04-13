@@ -25,6 +25,9 @@ public class Location {
 	public char getValue() {
 		return value;
 	}
+	public Object getObject() {
+		return object;
+	}
 	public void setRow(int input) {
 		row=input;
 	}
@@ -38,6 +41,9 @@ public class Location {
 		column=y;
 		row=x;
 		value=val;
+	}
+	public void setObject(Object obj) {
+		object = obj;
 	}
 
 

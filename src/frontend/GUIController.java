@@ -242,7 +242,7 @@ public class GUIController {
 				//begins the sim
 				simStatus = true;
 				if(simStatus) {
-					//code to continue sim until stop button is hit
+					//code to continue sim until stop button is hit or sim runs its course
 					//test code
 					System.out.println("the sim is on");
 					while(patientMax>0) {
@@ -310,25 +310,7 @@ public class GUIController {
 			}
 	
 });
-		Button ambu = new Button();
-		ambu.setText("Ambulances");
-		
-		ambu.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<Event>() {
-			@Override
-			public void handle(Event event) {
-				String num = tx1.getText();
-				int ambulances= Integer.parseInt(num);
-				//code to change number of ambulances  in map
 
-		
-				ambulanceNum.setText("   "+Integer.toString(ambulances)+" Ambulances ");
-	
-				tx1.clear();
-
-			}
-		
-	
-});
 		Button pat = new Button();
 		pat.setText("Patients");
 		pat.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<Event>() {
@@ -343,9 +325,6 @@ public class GUIController {
 		
 		hb.getChildren().add(0,r);
 		hb.getChildren().add(0,s);
-		hb.getChildren().add(2,ambu);
-	hb.getChildren().add(ambulanceNum);
-		hb.getChildren().add(3,tx1);
 		
 		hb.getChildren().add(pat);
 		hb.getChildren().add(placeHospital);
