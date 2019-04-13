@@ -29,7 +29,7 @@ public class MainController {
         mapGrid = new int[MAP_SIZE_X][MAP_SIZE_Y];
     }
 
-    public void startSimulation() {
+    public void startAcceptingEmergencyCalls() {
         ExecutorService executor = Executors.newFixedThreadPool(2);
 
         Runnable patientCreator = () -> {
