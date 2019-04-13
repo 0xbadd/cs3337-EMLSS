@@ -1,6 +1,6 @@
 package gui;
 
-import backend.simulation.Point;
+import backend.mainController.Point;
 
 public class Map {
  private Location[][] grid = new Location[100][100];

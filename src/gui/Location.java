@@ -1,6 +1,6 @@
 package gui;
 
-import backend.simulation.Point;
+import backend.mainController.Point;
 
 public class Location {
 	private int row,column;
