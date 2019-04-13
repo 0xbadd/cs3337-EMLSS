@@ -30,9 +30,9 @@ public class Map {
     }
 
     public void DisplayMapValues() {
-        for (int count = 0; count < grid.length; count++) {
-            for (int index = 0; index < grid.length; index++) {
-                System.out.print(grid[count][index].getValue() + ",");
+        for (int row = 0; row < grid.length; row++) {
+            for (int column = 0; column < grid.length; column++) {
+                System.out.print(grid[row][column].getValue() + ",");
             }
             System.out.println();
         }
