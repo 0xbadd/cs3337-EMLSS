@@ -1,4 +1,4 @@
-package backend.algorithm;
+package backend.ambulanceAssignmentGenerator;
 
 public class SearchMap {
     private int[][] grid;

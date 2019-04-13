@@ -1,4 +1,4 @@
-package frontend;
+package gui;
 
 public class Map {
  private Location[][] grid = new Location[100][100];

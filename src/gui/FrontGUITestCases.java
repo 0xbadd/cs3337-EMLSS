@@ -1,6 +1,4 @@
-package frontend;
-
-import static org.junit.jupiter.api.Assertions.*;
+package gui;
 
 import org.junit.jupiter.api.Test;
 

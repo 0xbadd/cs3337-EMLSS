@@ -1,7 +1,7 @@
-package backend.simulation;
+package backend.mainController;
 
-import backend.algorithm.AssignmentGenerator;
-import backend.algorithm.Assignment;
+import backend.ambulanceAssignmentGenerator.AssignmentGenerator;
+import backend.ambulanceAssignmentGenerator.Assignment;
 
 import java.util.*;
 import java.util.concurrent.*;

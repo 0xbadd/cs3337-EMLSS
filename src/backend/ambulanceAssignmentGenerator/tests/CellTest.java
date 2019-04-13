@@ -1,6 +1,6 @@
-package backend.algorithm.tests;
+package backend.ambulanceAssignmentGenerator.tests;
 
-import backend.algorithm.Cell;
+import backend.ambulanceAssignmentGenerator.Cell;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
