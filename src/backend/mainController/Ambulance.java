@@ -1,5 +1,7 @@
 package backend.mainController;
 
+
+
 public class Ambulance {
     private Point location;
     private double fuel;

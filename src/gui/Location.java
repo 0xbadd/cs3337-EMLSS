@@ -1,14 +1,20 @@
 package gui;
 
+import backend.mainController.Point;
+
 public class Location {
 	private int row,column;
 	private char value;
+	private Object object;
 	//integers record position,char value records  what is in the position
-	public Location(int y,int x,char val) {
+	public Location(Point p,char val, Object inObj) {
 		//constructor for location
-		column=y;
-		row=x;
+		column=p.getY();
+		row=p.getX();
 		value=val;
+		if(inObj!=null) {
+			object = inObj;
+		}
 	}
 	public int getRow() {
 		return row;
@@ -18,6 +24,9 @@ public class Location {
 	}
 	public char getValue() {
 		return value;
+	}
+	public Object getObject() {
+		return object;
 	}
 	public void setRow(int input) {
 		row=input;
@@ -32,6 +41,9 @@ public class Location {
 		column=y;
 		row=x;
 		value=val;
+	}
+	public void setObject(Object obj) {
+		object = obj;
 	}
 
 
