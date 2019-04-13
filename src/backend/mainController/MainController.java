@@ -1,7 +1,7 @@
-package backend.simulation;
+package backend.mainController;
 
-import backend.algorithm.AssignmentGenerator;
-import backend.algorithm.Assignment;
+import backend.ambulanceAssignmentGenerator.AssignmentGenerator;
+import backend.ambulanceAssignmentGenerator.Assignment;
 
 import java.util.*;
 import java.util.concurrent.*;
@@ -29,8 +29,8 @@ public class MainController {
         mapGrid = new int[MAP_SIZE_X][MAP_SIZE_Y];
     }
 
-    public void startSimulation() {
-        ExecutorService executor = Executors.newFixedThreadPool(2);
+    public void startAcceptingEmergencyCalls() {
+        ExecutorService executor = Executors.newFixedThreadPool(3);
 
         Runnable patientCreator = () -> {
             while (true) {

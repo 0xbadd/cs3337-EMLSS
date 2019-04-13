@@ -1,8 +1,8 @@
-package backend.algorithm.tests;
+package backend.ambulanceAssignmentGenerator.tests;
 
-import backend.algorithm.AssignmentGenerator;
-import backend.algorithm.Assignment;
-import backend.simulation.*;
+import backend.ambulanceAssignmentGenerator.AssignmentGenerator;
+import backend.ambulanceAssignmentGenerator.Assignment;
+import backend.mainController.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;

@@ -1,4 +1,4 @@
-package frontend;
+package gui;
 
 public class Location {
 	private int row,column;

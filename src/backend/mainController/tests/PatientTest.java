@@ -1,8 +1,8 @@
-package backend.simulation.tests;
+package backend.mainController.tests;
 
-import backend.simulation.InjurySeverity;
-import backend.simulation.Patient;
-import backend.simulation.Point;
+import backend.mainController.InjurySeverity;
+import backend.mainController.Patient;
+import backend.mainController.Point;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

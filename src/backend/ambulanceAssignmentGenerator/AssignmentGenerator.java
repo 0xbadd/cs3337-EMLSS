@@ -1,6 +1,6 @@
-package backend.algorithm;
+package backend.ambulanceAssignmentGenerator;
 
-import backend.simulation.*;
+import backend.mainController.*;
 
 import java.util.*;
 
