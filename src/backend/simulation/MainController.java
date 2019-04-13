@@ -15,20 +15,21 @@ public class MainController {
     private Map<Integer, HomeBase> homeBaseDirectory;
     private Map<Integer, Hospital> hospitalDirectory;
     private List<Assignment> assignments;
+    private Queue<Map.Entry<Integer, Patient>> patientQueue;
+    private AssignmentGenerator assignmentGenerator;
     private int[][] mapGrid;
 
     public MainController() {
         homeBaseDirectory = generateHomeBases();
-        ambulanceDirectory = generateAmbulances(homeBaseDirectory);
         patientDirectory = new LinkedHashMap<>();
         hospitalDirectory = generateHospitals();
         assignments = new LinkedList<>();
+        patientQueue = new PriorityQueue<>();
+        assignmentGenerator = new AssignmentGenerator();
         mapGrid = new int[MAP_SIZE_X][MAP_SIZE_Y];
     }
 
     public void startSimulation() {
-        AssignmentGenerator assignmentGenerator = new AssignmentGenerator(this.ambulanceDirectory);
-
         ExecutorService executor = Executors.newFixedThreadPool(2);
 
         Runnable patientCreator = () -> {
@@ -41,10 +42,23 @@ public class MainController {
                 }
 
                 Patient patient = spawnPatient();
-                patientDirectory.put(idGen++, patient);
+                Map.Entry<Integer, Patient> patientEntry = new AbstractMap.SimpleEntry<>(idGen++, patient);
+                patientDirectory.put(patientEntry.getKey(), patientEntry.getValue());
+                patientQueue.add(patientEntry);
             }
         };
         executor.submit(patientCreator);
+
+        Runnable patientPickupAssignmentManager = () -> {
+            while (true) {
+                while (!patientQueue.isEmpty()) {
+                    Map<Integer, Ambulance> availableAmbulanceDirectory = getAvaialableAmbulances();
+                    Map.Entry<Integer, Patient> patientEntry = patientQueue.poll();
+                    assignmentGenerator.makePatientAssignment(mapGrid, patientEntry, availableAmbulanceDirectory);
+                }
+            }
+        };
+        executor.submit(patientPickupAssignmentManager);
 
         Runnable assignmentAdvance = () -> {
             while (true) {
@@ -54,7 +68,6 @@ public class MainController {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-
             }
         };
         executor.submit(assignmentAdvance);
@@ -75,6 +88,27 @@ public class MainController {
         return new Patient(new Point(patient_x,patient_y), injurySeverity);
     }
 
+    Map<Integer, Ambulance> getAvaialableAmbulances() {
+        Map<Integer, Ambulance> availableAmbulanceDirectory = new LinkedHashMap<>();
+        for (Map.Entry<Integer, Ambulance> ambulanceEntry : this.ambulanceDirectory.entrySet()) {
+            Integer ambulanceId = ambulanceEntry.getKey();
+            Ambulance ambulance = ambulanceEntry.getValue();
+            if (isAmbulanceAvailable(ambulanceId)) {
+                availableAmbulanceDirectory.put(ambulanceId, ambulance);
+            }
+        }
+        return availableAmbulanceDirectory;
+    }
+
+    private boolean isAmbulanceAvailable(int ambulanceId) {
+        for (Assignment assignment : this.assignments) {
+            if (assignment.getAmbulanceId() ==  ambulanceId) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     void progressAssignments() {
         if (!assignments.isEmpty()) {
             for (Assignment assignment : assignments) {
@@ -85,7 +119,17 @@ public class MainController {
                 ambulance.driveTo(nextDestination);
 
                 if (assignment.getPath().empty()) {
+                    int destinationId = assignment.getDestinationId();
                     assignments.remove(assignment);
+                    if (patientDirectory.containsKey(destinationId)) {
+                        ambulance.loadPatient(destinationId);
+                        assignmentGenerator.makeHospitalAssignment(mapGrid, new AbstractMap.SimpleEntry<>(ambulanceId, ambulance), hospitalDirectory);
+                    } else if (hospitalDirectory.containsKey(destinationId)) {
+                        if (ambulance.hasPatient()) {
+                            int patientId = ambulance.unloadPatient();
+                            patientDirectory.remove(patientId);
+                        }
+                    }
                 }
             }
         }

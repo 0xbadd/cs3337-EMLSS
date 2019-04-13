@@ -5,25 +5,17 @@ import backend.simulation.*;
 import java.util.*;
 
 public class AssignmentGenerator {
-    private Map<Integer, Ambulance> availableAmbulances;
-
-    public AssignmentGenerator(Map<Integer, Ambulance> ambulances) {
-        this.availableAmbulances = ambulances;
-    }
-
-    public Assignment makePatientAssignment(int[][] mapGrid, Map.Entry<Integer, Patient> patient) {
+    public Assignment makePatientAssignment(int[][] mapGrid, Map.Entry<Integer, Patient> patient, Map<Integer, Ambulance> availableAmbulanceDirectory) {
         Map<Integer, Point> availableAmbulanceLocations = new LinkedHashMap<>();
         Point patientLocation = patient.getValue().getLocation();
-        for (Map.Entry<Integer, Ambulance> pair : availableAmbulances.entrySet()) {
+        for (Map.Entry<Integer, Ambulance> pair : availableAmbulanceDirectory.entrySet()) {
             int id = pair.getKey();
             Point ambulanceLocation = pair.getValue().getLocation();
             availableAmbulanceLocations.put(id, ambulanceLocation);
         }
         int ambulanceId = getShortestDistance(patientLocation, availableAmbulanceLocations);
-        Point ambulanceLocation = availableAmbulances.get(ambulanceId).getLocation();
+        Point ambulanceLocation = availableAmbulanceDirectory.get(ambulanceId).getLocation();
         Stack<Point> path = getPath(mapGrid, ambulanceLocation, patientLocation);
-
-        //availableAmbulances.remove(ambulanceId);
 
        return new Assignment(ambulanceId, patient.getKey(), path);
     }
