@@ -44,8 +44,7 @@ public class GUIController {
         values[x1][y] = new Label("");
         values[x1][y].setMinWidth(labelSize);
         values[x1][y].setMinHeight(labelSize);
-        int n = x1;
-        int m = y;
+
         if (map.getMap()[x1][y].getValue() == 'B') {
             values[x1][y].getStyleClass().add("building");
             values[x1][y].setTooltip(new Tooltip("Tooltip Building"));
@@ -75,12 +74,9 @@ public class GUIController {
             values[x1][y].setTooltip(new Tooltip("Tooltip Ambulance standby"));
         }
 
-        values[x1][y].addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<Event>() {
-            @Override
-            public void handle(Event event) {
-                map.getMap()[n][m].setValue(x);
-                changeLabel(n, m);
-            }
+        values[x1][y].addEventHandler(MouseEvent.MOUSE_CLICKED, (EventHandler<Event>) event -> {
+            map.getMap()[x1][y].setValue(x);
+            changeLabel(x1, y);
         });
 
         gp.add(values[x1][y], x1, y);
@@ -100,12 +96,9 @@ public class GUIController {
                     int n = row;
                     int m = column;
 
-                    values[row][column].addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<Event>() {
-                        @Override
-                        public void handle(Event event) {
-                            map.getMap()[n][m].setValue(x);
-                            changeLabel(n, m);
-                        }
+                    values[row][column].addEventHandler(MouseEvent.MOUSE_CLICKED, (EventHandler<Event>) event -> {
+                        map.getMap()[n][m].setValue(x);
+                        changeLabel(n, m);
                     });
                     gp.add(values[row][column], row, column);
 
@@ -118,16 +111,9 @@ public class GUIController {
                     int n = row;
                     int m = column;
 
-                    values[row][column].addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<Event>() {
-                        @Override
-                        public void handle(Event event) {
-
-                            map.getMap()[n][m].setValue(x);
-                            changeLabel(n, m);
-
-                        }
-
-
+                    values[row][column].addEventHandler(MouseEvent.MOUSE_CLICKED, (EventHandler<Event>) event -> {
+                        map.getMap()[n][m].setValue(x);
+                        changeLabel(n, m);
                     });
                     gp.add(values[row][column], row, column);
 
@@ -140,12 +126,9 @@ public class GUIController {
                     int n = row;
                     int m = column;
 
-                    values[row][column].addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<Event>() {
-                        @Override
-                        public void handle(Event event) {
-                            map.getMap()[n][m].setValue(x);
-                            changeLabel(n, m);
-                        }
+                    values[row][column].addEventHandler(MouseEvent.MOUSE_CLICKED, (EventHandler<Event>) event -> {
+                        map.getMap()[n][m].setValue(x);
+                        changeLabel(n, m);
                     });
                     gp.add(values[row][column], row, column);
 
@@ -158,12 +141,9 @@ public class GUIController {
                     int n = row;
                     int m = column;
 
-                    values[row][column].addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<Event>() {
-                        @Override
-                        public void handle(Event event) {
-                            map.getMap()[n][m].setValue(x);
-                            changeLabel(n, m);
-                        }
+                    values[row][column].addEventHandler(MouseEvent.MOUSE_CLICKED, (EventHandler<Event>) event -> {
+                        map.getMap()[n][m].setValue(x);
+                        changeLabel(n, m);
                     });
                     gp.add(values[row][column], row, column);
 
@@ -176,12 +156,9 @@ public class GUIController {
                     int n = row;
                     int m = column;
 
-                    values[row][column].addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<Event>() {
-                        @Override
-                        public void handle(Event event) {
-                            map.getMap()[n][m].setValue(x);
-                            changeLabel(n, m);
-                        }
+                    values[row][column].addEventHandler(MouseEvent.MOUSE_CLICKED, (EventHandler<Event>) event -> {
+                        map.getMap()[n][m].setValue(x);
+                        changeLabel(n, m);
                     });
                     gp.add(values[row][column], row, column);
 
@@ -214,82 +191,50 @@ public class GUIController {
         Label ambulanceNum = new Label();
         Label patientNum = new Label();
 
-        r.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<Event>() {
-            @Override
-            public void handle(Event event) {
-                //begins the sim
-                simStatus = true;
-                if (simStatus) {
-                    //code to continue sim until stop button is hit or sim runs its course
-                    //test code
-                    System.out.println("the sim is on");
-                    while (patientMax > 0) {
-                        System.out.println("getting patients to hospitals");
-                        System.out.println("one patient got to hospital. " + patientMax + " patients to go");
-                        patientMax--;
-                    }
+        r.addEventHandler(MouseEvent.MOUSE_CLICKED, (EventHandler<Event>) event -> {
+            //begins the sim
+            simStatus = true;
+            if (simStatus) {
+                //code to continue sim until stop button is hit or sim runs its course
+                //test code
+                System.out.println("the sim is on");
+                while (patientMax > 0) {
+                    System.out.println("getting patients to hospitals");
+                    System.out.println("one patient got to hospital. " + patientMax + " patients to go");
+                    patientMax--;
                 }
-                //to show sim loop stopped
-                System.out.println("the sim is off");
             }
+            //to show sim loop stopped
+            System.out.println("the sim is off");
         });
 
         Button s = new Button();
         s.setText("Stop");
-        s.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<Event>() {
-            @Override
-            public void handle(Event event) {
-                //stops the sim
-                simStatus = false;
-                //not implemented yet
-            }
+        s.addEventHandler(MouseEvent.MOUSE_CLICKED, (EventHandler<Event>) event -> {
+            //stops the sim
+            simStatus = false;
+            //not implemented yet
         });
 
         Button placeHospital = new Button();
         placeHospital.setText("Hospital Placement");
-        placeHospital.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<Event>() {
-            @Override
-            public void handle(Event event) {
-                x = 'H';
-            }
-        });
+        placeHospital.addEventHandler(MouseEvent.MOUSE_CLICKED, (EventHandler<Event>) event -> x = 'H');
 
         Button placeHomebase = new Button();
         placeHomebase.setText("HomeBase Placement");
-        placeHomebase.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<Event>() {
-            @Override
-            public void handle(Event event) {
-                x = 'O';
-            }
-        });
+        placeHomebase.addEventHandler(MouseEvent.MOUSE_CLICKED, (EventHandler<Event>) event -> x = 'O');
 
         Button placeStreet = new Button();
         placeStreet.setText("Street Placement");
-        placeStreet.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<Event>() {
-            @Override
-            public void handle(Event event) {
-                x = 'S';
-            }
-        });
+        placeStreet.addEventHandler(MouseEvent.MOUSE_CLICKED, (EventHandler<Event>) event -> x = 'S');
 
         Button placeBuilding = new Button();
         placeBuilding.setText("Building Placement");
-        placeBuilding.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<Event>() {
-            @Override
-            public void handle(Event event) {
-                x = 'B';
-            }
-        });
+        placeBuilding.addEventHandler(MouseEvent.MOUSE_CLICKED, (EventHandler<Event>) event -> x = 'B');
 
         Button pat = new Button();
         pat.setText("Patients");
-        pat.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<Event>() {
-            @Override
-            public void handle(Event event) {
-                x = 'P';
-            }
-        });
-
+        pat.addEventHandler(MouseEvent.MOUSE_CLICKED, (EventHandler<Event>) event -> x = 'P');
 
         hb.getChildren().add(0, r);
         hb.getChildren().add(0, s);
