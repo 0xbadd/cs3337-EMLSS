@@ -55,6 +55,4 @@ public class Location {
     public void setObject(Object obj) {
         object = obj;
     }
-
-
 }
