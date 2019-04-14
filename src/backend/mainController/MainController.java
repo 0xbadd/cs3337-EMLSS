@@ -161,4 +161,8 @@ public class MainController {
         hospitals.put(idGen++, (new Hospital(new Point(55, 55))));
         return hospitals;
     }
+
+    public static int createId() {
+        return idGen++;
+    }
 }
