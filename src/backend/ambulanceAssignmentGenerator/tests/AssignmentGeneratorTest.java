@@ -13,15 +13,7 @@ class AssignmentGeneratorTest {
 
     @Test
     void makePatientAssignment() {
-        int[][] mapGrid = {
-                { 1, 1, 1, 1, 1, 1, 1 },
-                { 1, 1, 1, 1, 1, 1, 1 },
-                { 1, 1, 1, 1, 1, 1, 1 },
-                { 1, 1, 1, 1, 1, 1, 1 },
-                { 1, 1, 1, 1, 1, 1, 1 },
-                { 1, 1, 1, 1, 1, 1, 1 },
-                { 1, 1, 1, 1, 1, 1, 1 }
-        };
+        MapGrid mapGrid = new MapGrid(100, 100);
         Map.Entry<Integer, Patient> patient = new AbstractMap.SimpleEntry<>(0, new Patient(new Point(3, 0), InjurySeverity.NON_LIFE_THREATENING));
         Map<Integer, Ambulance> ambulances = new LinkedHashMap<>();
         ambulances.put(1, new Ambulance(new Point(6, 6), 10));
@@ -41,15 +33,7 @@ class AssignmentGeneratorTest {
 
     @Test
     void makeHospitalAssignment() {
-        int[][] mapGrid = {
-                { 1, 1, 1, 1, 1, 1, 1 },
-                { 1, 1, 1, 1, 1, 1, 1 },
-                { 1, 1, 1, 1, 1, 1, 1 },
-                { 1, 1, 1, 1, 1, 1, 1 },
-                { 1, 1, 1, 1, 1, 1, 1 },
-                { 1, 1, 1, 1, 1, 1, 1 },
-                { 1, 1, 1, 1, 1, 1, 1 }
-        };
+        MapGrid mapGrid = new MapGrid(100, 100);
         AssignmentGenerator assignmentGenerator = new AssignmentGenerator();
 
         Map<Integer, Hospital> hospitalDirectory = new LinkedHashMap<>();
@@ -72,15 +56,7 @@ class AssignmentGeneratorTest {
 
     @Test
     void makeHomeBaseAssignment() {
-        int[][] mapGrid = {
-                { 1, 1, 1, 1, 1, 1, 1 },
-                { 1, 1, 1, 1, 1, 1, 1 },
-                { 1, 1, 1, 1, 1, 1, 1 },
-                { 1, 1, 1, 1, 1, 1, 1 },
-                { 1, 1, 1, 1, 1, 1, 1 },
-                { 1, 1, 1, 1, 1, 1, 1 },
-                { 1, 1, 1, 1, 1, 1, 1 }
-        };
+        MapGrid mapGrid = new MapGrid(100, 100);
         Map.Entry<Integer, Ambulance> ambulanceEntry = new AbstractMap.SimpleEntry<>(0, new Ambulance(new Point(3, 0), 1));
         Map<Integer, HomeBase> homeBaseDirectory = new LinkedHashMap<>();
         homeBaseDirectory.put(1, new HomeBase(new Point(3, 3), 3));
@@ -95,44 +71,6 @@ class AssignmentGeneratorTest {
 
         Assignment expected = new Assignment(0, 1, expectedPath);
         Assignment actual = assignmentGenerator.makeHomeBaseAssignment(mapGrid, ambulanceEntry, homeBaseDirectory);
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void getPath() {
-        AssignmentGenerator assignmentGenerator = new AssignmentGenerator();
-        int[][] mapGrid = {
-                { 1, 1, 1, 0, 1, 1, 1 },
-                { 1, 0, 1, 1, 1, 0, 1 },
-                { 1, 1, 1, 0, 1, 0, 1 },
-                { 0, 0, 0, 1, 0, 1, 1 },
-                { 0, 0, 1, 1, 1, 1, 0 },
-                { 0, 0, 1, 0, 0, 1, 0 },
-                { 0, 0, 1, 1, 1, 1, 1 }
-        };
-        Point startPoint = new Point(0, 0);
-        Point endPoint = new Point(mapGrid.length - 1, mapGrid[0].length - 1);
-
-        Stack<Point> expected = new Stack<>();
-        expected.push(new Point(6,6));
-        expected.push(new Point(6,5));
-        expected.push(new Point(5,5));
-        expected.push(new Point(4,5));
-        expected.push(new Point(3,5));
-        expected.push(new Point(3,6));
-        expected.push(new Point(2,6));
-        expected.push(new Point(1,6));
-        expected.push(new Point(0,6));
-        expected.push(new Point(0,5));
-        expected.push(new Point(0,4));
-        expected.push(new Point(1,4));
-        expected.push(new Point(1,3));
-        expected.push(new Point(1,2));
-        expected.push(new Point(0,2));
-        expected.push(new Point(0,1));
-        expected.push(new Point(0,0));
-
-        Stack<Point> actual = assignmentGenerator.getPath(mapGrid, startPoint, endPoint);
         assertEquals(expected, actual);
     }
 
