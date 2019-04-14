@@ -1,4 +1,4 @@
-package backend.mainController;
+package models;
 
 public class Hospital {
     private Point location;

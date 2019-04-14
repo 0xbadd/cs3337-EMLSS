@@ -1,13 +1,8 @@
-package backend.emergencyCharacteristicFunction;
+package emergencyCharacteristicFunction;
 
-import backend.mainController.InjurySeverity;
-import backend.mainController.MainController;
-import backend.mainController.Patient;
-import backend.mainController.Point;
+import models.Point;
 
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 public class EmergencyCall {
     private int time;

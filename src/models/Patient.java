@@ -1,5 +1,4 @@
-package backend.mainController;
-
+package models;
 
 
 public class Patient {

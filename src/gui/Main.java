@@ -12,23 +12,11 @@ import javafx.stage.Stage;
 public class Main extends Application {
 
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage primaryStage) {
 
     		GridPane gp = new GridPane();
-    		BorderPane bp = new BorderPane();
-    		Map newMap = new Map();
-    		newMap.setMap();
-    		GUIController gui = new GUIController(newMap, gp);
-    		gui.refreshMapLabels(gp, newMap);
-    		bp.setCenter(gp);
-    		HBox top = new HBox();
-    		gui.setButtons(top);
-    		bp.setTop(top);
-    		ScrollPane scrollPane = new ScrollPane();
-    		scrollPane.setVbarPolicy(ScrollBarPolicy.ALWAYS);
-    		 scrollPane.setHbarPolicy(ScrollBarPolicy.ALWAYS);
-    		 scrollPane.setContent(bp);
-    		Scene sc = new Scene(scrollPane);
+
+    		Scene sc = new Scene(gp);
     		
     		sc.getStylesheets().add("styles.css");
     		primaryStage.setScene(sc);

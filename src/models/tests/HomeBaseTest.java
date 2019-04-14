@@ -1,7 +1,7 @@
-package backend.mainController.tests;
+package models.tests;
 
-import backend.mainController.HomeBase;
-import backend.mainController.Point;
+import models.HomeBase;
+import models.Point;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

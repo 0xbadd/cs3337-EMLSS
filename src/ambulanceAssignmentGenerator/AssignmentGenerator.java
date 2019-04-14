@@ -1,6 +1,6 @@
-package backend.ambulanceAssignmentGenerator;
+package ambulanceAssignmentGenerator;
 
-import backend.mainController.*;
+import models.*;
 
 import java.util.*;
 
