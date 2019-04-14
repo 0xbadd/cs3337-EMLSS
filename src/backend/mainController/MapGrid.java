@@ -77,7 +77,7 @@ public class MapGrid {
         boolean result = false;
         // check if cell is in the bounds of the matrix
         if (row >= 0 && row < mapGrid.length && column >= 0 && column < mapGrid[0].length) {
-            // check if cell is not blocked and not previously tried
+            // check if cell is not blocked
             if (mapGrid[row][column] == 1) {
                 result = true;
             }

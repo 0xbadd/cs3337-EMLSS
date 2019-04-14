@@ -19,7 +19,7 @@ public class MainController {
     private List<Assignment> assignments;
     private Queue<Map.Entry<Integer, Patient>> patientQueue;
     private AssignmentGenerator assignmentGenerator;
-    private int[][] mapGrid;
+    private MapGrid mapGrid;
 
     public MainController() {
         emergencyCallDirectory = new LinkedHashMap<>();
@@ -29,7 +29,7 @@ public class MainController {
         assignments = new LinkedList<>();
         patientQueue = new PriorityQueue<>();
         assignmentGenerator = new AssignmentGenerator();
-        mapGrid = new int[MAP_SIZE_X][MAP_SIZE_Y];
+        mapGrid = new MapGrid(MAP_SIZE_X, MAP_SIZE_Y);
     }
 
     public void startAcceptingEmergencyCalls() {
