@@ -2,6 +2,7 @@ package backend.mainController;
 
 import backend.ambulanceAssignmentGenerator.AssignmentGenerator;
 import backend.ambulanceAssignmentGenerator.Assignment;
+import backend.emergencyCharacteristicFunction.EmergencyCall;
 
 import java.util.*;
 import java.util.concurrent.*;
@@ -10,6 +11,7 @@ public class MainController {
     private static int idGen = 0;
     private static final int MAP_SIZE_X = 100;
     private static final int MAP_SIZE_Y = 100;
+    private Map<Integer, EmergencyCall> emergencyCallDirectory;
     private Map<Integer, Ambulance> ambulanceDirectory;
     private Map<Integer, Patient> patientDirectory;
     private Map<Integer, HomeBase> homeBaseDirectory;
@@ -20,6 +22,7 @@ public class MainController {
     private int[][] mapGrid;
 
     public MainController() {
+        emergencyCallDirectory = new LinkedHashMap<>();
         homeBaseDirectory = generateHomeBases();
         patientDirectory = new LinkedHashMap<>();
         hospitalDirectory = generateHospitals();
@@ -32,7 +35,7 @@ public class MainController {
     public void startAcceptingEmergencyCalls() {
         ExecutorService executor = Executors.newFixedThreadPool(3);
 
-        Runnable patientCreator = () -> {
+        Runnable emergencyCallGenerator = () -> {
             while (true) {
                 int spawnTime = (int)(Math.random() * 60 + 1); // 1 - 60 seconds
                 try {
@@ -41,13 +44,38 @@ public class MainController {
                     e.printStackTrace();
                 }
 
-                Patient patient = spawnPatient();
-                Map.Entry<Integer, Patient> patientEntry = new AbstractMap.SimpleEntry<>(idGen++, patient);
-                patientDirectory.put(patientEntry.getKey(), patientEntry.getValue());
-                patientQueue.add(patientEntry);
+                int numPatients;
+                int numPatientsRoll = (int)(Math.random() * 101);
+                if (numPatientsRoll <= 50) {
+                    numPatients = 1;
+                } else if (numPatientsRoll <= 70) {
+                    numPatients = 2;
+                } else if (numPatientsRoll <= 85) {
+                    numPatients = 3;
+                } else if (numPatientsRoll <= 95) {
+                    numPatients = 4;
+                } else {
+                    numPatients = 5;
+                }
+
+                int emergencyX = (int)(Math.random() * (MAP_SIZE_X + 1));
+                int emergencyY = (int)(Math.random() * (MAP_SIZE_Y + 1));
+                Point emergencyLocation = new Point(emergencyX, emergencyY);
+
+                Map<Integer, Patient> patients = new LinkedHashMap<>();
+                for (int i = 0; i < numPatients; i++) {
+                    patients.put(MainController.createId(), spawnPatient(emergencyLocation));
+                }
+
+                List<Integer> patientIdList = new LinkedList<>(patients.keySet());
+                EmergencyCall emergencyCall = new EmergencyCall(0, numPatients, emergencyLocation, patientIdList);
+
+                emergencyCallDirectory.put(MainController.createId(), emergencyCall);
+                patientDirectory.putAll(patients);
+                patientQueue.addAll(patients.entrySet());
             }
         };
-        executor.submit(patientCreator);
+        executor.submit(emergencyCallGenerator);
 
         Runnable patientPickupAssignmentManager = () -> {
             while (true) {
@@ -73,10 +101,7 @@ public class MainController {
         executor.submit(assignmentAdvance);
     }
 
-    Patient spawnPatient() {
-        int patient_x = (int)(Math.random() * (MAP_SIZE_X + 1));
-        int patient_y = (int)(Math.random() * (MAP_SIZE_Y + 1));
-
+    Patient spawnPatient(Point location) {
         int injurySeverityRoll = (int)(Math.random() * 101);
         InjurySeverity injurySeverity;
         if (injurySeverityRoll <= 90) {
@@ -85,7 +110,7 @@ public class MainController {
             injurySeverity = InjurySeverity.LIFE_THREATENING;
         }
 
-        return new Patient(new Point(patient_x,patient_y), injurySeverity);
+        return new Patient(location, injurySeverity);
     }
 
     Map<Integer, Ambulance> getAvaialableAmbulances() {
@@ -160,5 +185,9 @@ public class MainController {
         // just test locations
         hospitals.put(idGen++, (new Hospital(new Point(55, 55))));
         return hospitals;
+    }
+
+    public static int createId() {
+        return idGen++;
     }
 }
