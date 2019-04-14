@@ -1,8 +1,9 @@
-package backend.mainController;
+package mainController;
 
-import backend.ambulanceAssignmentGenerator.AssignmentGenerator;
-import backend.ambulanceAssignmentGenerator.Assignment;
-import backend.emergencyCharacteristicFunction.EmergencyCall;
+import ambulanceAssignmentGenerator.AssignmentGenerator;
+import ambulanceAssignmentGenerator.Assignment;
+import emergencyCharacteristicFunction.EmergencyCall;
+import models.*;
 
 import java.util.*;
 import java.util.concurrent.*;

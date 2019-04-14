@@ -1,6 +1,6 @@
-package backend.mainController.tests;
+package models.tests;
 
-import backend.mainController.Point;
+import models.Point;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

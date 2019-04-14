@@ -6,9 +6,6 @@ class FrontGUITestCases {
 
 	@Test
 	void Maptest() {
-		Map map =new Map();
-		map.setMap();
-		map.DisplayMapValues();
 	}
 
 }

@@ -1,4 +1,4 @@
-package backend.mainController;
+package models;
 
 public class Point {
     private int x;

@@ -1,7 +1,6 @@
-package backend.ambulanceAssignmentGenerator.tests;
+package ambulanceAssignmentGenerator;
 
-import backend.ambulanceAssignmentGenerator.Assignment;
-import backend.mainController.Point;
+import models.Point;
 import org.junit.jupiter.api.Test;
 
 import java.util.Stack;
