@@ -22,8 +22,11 @@ public class MapGrid {
 
     private int[][] mapGrid;
 
-    public MapGrid(int mapSizeX, int mapSizeY) {
-        mapGrid = new int[mapSizeX][mapSizeY];
+    public static final int MAP_SIZE_X = 100;
+    public static final int MAP_SIZE_Y = 100;
+
+    public MapGrid() {
+        mapGrid = new int[MAP_SIZE_X][MAP_SIZE_Y];
 
         // carve out streets
         for (int row = 0; row < mapGrid.length; row += 3) {
