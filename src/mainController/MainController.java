@@ -39,9 +39,31 @@ public class MainController {
         executor.submit(new EmergencyCallGenerator(emergencyCallDirectory, patientDirectory, patientQueue));
         executor.submit(new patientPickupAssignmentManager(assignments, ambulanceDirectory, patientQueue, mapGrid, assignmentGenerator));
 
-        Runnable assignmentAdvance = () -> {
-            while (true) {
-                progressAssignments();
+        Runnable assignmentProgressor = () -> {
+            while(true) {
+                if (!assignments.isEmpty()) {
+                    for (Assignment assignment : assignments) {
+                        int ambulanceId = assignment.getAmbulanceId();
+                        Ambulance ambulance = ambulanceDirectory.get(ambulanceId);
+                        Point nextDestination = assignment.getNextMovementPoint();
+
+                        ambulance.driveTo(nextDestination);
+
+                        if (assignment.getPath().empty()) {
+                            int destinationId = assignment.getDestinationId();
+                            assignments.remove(assignment);
+                            if (patientDirectory.containsKey(destinationId)) {
+                                ambulance.loadPatient(destinationId);
+                                assignmentGenerator.makeHospitalAssignment(mapGrid, new AbstractMap.SimpleEntry<>(ambulanceId, ambulance), hospitalDirectory);
+                            } else if (hospitalDirectory.containsKey(destinationId)) {
+                                if (ambulance.hasPatient()) {
+                                    int patientId = ambulance.unloadPatient();
+                                    patientDirectory.remove(patientId);
+                                }
+                            }
+                        }
+                    }
+                }
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
@@ -49,33 +71,7 @@ public class MainController {
                 }
             }
         };
-        executor.submit(assignmentAdvance);
-    }
-
-    void progressAssignments() {
-        if (!assignments.isEmpty()) {
-            for (Assignment assignment : assignments) {
-                int ambulanceId = assignment.getAmbulanceId();
-                Ambulance ambulance = ambulanceDirectory.get(ambulanceId);
-                Point nextDestination = assignment.getNextMovementPoint();
-
-                ambulance.driveTo(nextDestination);
-
-                if (assignment.getPath().empty()) {
-                    int destinationId = assignment.getDestinationId();
-                    assignments.remove(assignment);
-                    if (patientDirectory.containsKey(destinationId)) {
-                        ambulance.loadPatient(destinationId);
-                        assignmentGenerator.makeHospitalAssignment(mapGrid, new AbstractMap.SimpleEntry<>(ambulanceId, ambulance), hospitalDirectory);
-                    } else if (hospitalDirectory.containsKey(destinationId)) {
-                        if (ambulance.hasPatient()) {
-                            int patientId = ambulance.unloadPatient();
-                            patientDirectory.remove(patientId);
-                        }
-                    }
-                }
-            }
-        }
+        executor.submit(assignmentProgressor);
     }
 
     Map<Integer, Ambulance> generateAmbulances(Map<Integer, HomeBase> homeBases) {
