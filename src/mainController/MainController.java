@@ -37,17 +37,7 @@ public class MainController {
         ExecutorService executor = Executors.newFixedThreadPool(3);
 
         executor.submit(new EmergencyCallGenerator(emergencyCallDirectory, patientDirectory, patientQueue));
-
-        Runnable patientPickupAssignmentManager = () -> {
-            while (true) {
-                while (!patientQueue.isEmpty()) {
-                    Map<Integer, Ambulance> availableAmbulanceDirectory = getAvaialableAmbulances();
-                    Map.Entry<Integer, Patient> patientEntry = patientQueue.poll();
-                    assignmentGenerator.makePatientAssignment(mapGrid, patientEntry, availableAmbulanceDirectory);
-                }
-            }
-        };
-        executor.submit(patientPickupAssignmentManager);
+        executor.submit(new patientPickupAssignmentManager(assignments, ambulanceDirectory, patientQueue, mapGrid, assignmentGenerator));
 
         Runnable assignmentAdvance = () -> {
             while (true) {
@@ -60,27 +50,6 @@ public class MainController {
             }
         };
         executor.submit(assignmentAdvance);
-    }
-
-    Map<Integer, Ambulance> getAvaialableAmbulances() {
-        Map<Integer, Ambulance> availableAmbulanceDirectory = new LinkedHashMap<>();
-        for (Map.Entry<Integer, Ambulance> ambulanceEntry : this.ambulanceDirectory.entrySet()) {
-            Integer ambulanceId = ambulanceEntry.getKey();
-            Ambulance ambulance = ambulanceEntry.getValue();
-            if (isAmbulanceAvailable(ambulanceId)) {
-                availableAmbulanceDirectory.put(ambulanceId, ambulance);
-            }
-        }
-        return availableAmbulanceDirectory;
-    }
-
-    private boolean isAmbulanceAvailable(int ambulanceId) {
-        for (Assignment assignment : this.assignments) {
-            if (assignment.getAmbulanceId() ==  ambulanceId) {
-                return false;
-            }
-        }
-        return true;
     }
 
     void progressAssignments() {
