@@ -1,5 +1,8 @@
-package frontend;
-
 public class Progress {
-    boolean completed = false;
+    boolean inProgress;
+    String status;
+    Progress (){
+        inProgress=false;
+
+    }
 }

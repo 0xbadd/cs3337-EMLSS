@@ -1,16 +1,15 @@
-public class Standby {
+public class Emergency {
     String type;
     int id;
 
-    public Standby (){
-        type="Ambulance";
+    public Emergency (){
+        type="Call";
         id= 1;
     }
-    public Standby(String type, int id){
+    public Emergency(String type, int id){
         this.type = type;
         this.id = id;
     }
-
     public void setType(String type) {
         this.type = type;
     }
@@ -23,5 +22,5 @@ public class Standby {
     public int getId (){
         return id;
     }
-}
 
+}
