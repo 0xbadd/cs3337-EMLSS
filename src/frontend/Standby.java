@@ -1,3 +1,4 @@
+package frontend;
 public class Standby {
     String type;
     int id;

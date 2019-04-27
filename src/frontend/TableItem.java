@@ -1,9 +1,10 @@
-
+package frontend;
 public class TableItem {
 
     private String ambulanceId;
     private String callId;
     private String status;
+    private String condition;
 
     public TableItem(){
         this.ambulanceId = "Ambulance 00";
@@ -16,8 +17,22 @@ public class TableItem {
         this.callId = callId;
         this.status = status;
     }
+    public TableItem(String ambulanceId, String callId,String condition, String status){
+        this.ambulanceId = ambulanceId;
+        this.callId = callId;
+        this.status = status;
+        this.condition=condition;
+    }
 
-    public String getAmbulanceId() {
+    public String getCondition() {
+		return condition;
+	}
+
+	public void setCondition(String condition) {
+		this.condition = condition;
+	}
+
+	public String getAmbulanceId() {
         return ambulanceId;
     }
 

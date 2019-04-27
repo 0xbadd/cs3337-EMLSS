@@ -1,3 +1,5 @@
+package frontend;
+
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -40,12 +42,15 @@ public class Main extends Application {
         // displayed in the cell , like name, type , id ,status etc. Im just not sure how to connect it and display it in the right way.
         //Progress column
         TableColumn<TableItem, String> progressColumn = new TableColumn<>("Progress");
+        TableColumn<TableItem, String> patientCondition = new TableColumn<>("Condition");
+        patientCondition.setMinWidth(100);
+        patientCondition.setCellValueFactory(new PropertyValueFactory<>("condition"));
         progressColumn.setMinWidth(100);
         progressColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
 
         table = new TableView<>();
         table.setItems(getTableItem());
-        table.getColumns().addAll(ambulanceColumn, emergencyCallsColumn, progressColumn);
+        table.getColumns().addAll(ambulanceColumn, emergencyCallsColumn, patientCondition,progressColumn);
 
         VBox vBox = new VBox();
         vBox.getChildren().addAll(table);
@@ -58,10 +63,10 @@ public class Main extends Application {
     //Get all of the TableItem - should connect with the back end to interact
     public ObservableList<TableItem> getTableItem(){
         ObservableList<TableItem> tableItem = FXCollections.observableArrayList();
-        tableItem.add(new TableItem("ambulance #01 ", "call #22 ","incomplete"));
-        tableItem.add(new TableItem("ambulance #09 ", "call #24 ","incomplete"));
-        tableItem.add(new TableItem("ambulance #10 ", "call #2 ","incomplete"));
-        tableItem.add(new TableItem("ambulance #02 ", "call #1 ","complete"));
+        tableItem.add(new TableItem("ambulance #01 ", "call #22 ","Stable","incomplete"));
+        tableItem.add(new TableItem("ambulance #09 ", "call #24 ","Critical","incomplete"));
+        tableItem.add(new TableItem("ambulance #10 ", "call #2 ","Stable","incomplete"));
+        tableItem.add(new TableItem("ambulance #02 ", "call #1 ","n/a","complete"));
         return tableItem;
     }
 

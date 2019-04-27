@@ -1,3 +1,5 @@
+package frontend;
+
 public class Emergency {
     String type;
     int id;
