@@ -27,6 +27,14 @@ public class Point {
     }
 
     @Override
+    public String toString() {
+        return "Point {" +
+                "x = " + x +
+                ", y = " + y +
+                '}';
+    }
+
+    @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;

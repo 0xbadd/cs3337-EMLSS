@@ -50,6 +50,7 @@ public class Assignment {
         return "Assignment {" +
                 "Ambulance ID = " + ambulanceId +
                 ", Destination ID = " + destinationId +
+                ", Path = " + path +
                 '}';
     }
 }
