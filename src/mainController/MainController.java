@@ -33,7 +33,15 @@ public class MainController {
         mapGrid = new MapGrid();
     }
 
-    public void startAcceptingEmergencyCalls() {
+    public Map<Integer, EmergencyCall> getEmergencyCallDirectory() {
+		return emergencyCallDirectory;
+	}
+
+	public List<Assignment> getAssignments() {
+		return assignments;
+	}
+
+	public void startAcceptingEmergencyCalls() {
         ExecutorService executor = Executors.newFixedThreadPool(3);
 
         executor.submit(new EmergencyCallGenerator(emergencyCallDirectory, patientDirectory, patientQueue));

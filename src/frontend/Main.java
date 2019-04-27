@@ -1,14 +1,22 @@
 package frontend;
 
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import mainController.MainController;
 
 public class Main extends Application {
 
@@ -23,7 +31,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         window = primaryStage;
             window.setTitle("Emergency Medical Logistics System - EMLS");
-
+            
         //Ambulances column
         TableColumn<TableItem, String> ambulanceColumn = new TableColumn<>("Ambulances");
         ambulanceColumn.setMinWidth(200);
@@ -43,26 +51,42 @@ public class Main extends Application {
         patientCondition.setCellValueFactory(new PropertyValueFactory<>("condition"));
         progressColumn.setMinWidth(100);
         progressColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
-
+        MainController mc = new MainController();
+        mc.startAcceptingEmergencyCalls();
         table = new TableView<>();
-        table.setItems(getTableItem());
+        table.setItems(getTableItem(mc));
         table.getColumns().addAll(ambulanceColumn, emergencyCallsColumn, patientCondition,progressColumn);
-
+        
         VBox vBox = new VBox();
         vBox.getChildren().addAll(table);
+        Button button1 = new Button("Load new Data");
 
+        button1.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent e) {
+            	vBox.getChildren().clear();
+            	vBox.getChildren().addAll(table);
+            	table.setItems(getTableItem(mc));
+                vBox.getChildren().add(button1);
+            }
+        });
+        vBox.getChildren().add(button1);
         Scene scene = new Scene(vBox);
         window.setScene(scene);
         window.show();
     }
 
     //Get all of the TableItem - should connect with the back end to interact
-    public ObservableList<TableItem> getTableItem(){
+    public ObservableList<TableItem> getTableItem(MainController mc){
+ 
         ObservableList<TableItem> tableItem = FXCollections.observableArrayList();
         tableItem.add(new TableItem("ambulance #01 ", "call #22 ","Stable","incomplete"));
         tableItem.add(new TableItem("ambulance #09 ", "call #24 ","Critical","incomplete"));
         tableItem.add(new TableItem("ambulance #10 ", "call #2 ","Stable","incomplete"));
-        tableItem.add(new TableItem("ambulance #02 ", "call #1 ","n/a","complete"));
+        tableItem.add(new TableItem("ambulance #02 ", mc.getEmergencyCallDirectory().keySet().toString(),Integer.toString(mc.getEmergencyCallDirectory().size()),"complete"));
+
+   
+        System.out.println(mc.getEmergencyCallDirectory().keySet().toString());
+
         return tableItem;
     }
 
