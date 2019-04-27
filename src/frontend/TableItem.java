@@ -5,8 +5,12 @@ public class TableItem {
     private String callId;
     private String status;
     private String condition;
+    private String result;
+    private String patientId;
+    private String hospitalId;
 
-    public TableItem(){
+
+	public TableItem(){
         this.ambulanceId = "Ambulance 00";
         this.callId = "Call 900";
         this.status = "Status : Incomplete";
@@ -55,5 +59,28 @@ public class TableItem {
     public void setStatus(String status) {
         this.status = status;
     }
+    public String getResult() {
+		return result;
+	}
+
+	public void setResult(String result) {
+		this.result = result;
+	}
+
+	public String getPatientId() {
+		return patientId;
+	}
+
+	public void setPatientId(String patientId) {
+		this.patientId = patientId;
+	}
+
+	public String getHospitalId() {
+		return hospitalId;
+	}
+
+	public void setHospitalId(String hospitalId) {
+		this.hospitalId = hospitalId;
+	}
 
 }

@@ -1,9 +1,11 @@
 package frontend;
-
+import javafx.animation.KeyFrame;  
+import javafx.animation.Timeline; 
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -16,10 +18,11 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import mainController.MainController;
 
 public class Main extends Application {
-
+	static int i=0;
     Stage window;
     TableView<TableItem> table;
 
@@ -51,25 +54,36 @@ public class Main extends Application {
         patientCondition.setCellValueFactory(new PropertyValueFactory<>("condition"));
         progressColumn.setMinWidth(100);
         progressColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
+        TableColumn<TableItem, String> resultColumn = new TableColumn<>("Result");
+        patientCondition.setMinWidth(100);
+        resultColumn.setCellValueFactory(new PropertyValueFactory<>("result"));
+        TableColumn<TableItem, String> patientColumn = new TableColumn<>("Patient");
+        patientColumn.setMinWidth(100);
+        patientColumn.setCellValueFactory(new PropertyValueFactory<>("patient"));
+        TableColumn<TableItem, String> hospitalColumn = new TableColumn<>("Hospital");
+        hospitalColumn.setMinWidth(100);
+        hospitalColumn.setCellValueFactory(new PropertyValueFactory<>("hospital"));
+        //
         MainController mc = new MainController();
         mc.startAcceptingEmergencyCalls();
         table = new TableView<>();
         table.setItems(getTableItem(mc));
-        table.getColumns().addAll(ambulanceColumn, emergencyCallsColumn, patientCondition,progressColumn);
+        table.getColumns().addAll( emergencyCallsColumn,patientColumn,patientCondition,ambulanceColumn,hospitalColumn,progressColumn,resultColumn);
         
         VBox vBox = new VBox();
         vBox.getChildren().addAll(table);
-        Button button1 = new Button("Load new Data");
-
-        button1.setOnAction(new EventHandler<ActionEvent>() {
-            @Override public void handle(ActionEvent e) {
+        //timeline test
+        Timeline Updater = new Timeline(new KeyFrame(Duration.seconds(3), new EventHandler<ActionEvent>() {  
+            @Override  
+            public void handle(ActionEvent event) {  
             	vBox.getChildren().clear();
             	vBox.getChildren().addAll(table);
             	table.setItems(getTableItem(mc));
-                vBox.getChildren().add(button1);
-            }
-        });
-        vBox.getChildren().add(button1);
+            }  
+          }));  
+          Updater.setCycleCount(Timeline.INDEFINITE);  
+          Updater.play();  
+
         Scene scene = new Scene(vBox);
         window.setScene(scene);
         window.show();
@@ -80,17 +94,18 @@ public class Main extends Application {
  
         ObservableList<TableItem> tableItem = FXCollections.observableArrayList();
         Iterator it = mc.getEmergencyCallDirectory().entrySet().iterator();
-        tableItem.add(new TableItem("ambulance #01 ", "call #22 ","Stable","incomplete"));
-        tableItem.add(new TableItem("ambulance #09 ", "call #24 ","Critical","incomplete"));
-        tableItem.add(new TableItem("ambulance #10 ", "call #2 ","Stable","incomplete"));
+        tableItem.add(new TableItem("call #22 ","ambulance #01 ", "Stable","incomplete"));
+        tableItem.add(new TableItem( "call #24 ","ambulance #09 ","Critical","incomplete"));
+        tableItem.add(new TableItem("call #2 ","ambulance #10 ", "Stable","incomplete"));
         while (it.hasNext()) { 
             Map.Entry pair = (Map.Entry)it.next();
         
         tableItem.add(new TableItem("ambulance #22", "call#"+pair.getKey(),"n/a","complete"));
         }
-        for (int i = 0; i < mc.getAssignments().size(); i++) {
-            System.out.println(mc.getAssignments().get(i));
-        }
+       
+        i++;
+        if(i==5)
+            tableItem.get(0).setResult("DEAD");
         System.out.println(mc.getEmergencyCallDirectory().keySet().toString()+" emergency call id's");
         System.out.println(mc.getEmergencyCallDirectory().size()+" calls");
         System.out.println(mc.getAssignments().size()+" assignments");
