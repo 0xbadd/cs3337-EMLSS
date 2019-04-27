@@ -33,7 +33,6 @@ public class MapGrid {
             for (int column = 0; column <= mapGrid.length; column += 3) {
                 mapGrid[row][column] = 1;
             }
-
         }
     }
 
@@ -42,7 +41,6 @@ public class MapGrid {
         Queue<Cell> frontier = new LinkedList<>();
         List<Cell> visited = new LinkedList<>();
 
-        boolean done = false;
         Cell start = new Cell(startPoint.getX(), startPoint.getY(), null);
         frontier.add(start);
         visited.add(start);
@@ -52,10 +50,6 @@ public class MapGrid {
             Cell current = frontier.poll();
 
             if (current.row == endPoint.getX() && current.col == endPoint.getY()) {
-                done = true;
-            }
-
-            if (done) {
                 path.push(new Point(current.row, current.col));
                 boolean isNotStartingPoint = current.row != startPoint.getX() && current.col != startPoint.getY();
                 while (current.getParent() != null && isNotStartingPoint) {
