@@ -79,13 +79,26 @@ public class Main extends Application {
     public ObservableList<TableItem> getTableItem(MainController mc){
  
         ObservableList<TableItem> tableItem = FXCollections.observableArrayList();
+        Iterator it = mc.getEmergencyCallDirectory().entrySet().iterator();
         tableItem.add(new TableItem("ambulance #01 ", "call #22 ","Stable","incomplete"));
         tableItem.add(new TableItem("ambulance #09 ", "call #24 ","Critical","incomplete"));
         tableItem.add(new TableItem("ambulance #10 ", "call #2 ","Stable","incomplete"));
-        tableItem.add(new TableItem("ambulance #02 ", mc.getEmergencyCallDirectory().keySet().toString(),Integer.toString(mc.getEmergencyCallDirectory().size()),"complete"));
-
-   
-        System.out.println(mc.getEmergencyCallDirectory().keySet().toString());
+        while (it.hasNext()) { 
+            Map.Entry pair = (Map.Entry)it.next();
+        
+        tableItem.add(new TableItem("ambulance #22", "call#"+pair.getKey(),"n/a","complete"));
+        }
+        for (int i = 0; i < mc.getAssignments().size(); i++) {
+            System.out.println(mc.getAssignments().get(i));
+        }
+        System.out.println(mc.getEmergencyCallDirectory().keySet().toString()+" emergency call id's");
+        System.out.println(mc.getEmergencyCallDirectory().size()+" calls");
+        System.out.println(mc.getAssignments().size()+" assignments");
+        System.out.println(mc.getAmbulanceDirectory().size()+" ambulance");
+        System.out.println(mc.getHomeBaseDirectory().size()+" homebases");
+        System.out.println(mc.getHospitalDirectory().size()+" hospitals");
+        System.out.println(mc.getPatientDirectory().size()+" patient");
+        System.out.println(mc.getPatientQueue().size()+" patient Que size");
 
         return tableItem;
     }

@@ -33,7 +33,39 @@ public class MainController {
         mapGrid = new MapGrid();
     }
 
-    public Map<Integer, EmergencyCall> getEmergencyCallDirectory() {
+    public static int getIdGen() {
+		return idGen;
+	}
+
+	public Map<Integer, Ambulance> getAmbulanceDirectory() {
+		return ambulanceDirectory;
+	}
+
+	public Map<Integer, Patient> getPatientDirectory() {
+		return patientDirectory;
+	}
+
+	public Map<Integer, HomeBase> getHomeBaseDirectory() {
+		return homeBaseDirectory;
+	}
+
+	public Map<Integer, Hospital> getHospitalDirectory() {
+		return hospitalDirectory;
+	}
+
+	public Queue<Map.Entry<Integer, Patient>> getPatientQueue() {
+		return patientQueue;
+	}
+
+	public AssignmentGenerator getAssignmentGenerator() {
+		return assignmentGenerator;
+	}
+
+	public MapGrid getMapGrid() {
+		return mapGrid;
+	}
+
+	public Map<Integer, EmergencyCall> getEmergencyCallDirectory() {
 		return emergencyCallDirectory;
 	}
 
