@@ -44,4 +44,13 @@ public class Assignment {
         Assignment other = (Assignment) obj;
         return (this.ambulanceId == other.ambulanceId) && (this.destinationId == other.destinationId) && (this.path.equals(other.path));
     }
+
+    @Override
+    public String toString() {
+        return "Assignment {" +
+                "Ambulance ID = " + ambulanceId +
+                ", Destination ID = " + destinationId +
+                ", Path = " + path +
+                '}';
+    }
 }

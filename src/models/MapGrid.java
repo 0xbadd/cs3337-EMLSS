@@ -1,74 +1,41 @@
 package models;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
-import java.util.Stack;
+import java.util.*;
 
 public class MapGrid {
-    class Cell {
-        int row;
-        int col;
-        private Cell parent;
-
-        Cell(int row, int col, Cell p) {
-            this.row = row;
-            this.col = col;
-            this.parent = p;
-        }
-
-        Cell getParent() { return parent; }
-    }
-
-    private int[][] mapGrid;
+    private int[][] grid;
 
     public static final int MAP_SIZE_X = 100;
     public static final int MAP_SIZE_Y = 100;
 
     public MapGrid() {
-        mapGrid = new int[MAP_SIZE_X][MAP_SIZE_Y];
-
-        // carve out streets
-        for (int row = 0; row < mapGrid.length; row += 3) {
-            for (int column = 0; column <= mapGrid.length; column += 3) {
-                mapGrid[row][column] = 1;
-            }
-
-        }
+        grid = new int[MAP_SIZE_X][MAP_SIZE_Y];
     }
 
-    public Stack<Point> getPath(Point startPoint, Point endPoint) {
+    public Stack<Point> getPath(Point start, Point goal) {
         Stack<Point> path = new Stack<>();
-        Queue<Cell> frontier = new LinkedList<>();
-        List<Cell> visited = new LinkedList<>();
+        Queue<Point> frontier = new LinkedList<>();
+        Map<Point, Point> cameFrom = new LinkedHashMap<>();
 
-        boolean done = false;
-        Cell start = new Cell(startPoint.getX(), startPoint.getY(), null);
         frontier.add(start);
-        visited.add(start);
+        cameFrom.put(start, null);
 
         // breadth first search
         while (!frontier.isEmpty()) {
-            Cell current = frontier.poll();
+            Point current = frontier.poll();
 
-            if (current.row == endPoint.getX() && current.col == endPoint.getY()) {
-                done = true;
-            }
-
-            if (done) {
-                path.push(new Point(current.row, current.col));
-                boolean isNotStartingPoint = current.row != startPoint.getX() && current.col != startPoint.getY();
-                while (current.getParent() != null && isNotStartingPoint) {
-                    current = current.getParent();
-                    path.push(new Point(current.row, current.col));
+            if (current.equals(goal)) {
+                while (!current.equals(start)) {
+                    path.push(current);
+                    current = cameFrom.get(current);
                 }
                 break;
             }
 
-            for (Cell next : getNeighbors(current.row, current.col, current)) {
-                if (isValidDrivingLocation(next.row, next.col) && !visited.contains(next)) {
+            for (Point next : getNeighbors(current)) {
+                if (!cameFrom.containsKey(next)) {
                     frontier.add(next);
-                    visited.add(next);
+                    cameFrom.put(next, current);
                 }
             }
         }
@@ -76,12 +43,14 @@ public class MapGrid {
         return path;
     }
 
-    public boolean isValidDrivingLocation(int row, int column) {
+    public boolean isValidDrivingLocation(Point point) {
+        int row = point.getX();
+        int column = point.getY();
         boolean result = false;
         // check if cell is in the bounds of the matrix
-        if (row >= 0 && row < mapGrid.length && column >= 0 && column < mapGrid[0].length) {
+        if (row >= 0 && row < grid.length && column >= 0 && column < grid[0].length) {
             // check if cell is not blocked
-            if (mapGrid[row][column] == 1) {
+            if (grid[row][column] == 1) {
                 result = true;
             }
         }
@@ -89,22 +58,25 @@ public class MapGrid {
         return result;
     }
 
-    public List<Cell> getNeighbors(int row, int column, Cell parent) {
-        List<Cell> neighbors = new LinkedList<>();
+    public List<Point> getNeighbors(Point point) {
+        int row = point.getX();
+        int column = point.getY();
+        List<Point> neighbors = new LinkedList<>();
 
-        neighbors.add(new Cell(row, ++column, parent)); // up
-        neighbors.add(new Cell(row, --column, parent)); // down
-        neighbors.add(new Cell(--row, column, parent)); // left
-        neighbors.add(new Cell(++row, column, parent)); // right
+        neighbors.add(new Point(row, column + 1)); // up
+        neighbors.add(new Point(row, column - 1)); // down
+        neighbors.add(new Point(row - 1, column)); // left
+        neighbors.add(new Point(row + 1, column)); // right
 
         return neighbors;
     }
 
-    public int[][] getMapGrid() {
-        return mapGrid;
-    }
-
-    public void setMapGridCell(int row, int col, int value) {
-        mapGrid[row][col] = value;
+    public void printGrid() {
+        for (int[] ints : grid) {
+            for (int column = 0; column < grid.length; column++) {
+                System.out.print(ints[column] + ", ");
+            }
+            System.out.println();
+        }
     }
 }

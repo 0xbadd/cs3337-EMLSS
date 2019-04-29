@@ -33,4 +33,13 @@ public class EmergencyCall {
         return patientIdList;
     }
 
+    @Override
+    public String toString() {
+        return "EmergencyCall {" +
+                "Time Of Call = " + time +
+                ", Number Of Patients = " + numPatients +
+                ", Location = " + location +
+                ", Patient ID List = " + patientIdList +
+                '}';
+    }
 }
