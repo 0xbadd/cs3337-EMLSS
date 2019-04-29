@@ -13,18 +13,16 @@ public class MapGrid {
     }
 
     public boolean isValidDrivingLocation(Point point) {
-        int row = point.getX();
-        int column = point.getY();
-        boolean result = false;
-        // check if cell is in the bounds of the matrix
-        if (row >= 0 && row < grid.length && column >= 0 && column < grid[0].length) {
-            // check if cell is not blocked
-            if (grid[row][column] == 1) {
-                result = true;
-            }
-        }
+        return isInBounds(point) && isPassable(point);
+    }
 
-        return result;
+    private boolean isInBounds(Point point) {
+        return point.getX() >= 0 && point.getX() < grid.length
+                && point.getY() >= 0 && point.getY() < grid[0].length;
+    }
+
+    private boolean isPassable(Point point) {
+        return grid[point.getX()][point.getY()] == 0;
     }
 
     public List<Point> getNeighbors(Point point) {
