@@ -100,6 +100,11 @@ public class MapGrid {
         return neighbors;
     }
 
+    private int heuristic(Point a, Point b) {
+        // Manhattan distance on a square grid
+        return Math.abs(a.getX() - b.getX()) + Math.abs(a.getY() - b.getY());
+    }
+
     public void printGrid() {
         for (int[] ints : grid) {
             for (int column = 0; column < grid.length; column++) {
