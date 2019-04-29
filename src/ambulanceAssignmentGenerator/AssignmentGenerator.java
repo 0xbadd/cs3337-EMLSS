@@ -15,7 +15,7 @@ public class AssignmentGenerator {
         }
         int ambulanceId = getShortestDistance(patientLocation, availableAmbulanceLocations);
         Point ambulanceLocation = availableAmbulanceDirectory.get(ambulanceId).getLocation();
-        Stack<Point> path = mapGrid.getPath(ambulanceLocation, patientLocation);
+        Stack<Point> path = PathFinder.getPath(mapGrid, ambulanceLocation, patientLocation);
 
        return new Assignment(ambulanceId, patient.getKey(), path);
     }
@@ -30,7 +30,7 @@ public class AssignmentGenerator {
         Point ambulanceLocation = ambulance.getValue().getLocation();
         int hospitalId = getShortestDistance(ambulanceLocation, hospitalLocations);
         Point hospitalLocation = hospitalDirectory.get(hospitalId).getLocation();
-        Stack<Point> path = mapGrid.getPath(ambulanceLocation, hospitalLocation);
+        Stack<Point> path = PathFinder.getPath(mapGrid, ambulanceLocation, hospitalLocation);
 
         return new Assignment(ambulance.getKey(), hospitalId, path);
     }
@@ -39,7 +39,7 @@ public class AssignmentGenerator {
         int homeBaseId =ambulance.getValue().getHomeBase();
         Point homeBaseLocation = homeBaseDirectory.get(homeBaseId).getLocation();
         Point ambulanceLocation = ambulance.getValue().getLocation();
-        Stack<Point> path = mapGrid.getPath(ambulanceLocation, homeBaseLocation);
+        Stack<Point> path = PathFinder.getPath(mapGrid, ambulanceLocation, homeBaseLocation);
 
         return new Assignment(ambulance.getKey(), homeBaseId, path);
     }
