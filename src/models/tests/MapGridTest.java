@@ -13,22 +13,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class MapGridTest {
 
     @Test
-    void getPath() {
-        MapGrid mapGrid = new MapGrid();
-        Point start = new Point(0,0);
-        Point end = new Point(0, 3);
-
-        Stack<Point> expected = new Stack<>();
-        expected.push(new Point(0, 3));
-        expected.push(new Point(0, 2));
-        expected.push(new Point(0, 1));
-
-        Stack<Point> actual = mapGrid.getPath(start, end);
-
-        assertEquals(expected, actual);
-    }
-
-    @Test
     void isValidDrivingLocation() {
         MapGrid mapGrid = new MapGrid();
 

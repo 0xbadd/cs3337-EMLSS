@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Stack;
 
-public class PathFinder {
+class PathFinder {
     static class Vertex implements Comparable {
         int priority;
         Point node;
@@ -40,7 +40,7 @@ public class PathFinder {
     }
 
     // A* algorithm
-    public static Stack<Point> getPath(MapGrid grid, Point start, Point goal) {
+    static Stack<Point> getPath(MapGrid grid, Point start, Point goal) {
         Stack<Point> path = new Stack<>();
         PriorityQueue<Vertex> frontier = new PriorityQueue<>();
         Map<Point, Point> cameFrom = new LinkedHashMap<>();
