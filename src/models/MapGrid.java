@@ -8,18 +8,13 @@ public class MapGrid {
     public static final int MAP_SIZE_X = 100;
     public static final int MAP_SIZE_Y = 100;
 
-    class Vertex implements Comparator<Vertex> {
+    class Vertex implements Comparable {
         int priority;
         Point node;
 
         Vertex(Point node, int priority) {
             this.priority = priority;
             this.node = node;
-        }
-
-        @Override
-        public int compare(Vertex o1, Vertex o2) {
-            return o1.priority - o2.priority;
         }
 
         @Override
@@ -35,6 +30,12 @@ public class MapGrid {
             Vertex other = (Vertex) obj;
             return (this.priority == other.priority) && (this.node == other.node);
         }
+
+        @Override
+        public int compareTo(Object o) {
+            Vertex v = (Vertex) o;
+            return this.priority - v.priority;
+        }
     }
 
     public MapGrid() {
@@ -43,15 +44,17 @@ public class MapGrid {
 
     public Stack<Point> getPath(Point start, Point goal) {
         Stack<Point> path = new Stack<>();
-        Queue<Point> frontier = new LinkedList<>();
+        PriorityQueue<Vertex> frontier = new PriorityQueue<>();
         Map<Point, Point> cameFrom = new LinkedHashMap<>();
+        Map<Point, Integer> costSoFar = new LinkedHashMap<>();
 
-        frontier.add(start);
+        frontier.add(new Vertex(start, 0));
         cameFrom.put(start, null);
+        costSoFar.put(start, 0);
 
-        // breadth first search
+        // A* algorithm
         while (!frontier.isEmpty()) {
-            Point current = frontier.poll();
+            Point current = frontier.poll().node;
 
             if (current.equals(goal)) {
                 while (!current.equals(start)) {
@@ -62,8 +65,11 @@ public class MapGrid {
             }
 
             for (Point next : getNeighbors(current)) {
-                if (!cameFrom.containsKey(next)) {
-                    frontier.add(next);
+                int newCost = costSoFar.get(current) + 1;
+                if (!cameFrom.containsKey(next) || newCost < costSoFar.get(next)) {
+                    costSoFar.put(next, newCost);
+                    int priority = newCost + heuristic(goal, next);
+                    frontier.add(new Vertex(next, priority));
                     cameFrom.put(next, current);
                 }
             }
