@@ -8,6 +8,35 @@ public class MapGrid {
     public static final int MAP_SIZE_X = 100;
     public static final int MAP_SIZE_Y = 100;
 
+    class Vertex implements Comparator<Vertex> {
+        int priority;
+        Point node;
+
+        Vertex(Point node, int priority) {
+            this.priority = priority;
+            this.node = node;
+        }
+
+        @Override
+        public int compare(Vertex o1, Vertex o2) {
+            return o1.priority - o2.priority;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+
+            if (obj == null || (this.getClass() != obj.getClass())) {
+                return false;
+            }
+
+            Vertex other = (Vertex) obj;
+            return (this.priority == other.priority) && (this.node == other.node);
+        }
+    }
+
     public MapGrid() {
         grid = new int[MAP_SIZE_X][MAP_SIZE_Y];
     }
