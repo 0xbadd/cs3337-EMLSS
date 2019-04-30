@@ -18,7 +18,7 @@ class PatientPickupAssignmentManager implements Runnable {
     private final AssignmentGenerator assignmentGenerator;
     private final List<Assignment> assignments;
 
-    public PatientPickupAssignmentManager(List<Assignment> assignments, Map<Integer, Ambulance> ambulanceDirectory, Queue<Map.Entry<Integer, Patient>> patientQueue, MapGrid mapGrid, AssignmentGenerator assignmentGenerator) {
+    PatientPickupAssignmentManager(List<Assignment> assignments, Map<Integer, Ambulance> ambulanceDirectory, Queue<Map.Entry<Integer, Patient>> patientQueue, MapGrid mapGrid, AssignmentGenerator assignmentGenerator) {
         this.ambulanceDirectory = ambulanceDirectory;
         this.patientQueue = patientQueue;
         this.mapGrid = mapGrid;
