@@ -32,6 +32,7 @@ public class patientPickupAssignmentManager implements Runnable {
             while (!patientQueue.isEmpty()) {
                 Map<Integer, Ambulance> availableAmbulanceDirectory = getAvaialableAmbulances();
                 Map.Entry<Integer, Patient> patientEntry = patientQueue.poll();
+                assert patientEntry != null;
                 assignmentGenerator.makePatientAssignment(mapGrid, patientEntry, availableAmbulanceDirectory);
             }
         }
