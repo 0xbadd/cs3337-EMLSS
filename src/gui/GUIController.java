@@ -3,7 +3,6 @@ package gui;
 import emergencyCharacteristicFunction.EmergencyCall;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableView;

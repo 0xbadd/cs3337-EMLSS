@@ -18,7 +18,10 @@ class PatientPickupAssignmentManager implements Runnable {
     private final AssignmentGenerator assignmentGenerator;
     private final List<Assignment> assignments;
 
-    PatientPickupAssignmentManager(List<Assignment> assignments, Map<Integer, Ambulance> ambulanceDirectory, Queue<Map.Entry<Integer, Patient>> patientQueue, MapGrid mapGrid, AssignmentGenerator assignmentGenerator) {
+    PatientPickupAssignmentManager(
+            List<Assignment> assignments, Map<Integer, Ambulance> ambulanceDirectory,
+            Queue<Map.Entry<Integer, Patient>> patientQueue, MapGrid mapGrid, AssignmentGenerator assignmentGenerator
+    ) {
         this.ambulanceDirectory = ambulanceDirectory;
         this.patientQueue = patientQueue;
         this.mapGrid = mapGrid;
@@ -52,7 +55,7 @@ class PatientPickupAssignmentManager implements Runnable {
 
     private boolean isAmbulanceAvailable(int ambulanceId) {
         for (Assignment assignment : this.assignments) {
-            if (assignment.getAmbulanceId() ==  ambulanceId) {
+            if (assignment.getAmbulanceId() == ambulanceId) {
                 return false;
             }
         }
