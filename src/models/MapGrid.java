@@ -38,12 +38,4 @@ public class MapGrid {
         return neighbors;
     }
 
-    public void printGrid() {
-        for (int[] ints : grid) {
-            for (int column = 0; column < grid.length; column++) {
-                System.out.print(ints[column] + ", ");
-            }
-            System.out.println();
-        }
-    }
 }

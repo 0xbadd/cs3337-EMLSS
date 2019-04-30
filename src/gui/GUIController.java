@@ -10,7 +10,7 @@ import mainController.MainController;
 
 import java.util.Map;
 
-class GUIController {
+public class GUIController {
     private final MainController mc = new MainController();
     @FXML
     private TableView<AssignmentEntry> assignmentsTable;
