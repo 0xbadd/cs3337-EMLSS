@@ -22,7 +22,6 @@ class AssignmentGeneratorTest {
         Stack<Point> expectedPath = new Stack<>();
         expectedPath.push(new Point(3, 0));
         expectedPath.push(new Point(4, 0));
-        expectedPath.push(new Point(5, 0));
 
         Assignment expected = new Assignment(2, 0, expectedPath);
         Assignment actual = assignmentGenerator.makePatientAssignment(mapGrid, patient, ambulances);
@@ -45,7 +44,6 @@ class AssignmentGeneratorTest {
         expectedPath.push(new Point(0, 3));
         expectedPath.push(new Point(0, 2));
         expectedPath.push(new Point(0, 1));
-        expectedPath.push(new Point(0, 0));
 
         Assignment expected = new Assignment(2, 0, expectedPath);
         Assignment actual = assignmentGenerator.makeHospitalAssignment(mapGrid, ambulanceEntry, hospitalDirectory);
@@ -65,7 +63,6 @@ class AssignmentGeneratorTest {
         expectedPath.push(new Point(3, 3));
         expectedPath.push(new Point(3, 2));
         expectedPath.push(new Point(3, 1));
-        expectedPath.push(new Point(3, 0));
 
         Assignment expected = new Assignment(0, 1, expectedPath);
         Assignment actual = assignmentGenerator.makeHomeBaseAssignment(mapGrid, ambulanceEntry, homeBaseDirectory);
