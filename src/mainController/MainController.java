@@ -37,7 +37,7 @@ public class MainController {
         ExecutorService executor = Executors.newFixedThreadPool(3);
 
         executor.submit(new EmergencyCallGenerator(emergencyCallDirectory, patientDirectory, patientQueue));
-        executor.submit(new patientPickupAssignmentManager(assignments, ambulanceDirectory, patientQueue, mapGrid, assignmentGenerator));
+        executor.submit(new PatientPickupAssignmentManager(assignments, ambulanceDirectory, patientQueue, mapGrid, assignmentGenerator));
 
         Runnable assignmentProgressor = () -> {
             while(true) {
