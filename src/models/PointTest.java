@@ -1,4 +1,4 @@
-package models.tests;
+package models;
 
 import models.Point;
 import org.junit.jupiter.api.Test;

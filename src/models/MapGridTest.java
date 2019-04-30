@@ -1,4 +1,4 @@
-package models.tests;
+package models;
 
 import models.MapGrid;
 import models.Point;
