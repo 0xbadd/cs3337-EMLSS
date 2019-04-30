@@ -74,7 +74,7 @@ public class MainController {
         executor.submit(assignmentProgressor);
     }
 
-    Map<Integer, Ambulance> generateAmbulances(Map<Integer, HomeBase> homeBases) {
+    private Map<Integer, Ambulance> generateAmbulances(Map<Integer, HomeBase> homeBases) {
         Map<Integer, Ambulance> ambulances = new LinkedHashMap<>();
         // just test locations
         for (HomeBase hb : homeBases.values()) {
@@ -85,7 +85,7 @@ public class MainController {
         return ambulances;
     }
 
-    Map<Integer, HomeBase> generateHomeBases() {
+    private Map<Integer, HomeBase> generateHomeBases() {
         Map<Integer, HomeBase> homeBases = new LinkedHashMap<>();
         // just test locations
         homeBases.put(idGen++, (new HomeBase(new Point(25, 10), 3)));
@@ -94,7 +94,7 @@ public class MainController {
         return homeBases;
     }
 
-    Map<Integer, Hospital> generateHospitals() {
+    private Map<Integer, Hospital> generateHospitals() {
         Map<Integer, Hospital> hospitals = new LinkedHashMap<>();
         // just test locations
         hospitals.put(idGen++, (new Hospital(new Point(55, 55))));
@@ -103,5 +103,29 @@ public class MainController {
 
     public static int createId() {
         return idGen++;
+    }
+
+    public Map<Integer, EmergencyCall> getEmergencyCallDirectory() {
+        return emergencyCallDirectory;
+    }
+
+    public Map<Integer, Ambulance> getAmbulanceDirectory() {
+        return ambulanceDirectory;
+    }
+
+    public Map<Integer, Patient> getPatientDirectory() {
+        return patientDirectory;
+    }
+
+    public Map<Integer, HomeBase> getHomeBaseDirectory() {
+        return homeBaseDirectory;
+    }
+
+    public Map<Integer, Hospital> getHospitalDirectory() {
+        return hospitalDirectory;
+    }
+
+    public List<Assignment> getAssignments() {
+        return assignments;
     }
 }
