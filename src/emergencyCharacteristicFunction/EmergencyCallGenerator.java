@@ -13,7 +13,10 @@ public class EmergencyCallGenerator implements Runnable {
     private final Map<Integer, Patient> patientDirectory;
     private final Queue<Map.Entry<Integer, Patient>> patientQueue;
 
-    public EmergencyCallGenerator(Map<Integer, EmergencyCall> emergencyCallDirectory, Map<Integer, Patient> patientDirectory, Queue<Map.Entry<Integer, Patient>> patientQueue) {
+    public EmergencyCallGenerator(
+            Map<Integer, EmergencyCall> emergencyCallDirectory, Map<Integer, Patient> patientDirectory,
+            Queue<Map.Entry<Integer, Patient>> patientQueue
+    ) {
         this.emergencyCallDirectory = emergencyCallDirectory;
         this.patientDirectory = patientDirectory;
         this.patientQueue = patientQueue;
@@ -23,7 +26,7 @@ public class EmergencyCallGenerator implements Runnable {
     public void run() {
         while (!Thread.currentThread().isInterrupted()) {
             try {
-                int spawnTime = (int)(Math.random() * 10 + 1); // 1 - 10 seconds
+                int spawnTime = (int) (Math.random() * 10 + 1); // 1 - 10 seconds
                 Thread.sleep(spawnTime * 1000);
 
                 int numPatients = getRandomNumPatients();
@@ -47,7 +50,7 @@ public class EmergencyCallGenerator implements Runnable {
     }
 
     private Patient spawnPatient(Point location) {
-        int injurySeverityRoll = (int)(Math.random() * 101);
+        int injurySeverityRoll = (int) (Math.random() * 101);
         InjurySeverity injurySeverity;
         if (injurySeverityRoll <= 90) {
             injurySeverity = InjurySeverity.NON_LIFE_THREATENING;
@@ -59,7 +62,7 @@ public class EmergencyCallGenerator implements Runnable {
     }
 
     private int getRandomNumPatients() {
-        int numPatientsRoll = (int)(Math.random() * 101);
+        int numPatientsRoll = (int) (Math.random() * 101);
         if (numPatientsRoll <= 50) {
             return 1;
         } else if (numPatientsRoll <= 70) {
@@ -74,8 +77,8 @@ public class EmergencyCallGenerator implements Runnable {
     }
 
     private Point getRandomEmergencyLocation() {
-        int emergencyX = (int)(Math.random() * (MapGrid.MAP_SIZE_X + 1));
-        int emergencyY = (int)(Math.random() * (MapGrid.MAP_SIZE_Y + 1));
+        int emergencyX = (int) (Math.random() * (MapGrid.MAP_SIZE_X + 1));
+        int emergencyY = (int) (Math.random() * (MapGrid.MAP_SIZE_Y + 1));
         return new Point(emergencyX, emergencyY);
     }
 }
