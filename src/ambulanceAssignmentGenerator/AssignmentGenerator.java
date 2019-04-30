@@ -44,7 +44,7 @@ public class AssignmentGenerator {
         return new Assignment(ambulance.getKey(), homeBaseId, path);
     }
 
-    public int getShortestDistance(Point startPoint, Map<Integer, Point> endPoints) {
+    int getShortestDistance(Point startPoint, Map<Integer, Point> endPoints) {
         Map<Double, Integer> distances = new LinkedHashMap<>();
         LinkedList<Double> distancesList = new LinkedList<>();
         for (Map.Entry<Integer, Point> pair : endPoints.entrySet()) {
@@ -54,16 +54,8 @@ public class AssignmentGenerator {
             distances.put(distance, id);
             distancesList.add(distance);
         }
-        Comparator<Double> comp = (Double a, Double b) -> {
-          if (a < b) {
-              return -1;
-          } else if (a > b) {
-              return 1;
-          } else {
-              return 0;
-          }
-        };
-        distancesList.sort(comp);
+
+        distancesList.sort(Double::compareTo);
 
         double shortestDistance = distancesList.getFirst();
 

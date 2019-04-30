@@ -9,9 +9,9 @@ import models.Point;
 import java.util.*;
 
 public class EmergencyCallGenerator implements Runnable {
-    private Map<Integer, EmergencyCall> emergencyCallDirectory;
-    private Map<Integer, Patient> patientDirectory;
-    private Queue<Map.Entry<Integer, Patient>> patientQueue;
+    private final Map<Integer, EmergencyCall> emergencyCallDirectory;
+    private final Map<Integer, Patient> patientDirectory;
+    private final Queue<Map.Entry<Integer, Patient>> patientQueue;
 
     public EmergencyCallGenerator(Map<Integer, EmergencyCall> emergencyCallDirectory, Map<Integer, Patient> patientDirectory, Queue<Map.Entry<Integer, Patient>> patientQueue) {
         this.emergencyCallDirectory = emergencyCallDirectory;

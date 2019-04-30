@@ -1,8 +1,8 @@
 package models;
 
 public class Point {
-    private int x;
-    private int y;
+    private final int x;
+    private final int y;
 
     public Point(int x, int y) {
         this.x = x;
@@ -18,12 +18,7 @@ public class Point {
     }
 
     public double distanceTo(Point endPoint) {
-        double x1 = this.x;
-        double y1 = this.y;
-        double x2 = endPoint.x;
-        double y2 = endPoint.y;
-
-        return Math.sqrt(Math.pow((x1 - x2), 2) + Math.pow((y1 - y2), 2));
+        return Math.sqrt(Math.pow(((double) this.x - (double) endPoint.x), 2) + Math.pow(((double) this.y - (double) endPoint.y), 2));
     }
 
     @Override

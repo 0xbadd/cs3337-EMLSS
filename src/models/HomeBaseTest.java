@@ -1,4 +1,4 @@
-package models.tests;
+package models;
 
 import models.HomeBase;
 import models.Point;

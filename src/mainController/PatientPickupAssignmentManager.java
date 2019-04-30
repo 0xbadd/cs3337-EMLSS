@@ -11,14 +11,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 
-public class patientPickupAssignmentManager implements Runnable {
-    private Map<Integer, Ambulance> ambulanceDirectory;
-    private Queue<Map.Entry<Integer, Patient>> patientQueue;
-    private MapGrid mapGrid;
-    private AssignmentGenerator assignmentGenerator;
-    private List<Assignment> assignments;
+class PatientPickupAssignmentManager implements Runnable {
+    private final Map<Integer, Ambulance> ambulanceDirectory;
+    private final Queue<Map.Entry<Integer, Patient>> patientQueue;
+    private final MapGrid mapGrid;
+    private final AssignmentGenerator assignmentGenerator;
+    private final List<Assignment> assignments;
 
-    public patientPickupAssignmentManager(List<Assignment> assignments, Map<Integer, Ambulance> ambulanceDirectory, Queue<Map.Entry<Integer, Patient>> patientQueue, MapGrid mapGrid, AssignmentGenerator assignmentGenerator) {
+    public PatientPickupAssignmentManager(List<Assignment> assignments, Map<Integer, Ambulance> ambulanceDirectory, Queue<Map.Entry<Integer, Patient>> patientQueue, MapGrid mapGrid, AssignmentGenerator assignmentGenerator) {
         this.ambulanceDirectory = ambulanceDirectory;
         this.patientQueue = patientQueue;
         this.mapGrid = mapGrid;
@@ -30,14 +30,15 @@ public class patientPickupAssignmentManager implements Runnable {
     public void run() {
         while (true) {
             while (!patientQueue.isEmpty()) {
-                Map<Integer, Ambulance> availableAmbulanceDirectory = getAvaialableAmbulances();
+                Map<Integer, Ambulance> availableAmbulanceDirectory = getAvailableAmbulances();
                 Map.Entry<Integer, Patient> patientEntry = patientQueue.poll();
+                assert patientEntry != null;
                 assignmentGenerator.makePatientAssignment(mapGrid, patientEntry, availableAmbulanceDirectory);
             }
         }
     }
 
-    private Map<Integer, Ambulance> getAvaialableAmbulances() {
+    private Map<Integer, Ambulance> getAvailableAmbulances() {
         Map<Integer, Ambulance> availableAmbulanceDirectory = new LinkedHashMap<>();
         for (Map.Entry<Integer, Ambulance> ambulanceEntry : this.ambulanceDirectory.entrySet()) {
             Integer ambulanceId = ambulanceEntry.getKey();

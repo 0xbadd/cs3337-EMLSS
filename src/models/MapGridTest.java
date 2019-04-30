@@ -1,4 +1,4 @@
-package models.tests;
+package models;
 
 import models.MapGrid;
 import models.Point;
@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Stack;
 
 import static org.junit.jupiter.api.Assertions.*;
 

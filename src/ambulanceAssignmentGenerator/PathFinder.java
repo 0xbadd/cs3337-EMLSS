@@ -10,8 +10,8 @@ import java.util.Stack;
 
 class PathFinder {
     static class Vertex implements Comparable {
-        int priority;
-        Point node;
+        final int priority;
+        final Point node;
 
         Vertex(Point node, int priority) {
             this.priority = priority;

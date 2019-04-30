@@ -5,10 +5,10 @@ import models.Point;
 import java.util.List;
 
 public class EmergencyCall {
-    private int time;
-    private int numPatients;
-    private Point location;
-    private List<Integer> patientIdList;
+    private final int time;
+    private final int numPatients;
+    private final Point location;
+    private final List<Integer> patientIdList;
 
     public EmergencyCall(int time, int numPatients, Point location, List<Integer> patientIdList) {
         this.time = time;

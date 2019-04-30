@@ -2,7 +2,7 @@ package gui;
 
 import javafx.beans.property.SimpleStringProperty;
 
-public class AssignmentEntry {
+class AssignmentEntry {
     private final SimpleStringProperty callID = new SimpleStringProperty("");
     private final SimpleStringProperty patientID = new SimpleStringProperty("");
     private final SimpleStringProperty assignedAmbulanceID = new SimpleStringProperty("");

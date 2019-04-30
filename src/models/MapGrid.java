@@ -3,7 +3,7 @@ package models;
 import java.util.*;
 
 public class MapGrid {
-    private int[][] grid;
+    private final int[][] grid;
 
     public static final int MAP_SIZE_X = 100;
     public static final int MAP_SIZE_Y = 100;
@@ -38,12 +38,4 @@ public class MapGrid {
         return neighbors;
     }
 
-    public void printGrid() {
-        for (int[] ints : grid) {
-            for (int column = 0; column < grid.length; column++) {
-                System.out.print(ints[column] + ", ");
-            }
-            System.out.println();
-        }
-    }
 }

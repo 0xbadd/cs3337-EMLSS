@@ -11,15 +11,15 @@ import java.util.concurrent.*;
 
 public class MainController {
     private static int idGen = 0;
-    private Map<Integer, EmergencyCall> emergencyCallDirectory;
-    private Map<Integer, Ambulance> ambulanceDirectory;
-    private Map<Integer, Patient> patientDirectory;
-    private Map<Integer, HomeBase> homeBaseDirectory;
-    private Map<Integer, Hospital> hospitalDirectory;
-    private List<Assignment> assignments;
-    private Queue<Map.Entry<Integer, Patient>> patientQueue;
-    private AssignmentGenerator assignmentGenerator;
-    private MapGrid mapGrid;
+    private final Map<Integer, EmergencyCall> emergencyCallDirectory;
+    private final Map<Integer, Ambulance> ambulanceDirectory;
+    private final Map<Integer, Patient> patientDirectory;
+    private final Map<Integer, HomeBase> homeBaseDirectory;
+    private final Map<Integer, Hospital> hospitalDirectory;
+    private final List<Assignment> assignments;
+    private final Queue<Map.Entry<Integer, Patient>> patientQueue;
+    private final AssignmentGenerator assignmentGenerator;
+    private final MapGrid mapGrid;
 
     public MainController() {
         emergencyCallDirectory = new LinkedHashMap<>();
@@ -37,9 +37,9 @@ public class MainController {
         ExecutorService executor = Executors.newFixedThreadPool(3);
 
         executor.submit(new EmergencyCallGenerator(emergencyCallDirectory, patientDirectory, patientQueue));
-        executor.submit(new patientPickupAssignmentManager(assignments, ambulanceDirectory, patientQueue, mapGrid, assignmentGenerator));
+        executor.submit(new PatientPickupAssignmentManager(assignments, ambulanceDirectory, patientQueue, mapGrid, assignmentGenerator));
 
-        Runnable assignmentProgressor = () -> {
+        Runnable advanceAssignments = () -> {
             while(true) {
                 if (!assignments.isEmpty()) {
                     for (Assignment assignment : assignments) {
@@ -71,7 +71,7 @@ public class MainController {
                 }
             }
         };
-        executor.submit(assignmentProgressor);
+        executor.submit(advanceAssignments);
     }
 
     private Map<Integer, Ambulance> generateAmbulances(Map<Integer, HomeBase> homeBases) {

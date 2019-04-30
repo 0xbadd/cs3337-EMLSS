@@ -5,9 +5,9 @@ import models.Point;
 import java.util.Stack;
 
 public class Assignment {
-    private int ambulanceId;
-    private int destinationId;
-    private Stack<Point> path;
+    private final int ambulanceId;
+    private final int destinationId;
+    private final Stack<Point> path;
 
     public Assignment(int ambulanceId, int destinationId, Stack<Point> path) {
         this.ambulanceId = ambulanceId;
