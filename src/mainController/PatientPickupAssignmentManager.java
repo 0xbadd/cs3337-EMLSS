@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 
-public class PatientPickupAssignmentManager implements Runnable {
+class PatientPickupAssignmentManager implements Runnable {
     private final Map<Integer, Ambulance> ambulanceDirectory;
     private final Queue<Map.Entry<Integer, Patient>> patientQueue;
     private final MapGrid mapGrid;
