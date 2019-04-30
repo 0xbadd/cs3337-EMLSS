@@ -39,7 +39,7 @@ public class MainController {
         executor.submit(new EmergencyCallGenerator(emergencyCallDirectory, patientDirectory, patientQueue));
         executor.submit(new PatientPickupAssignmentManager(assignments, ambulanceDirectory, patientQueue, mapGrid, assignmentGenerator));
 
-        Runnable assignmentProgressor = () -> {
+        Runnable advanceAssignments = () -> {
             while(true) {
                 if (!assignments.isEmpty()) {
                     for (Assignment assignment : assignments) {
@@ -71,7 +71,7 @@ public class MainController {
                 }
             }
         };
-        executor.submit(assignmentProgressor);
+        executor.submit(advanceAssignments);
     }
 
     private Map<Integer, Ambulance> generateAmbulances(Map<Integer, HomeBase> homeBases) {

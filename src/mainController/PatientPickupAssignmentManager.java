@@ -30,7 +30,7 @@ public class PatientPickupAssignmentManager implements Runnable {
     public void run() {
         while (true) {
             while (!patientQueue.isEmpty()) {
-                Map<Integer, Ambulance> availableAmbulanceDirectory = getAvaialableAmbulances();
+                Map<Integer, Ambulance> availableAmbulanceDirectory = getAvailableAmbulances();
                 Map.Entry<Integer, Patient> patientEntry = patientQueue.poll();
                 assert patientEntry != null;
                 assignmentGenerator.makePatientAssignment(mapGrid, patientEntry, availableAmbulanceDirectory);
@@ -38,7 +38,7 @@ public class PatientPickupAssignmentManager implements Runnable {
         }
     }
 
-    private Map<Integer, Ambulance> getAvaialableAmbulances() {
+    private Map<Integer, Ambulance> getAvailableAmbulances() {
         Map<Integer, Ambulance> availableAmbulanceDirectory = new LinkedHashMap<>();
         for (Map.Entry<Integer, Ambulance> ambulanceEntry : this.ambulanceDirectory.entrySet()) {
             Integer ambulanceId = ambulanceEntry.getKey();
