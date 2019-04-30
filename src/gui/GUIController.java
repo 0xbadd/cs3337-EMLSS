@@ -11,7 +11,7 @@ import mainController.MainController;
 import java.util.Map;
 
 public class GUIController {
-    private MainController mc = new MainController();
+    private final MainController mc = new MainController();
     @FXML
     private TableView<AssignmentEntry> assignmentsTable;
 

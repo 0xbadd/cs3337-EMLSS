@@ -2,7 +2,7 @@ package models;
 
 
 public class Patient {
-    private Point location;
+    private final Point location;
     private final InjurySeverity injurySeverity;
 
     public Patient(Point location, InjurySeverity injurySeverity) {

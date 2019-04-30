@@ -3,7 +3,7 @@ package models;
 import java.util.*;
 
 public class MapGrid {
-    private int[][] grid;
+    private final int[][] grid;
 
     public static final int MAP_SIZE_X = 100;
     public static final int MAP_SIZE_Y = 100;

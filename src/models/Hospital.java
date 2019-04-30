@@ -1,7 +1,7 @@
 package models;
 
 public class Hospital {
-    private Point location;
+    private final Point location;
 
     public Hospital(Point location) {
         this.location = location;
