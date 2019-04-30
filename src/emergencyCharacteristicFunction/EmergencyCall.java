@@ -33,7 +33,6 @@ public class EmergencyCall {
         return patientIdList;
     }
 
-    @Override
     public String toString() {
         return "EmergencyCall {" +
                 "Time Of Call = " + time +
