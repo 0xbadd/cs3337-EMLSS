@@ -21,7 +21,7 @@ public class EmergencyCallGenerator implements Runnable {
 
     @Override
     public void run() {
-        while (true) {
+        while (!Thread.currentThread().isInterrupted()) {
             int spawnTime = (int)(Math.random() * 10 + 1); // 1 - 10 seconds
             try {
                 Thread.sleep(spawnTime * 1000);

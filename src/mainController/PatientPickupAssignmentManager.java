@@ -28,7 +28,7 @@ class PatientPickupAssignmentManager implements Runnable {
 
     @Override
     public void run() {
-        while (true) {
+        while (!Thread.currentThread().isInterrupted()) {
             while (!patientQueue.isEmpty()) {
                 Map<Integer, Ambulance> availableAmbulanceDirectory = getAvailableAmbulances();
                 Map.Entry<Integer, Patient> patientEntry = patientQueue.poll();

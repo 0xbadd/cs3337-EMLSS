@@ -42,7 +42,7 @@ public class MainController {
         executor.submit(new PatientPickupAssignmentManager(assignments, ambulanceDirectory, patientQueue, mapGrid, assignmentGenerator));
 
         Runnable advanceAssignments = () -> {
-            while(true) {
+            while(!Thread.currentThread().isInterrupted()) {
                 if (!assignments.isEmpty()) {
                     for (Assignment assignment : assignments) {
                         int ambulanceId = assignment.getAmbulanceId();
