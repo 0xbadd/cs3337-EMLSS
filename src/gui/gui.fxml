@@ -1,5 +1,39 @@
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.collections.FXCollections?>
 
+<?import gui.AssignmentEntry?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
 <GridPane fx:controller="gui.GUIController"
           xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10">
+    <TableView fx:id="assignmentsTable" GridPane.columnIndex="0" GridPane.rowIndex="1">
+        <columns>
+            <TableColumn text="Call ID" prefWidth="100">
+                <cellValueFactory>
+                    <PropertyValueFactory property="callID"/>
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="Patient ID" prefWidth="100">
+                <cellValueFactory>
+                    <PropertyValueFactory property="patientID"/>
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="Assigned Ambulance ID" prefWidth="150">
+                <cellValueFactory>
+                    <PropertyValueFactory property="assignedAmbulanceID"/>
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="Status" prefWidth="100">
+                <cellValueFactory>
+                    <PropertyValueFactory property="status"/>
+                </cellValueFactory>
+            </TableColumn>
+        </columns>
+        <items>
+            <FXCollections fx:factory="observableArrayList">
+                <AssignmentEntry callID="1" patientID="2" assignedAmbulanceID="3" status="In Progress"/>
+            </FXCollections>
+        </items>
+    </TableView>
 </GridPane>
