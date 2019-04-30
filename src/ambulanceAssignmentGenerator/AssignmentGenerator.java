@@ -5,7 +5,9 @@ import models.*;
 import java.util.*;
 
 public class AssignmentGenerator {
-    public Assignment makePatientAssignment(MapGrid mapGrid, Map.Entry<Integer, Patient> patient, Map<Integer, Ambulance> availableAmbulanceDirectory) {
+    public Assignment makePatientAssignment(
+            MapGrid mapGrid, Map.Entry<Integer, Patient> patient, Map<Integer, Ambulance> availableAmbulanceDirectory
+    ) {
         Map<Integer, Point> availableAmbulanceLocations = new LinkedHashMap<>();
         Point patientLocation = patient.getValue().getLocation();
         for (Map.Entry<Integer, Ambulance> pair : availableAmbulanceDirectory.entrySet()) {
@@ -17,10 +19,12 @@ public class AssignmentGenerator {
         Point ambulanceLocation = availableAmbulanceDirectory.get(ambulanceId).getLocation();
         Stack<Point> path = PathFinder.getPath(mapGrid, ambulanceLocation, patientLocation);
 
-       return new Assignment(ambulanceId, patient.getKey(), path);
+        return new Assignment(ambulanceId, patient.getKey(), path);
     }
 
-    public Assignment makeHospitalAssignment(MapGrid mapGrid, Map.Entry<Integer, Ambulance> ambulance, Map<Integer, Hospital> hospitalDirectory) {
+    public Assignment makeHospitalAssignment(
+            MapGrid mapGrid, Map.Entry<Integer, Ambulance> ambulance, Map<Integer, Hospital> hospitalDirectory
+    ) {
         Map<Integer, Point> hospitalLocations = new LinkedHashMap<>();
         for (Map.Entry<Integer, Hospital> pair : hospitalDirectory.entrySet()) {
             int id = pair.getKey();
@@ -35,8 +39,10 @@ public class AssignmentGenerator {
         return new Assignment(ambulance.getKey(), hospitalId, path);
     }
 
-    public Assignment makeHomeBaseAssignment(MapGrid mapGrid, Map.Entry<Integer, Ambulance> ambulance, Map<Integer, HomeBase> homeBaseDirectory) {
-        int homeBaseId =ambulance.getValue().getHomeBase();
+    public Assignment makeHomeBaseAssignment(
+            MapGrid mapGrid, Map.Entry<Integer, Ambulance> ambulance, Map<Integer, HomeBase> homeBaseDirectory
+    ) {
+        int homeBaseId = ambulance.getValue().getHomeBase();
         Point homeBaseLocation = homeBaseDirectory.get(homeBaseId).getLocation();
         Point ambulanceLocation = ambulance.getValue().getLocation();
         Stack<Point> path = PathFinder.getPath(mapGrid, ambulanceLocation, homeBaseLocation);
