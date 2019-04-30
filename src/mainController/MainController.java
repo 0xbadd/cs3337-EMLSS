@@ -33,7 +33,47 @@ public class MainController {
         mapGrid = new MapGrid();
     }
 
-    public void startAcceptingEmergencyCalls() {
+    public static int getIdGen() {
+		return idGen;
+	}
+
+	public Map<Integer, Ambulance> getAmbulanceDirectory() {
+		return ambulanceDirectory;
+	}
+
+	public Map<Integer, Patient> getPatientDirectory() {
+		return patientDirectory;
+	}
+
+	public Map<Integer, HomeBase> getHomeBaseDirectory() {
+		return homeBaseDirectory;
+	}
+
+	public Map<Integer, Hospital> getHospitalDirectory() {
+		return hospitalDirectory;
+	}
+
+	public Queue<Map.Entry<Integer, Patient>> getPatientQueue() {
+		return patientQueue;
+	}
+
+	public AssignmentGenerator getAssignmentGenerator() {
+		return assignmentGenerator;
+	}
+
+	public MapGrid getMapGrid() {
+		return mapGrid;
+	}
+
+	public Map<Integer, EmergencyCall> getEmergencyCallDirectory() {
+		return emergencyCallDirectory;
+	}
+
+	public List<Assignment> getAssignments() {
+		return assignments;
+	}
+
+	public void startAcceptingEmergencyCalls() {
         ExecutorService executor = Executors.newFixedThreadPool(3);
 
         executor.submit(new EmergencyCallGenerator(emergencyCallDirectory, patientDirectory, patientQueue));
