@@ -8,9 +8,10 @@ import models.*;
 
 import java.util.*;
 import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class MainController {
-    private static int idGen = 0;
+    private static AtomicInteger idGen;
     private final Map<Integer, EmergencyCall> emergencyCallDirectory;
     private final Map<Integer, Ambulance> ambulanceDirectory;
     private final Map<Integer, Patient> patientDirectory;
@@ -22,6 +23,7 @@ public class MainController {
     private final MapGrid mapGrid;
 
     public MainController() {
+        idGen = new AtomicInteger();
         emergencyCallDirectory = new LinkedHashMap<>();
         homeBaseDirectory = generateHomeBases();
         ambulanceDirectory = generateAmbulances(homeBaseDirectory);
@@ -77,10 +79,9 @@ public class MainController {
     private Map<Integer, Ambulance> generateAmbulances(Map<Integer, HomeBase> homeBases) {
         Map<Integer, Ambulance> ambulances = new LinkedHashMap<>();
         // just test locations
-        for (HomeBase hb : homeBases.values()) {
-            int id = idGen++;
-            ambulances.put(id, new Ambulance(hb.getLocation(), id));
-            hb.houseAmbulance();
+        for (Map.Entry<Integer, HomeBase> homeBaseEntry: homeBases.entrySet()) {
+            ambulances.put(createId(), new Ambulance(homeBaseEntry.getValue().getLocation(), homeBaseEntry.getKey()));
+            homeBaseEntry.getValue().houseAmbulance();
         }
         return ambulances;
     }
@@ -88,21 +89,21 @@ public class MainController {
     private Map<Integer, HomeBase> generateHomeBases() {
         Map<Integer, HomeBase> homeBases = new LinkedHashMap<>();
         // just test locations
-        homeBases.put(idGen++, (new HomeBase(new Point(25, 10), 3)));
-        homeBases.put(idGen++, (new HomeBase(new Point(80, 80), 3)));
-        homeBases.put(idGen++, (new HomeBase(new Point(80, 60), 3)));
+        homeBases.put(createId(), (new HomeBase(new Point(25, 10), 3)));
+        homeBases.put(createId(), (new HomeBase(new Point(80, 80), 3)));
+        homeBases.put(createId(), (new HomeBase(new Point(80, 60), 3)));
         return homeBases;
     }
 
     private Map<Integer, Hospital> generateHospitals() {
         Map<Integer, Hospital> hospitals = new LinkedHashMap<>();
         // just test locations
-        hospitals.put(idGen++, (new Hospital(new Point(55, 55))));
+        hospitals.put(createId(), (new Hospital(new Point(55, 55))));
         return hospitals;
     }
 
     public static int createId() {
-        return idGen++;
+        return idGen.incrementAndGet();
     }
 
     public Map<Integer, EmergencyCall> getEmergencyCallDirectory() {
