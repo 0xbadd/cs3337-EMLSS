@@ -6,22 +6,27 @@ public class TableItem {
     private String status;
     private String condition;
     private String result;
-    private String patientId;
-    private String hospitalId;
+    private String patient;
+    private String hospital;
 
 
+	
 	public TableItem(){
         this.ambulanceId = "Ambulance 00";
         this.callId = "Call 900";
         this.status = "Status : Incomplete";
     }
+	public TableItem(String callId){
+       
+        this.callId = callId;
+      
+    }
+    public TableItem(String callId, String status){
 
-    public TableItem(String callId,String patientId, String status){
-        this.patientId = patientId;
         this.callId = callId;
         this.status = status;
     }
-    public TableItem(String callId,String patientId,String condition, String status){
+    public TableItem(String callId,String condition, String status){
         this.ambulanceId = ambulanceId;
         this.callId = callId;
         this.status = status;
@@ -67,21 +72,17 @@ public class TableItem {
 	public void setResult(String result) {
 		this.result = result;
 	}
-
-	public String getPatientId() {
-		return patientId;
+	public String getPatient() {
+		return patient;
 	}
-
-	public void setPatientId(String spatientId) {
-		this.patientId = patientId;
+	public void setPatient(String patient) {
+		this.patient = patient;
 	}
-
-	public String getHospitalId() {
-		return hospitalId;
+	public String getHospital() {
+		return hospital;
 	}
-
-	public void setHospitalId(String hospitalId) {
-		this.hospitalId = hospitalId;
+	public void setHospital(String hospital) {
+		this.hospital = hospital;
 	}
 
 }

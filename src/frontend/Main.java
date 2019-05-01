@@ -103,12 +103,22 @@ public class Main extends Application {
             for (Map.Entry<Integer, EmergencyCall> entry : test.entrySet()) {
                 Integer key = entry.getKey();
                 EmergencyCall value = entry.getValue();
+                List<Integer> pID = new ArrayList<Integer>();
+                pID = value.getPatients();
                 for(int count=0;count<value.getNumPatients();count++) {
-                tableItem.add(new TableItem("call ID:"+key,String.valueOf(value.getPatients().get(count)),"incomplete"));
-               
+                TableItem ti = new TableItem("call ID:"+key.toString());
+               ti.setPatient(Integer.toString(pID.get(count)));
+             //make relation to assignment and add for these setters
+             //a method finding id matches between different databases is needed to relate items
+                ti.setAmbulanceId("test ambu");
+                ti.setCondition("test cond");
+                ti.setHospital("test hos");
+                ti.setResult("test res");
+                ti.setStatus("test stat");
+                tableItem.add(ti);
                 }
             }
-        
+    
 
         System.out.println(mc.getEmergencyCallDirectory().keySet().toString()+" emergency call id's");
         System.out.println(mc.getEmergencyCallDirectory().size()+" calls");
