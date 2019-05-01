@@ -9,6 +9,7 @@ import javafx.scene.control.TableView;
 import javafx.util.Duration;
 import mainController.MainController;
 
+import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +34,10 @@ public class GUIController {
         }));
         updater.setCycleCount(Timeline.INDEFINITE);
         updater.play();
+    }
+
+    public void shutdown() {
+        mc.stopThreads();
     }
 
     private void addAssignment(String callID, String patientID, String assignedAmbulanceID, String status) {

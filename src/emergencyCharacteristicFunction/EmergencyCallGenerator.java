@@ -45,8 +45,6 @@ public class EmergencyCallGenerator implements Runnable {
             emergencyCallDirectory.put(MainController.createId(), emergencyCall);
             patientDirectory.putAll(patients);
             patientQueue.addAll(patients.entrySet());
-
-            System.out.println("new call #" + numCalls);
         }
     }
 

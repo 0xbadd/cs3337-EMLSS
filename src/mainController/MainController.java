@@ -12,6 +12,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class MainController {
     private static AtomicInteger idGen;
+    ExecutorService executor;
     private final Map<Integer, EmergencyCall> emergencyCallDirectory;
     private final Map<Integer, Ambulance> ambulanceDirectory;
     private final Map<Integer, Patient> patientDirectory;
@@ -24,6 +25,7 @@ public class MainController {
 
     public MainController() {
         idGen = new AtomicInteger();
+        executor = Executors.newFixedThreadPool(3);
         emergencyCallDirectory = new LinkedHashMap<>();
         homeBaseDirectory = generateHomeBases();
         ambulanceDirectory = generateAmbulances(homeBaseDirectory);
@@ -36,8 +38,6 @@ public class MainController {
     }
 
     public void startAcceptingEmergencyCalls() {
-        ExecutorService executor = Executors.newFixedThreadPool(3);
-
         executor.submit(new EmergencyCallGenerator(emergencyCallDirectory, patientDirectory, patientQueue));
         executor.submit(new PatientPickupAssignmentManager(assignments, ambulanceDirectory, patientQueue, mapGrid, assignmentGenerator));
 
@@ -69,11 +69,15 @@ public class MainController {
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    Thread.currentThread().interrupt();
                 }
             }
         };
         executor.submit(advanceAssignments);
+    }
+
+    public void stopThreads() {
+        executor.shutdownNow();
     }
 
     private Map<Integer, Ambulance> generateAmbulances(Map<Integer, HomeBase> homeBases) {
