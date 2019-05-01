@@ -21,6 +21,10 @@ public class Point {
         return Math.sqrt(Math.pow(((double) this.x - (double) endPoint.x), 2) + Math.pow(((double) this.y - (double) endPoint.y), 2));
     }
 
+    public String asString() {
+        return "(" + x + ", " + y + ")";
+    }
+
     @Override
     public String toString() {
         return "Point {" +

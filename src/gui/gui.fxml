@@ -4,26 +4,26 @@
 <?import javafx.scene.control.cell.PropertyValueFactory?>
 <GridPane fx:controller="gui.GUIController"
           xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10">
-    <TableView fx:id="assignmentsTable" GridPane.columnIndex="0" GridPane.rowIndex="1">
+    <TableView fx:id="callTable" GridPane.columnIndex="0" GridPane.rowIndex="1">
         <columns>
-            <TableColumn text="Call ID" prefWidth="100">
+            <TableColumn text="Call ID" prefWidth="50">
                 <cellValueFactory>
                     <PropertyValueFactory property="callID"/>
                 </cellValueFactory>
             </TableColumn>
-            <TableColumn text="Patient ID" prefWidth="100">
+            <TableColumn text="Time of Call" prefWidth="100">
                 <cellValueFactory>
-                    <PropertyValueFactory property="patientID"/>
+                    <PropertyValueFactory property="time"/>
                 </cellValueFactory>
             </TableColumn>
-            <TableColumn text="Assigned Ambulance ID" prefWidth="150">
+            <TableColumn text="Number of Patients" prefWidth="150">
                 <cellValueFactory>
-                    <PropertyValueFactory property="assignedAmbulanceID"/>
+                    <PropertyValueFactory property="numPatients"/>
                 </cellValueFactory>
             </TableColumn>
-            <TableColumn text="Status" prefWidth="100">
+            <TableColumn text="Location of Call" prefWidth="100">
                 <cellValueFactory>
-                    <PropertyValueFactory property="status"/>
+                    <PropertyValueFactory property="location"/>
                 </cellValueFactory>
             </TableColumn>
         </columns>
