@@ -12,7 +12,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class MainController {
     private static AtomicInteger idGen;
-    ExecutorService executor;
     private final Map<Integer, EmergencyCall> emergencyCallDirectory;
     private final Map<Integer, Ambulance> ambulanceDirectory;
     private final Map<Integer, Patient> patientDirectory;
@@ -25,7 +24,6 @@ public class MainController {
 
     public MainController() {
         idGen = new AtomicInteger();
-        executor = Executors.newFixedThreadPool(3);
         emergencyCallDirectory = new LinkedHashMap<>();
         homeBaseDirectory = generateHomeBases();
         ambulanceDirectory = generateAmbulances(homeBaseDirectory);
@@ -38,46 +36,72 @@ public class MainController {
     }
 
     public void startAcceptingEmergencyCalls() {
-        executor.submit(new EmergencyCallGenerator(emergencyCallDirectory, patientDirectory, patientQueue));
-        executor.submit(new PatientPickupAssignmentManager(assignments, ambulanceDirectory, patientQueue, mapGrid, assignmentGenerator));
+        EmergencyCallGenerator.getCalls(emergencyCallDirectory, patientDirectory);
+        while (!patientDirectory.isEmpty()) {
+            managePatientPickup();
+            advanceAssignments();
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
+    }
 
-        Runnable advanceAssignments = () -> {
-            while(!Thread.currentThread().isInterrupted()) {
-                if (!assignments.isEmpty()) {
-                    for (Assignment assignment : assignments) {
-                        int ambulanceId = assignment.getAmbulanceId();
-                        Ambulance ambulance = ambulanceDirectory.get(ambulanceId);
-                        Point nextDestination = assignment.getNextMovementPoint();
+    private void managePatientPickup() {
+        if (!patientQueue.isEmpty()) {
+            Map<Integer, Ambulance> availableAmbulanceDirectory = getAvailableAmbulances();
+            Map.Entry<Integer, Patient> patientEntry = patientQueue.poll();
+            assert patientEntry != null;
+            assignmentGenerator.makePatientAssignment(mapGrid, patientEntry, availableAmbulanceDirectory);
+        }
+    }
 
-                        ambulance.driveTo(nextDestination);
+    private void advanceAssignments() {
+        if (!assignments.isEmpty()) {
+            for (Assignment assignment : assignments) {
+                int ambulanceId = assignment.getAmbulanceId();
+                Ambulance ambulance = ambulanceDirectory.get(ambulanceId);
+                Point nextDestination = assignment.getNextMovementPoint();
 
-                        if (assignment.getPath().empty()) {
-                            int destinationId = assignment.getDestinationId();
-                            assignments.remove(assignment);
-                            if (patientDirectory.containsKey(destinationId)) {
-                                ambulance.loadPatient(destinationId);
-                                assignmentGenerator.makeHospitalAssignment(mapGrid, new AbstractMap.SimpleEntry<>(ambulanceId, ambulance), hospitalDirectory);
-                            } else if (hospitalDirectory.containsKey(destinationId)) {
-                                if (ambulance.hasPatient()) {
-                                    int patientId = ambulance.unloadPatient();
-                                    patientDirectory.remove(patientId);
-                                }
-                            }
+                ambulance.driveTo(nextDestination);
+
+                if (assignment.getPath().empty()) {
+                    int destinationId = assignment.getDestinationId();
+                    assignments.remove(assignment);
+                    if (patientDirectory.containsKey(destinationId)) {
+                        ambulance.loadPatient(destinationId);
+                        assignmentGenerator.makeHospitalAssignment(mapGrid, new AbstractMap.SimpleEntry<>(ambulanceId, ambulance), hospitalDirectory);
+                    } else if (hospitalDirectory.containsKey(destinationId)) {
+                        if (ambulance.hasPatient()) {
+                            int patientId = ambulance.unloadPatient();
+                            patientDirectory.remove(patientId);
                         }
                     }
                 }
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                }
             }
-        };
-        executor.submit(advanceAssignments);
+        }
     }
 
-    public void stopThreads() {
-        executor.shutdownNow();
+    private Map<Integer, Ambulance> getAvailableAmbulances() {
+        Map<Integer, Ambulance> availableAmbulanceDirectory = new LinkedHashMap<>();
+        for (Map.Entry<Integer, Ambulance> ambulanceEntry : this.ambulanceDirectory.entrySet()) {
+            Integer ambulanceId = ambulanceEntry.getKey();
+            Ambulance ambulance = ambulanceEntry.getValue();
+            if (isAmbulanceAvailable(ambulanceId)) {
+                availableAmbulanceDirectory.put(ambulanceId, ambulance);
+            }
+        }
+        return availableAmbulanceDirectory;
+    }
+
+    private boolean isAmbulanceAvailable(int ambulanceId) {
+        for (Assignment assignment : this.assignments) {
+            if (assignment.getAmbulanceId() == ambulanceId) {
+                return false;
+            }
+        }
+        return true;
     }
 
     private Map<Integer, Ambulance> generateAmbulances(Map<Integer, HomeBase> homeBases) {

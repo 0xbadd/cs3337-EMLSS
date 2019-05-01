@@ -9,21 +9,24 @@ import javafx.scene.control.TableView;
 import javafx.util.Duration;
 import mainController.MainController;
 
-import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class GUIController {
     private final MainController mc = new MainController();
+    private final ExecutorService executor = Executors.newSingleThreadExecutor();
     @FXML
     private TableView<AssignmentEntry> assignmentsTable;
 
     @FXML
     private void initialize() {
-        mc.startAcceptingEmergencyCalls();
+        Runnable emls = mc::startAcceptingEmergencyCalls;
+        executor.submit(emls);
 
-        Timeline updater = new Timeline(new KeyFrame(Duration.seconds(3), event -> {
+        Timeline updater = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
             for (Map.Entry<Integer, EmergencyCall> callEntry : mc.getEmergencyCallDirectory().entrySet()) {
                 for (int patientID : callEntry.getValue().getPatients()) {
                     if (!getPatientIDs().contains(patientID)) {
@@ -37,7 +40,7 @@ public class GUIController {
     }
 
     public void shutdown() {
-        mc.stopThreads();
+        executor.shutdownNow();
     }
 
     private void addAssignment(String callID, String patientID, String assignedAmbulanceID, String status) {
