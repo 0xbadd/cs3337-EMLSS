@@ -24,28 +24,29 @@ public class EmergencyCallGenerator implements Runnable {
 
     @Override
     public void run() {
-        while (!Thread.currentThread().isInterrupted()) {
+        for (int numCalls = 0; numCalls < 80; numCalls++) {
             try {
-                int spawnTime = (int) (Math.random() * 10 + 1); // 1 - 10 seconds
-                Thread.sleep(spawnTime * 1000);
-
-                int numPatients = getRandomNumPatients();
-                Point emergencyLocation = getRandomEmergencyLocation();
-
-                Map<Integer, Patient> patients = new LinkedHashMap<>();
-                for (int i = 0; i < numPatients; i++) {
-                    patients.put(MainController.createId(), spawnPatient(emergencyLocation));
-                }
-
-                List<Integer> patientIdList = new LinkedList<>(patients.keySet());
-                EmergencyCall emergencyCall = new EmergencyCall(0, numPatients, emergencyLocation, patientIdList);
-
-                emergencyCallDirectory.put(MainController.createId(), emergencyCall);
-                patientDirectory.putAll(patients);
-                patientQueue.addAll(patients.entrySet());
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
+
+            int numPatients = getRandomNumPatients();
+            Point emergencyLocation = getRandomEmergencyLocation();
+
+            Map<Integer, Patient> patients = new LinkedHashMap<>();
+            for (int i = 0; i < numPatients; i++) {
+                patients.put(MainController.createId(), spawnPatient(emergencyLocation));
+            }
+
+            List<Integer> patientIdList = new LinkedList<>(patients.keySet());
+            EmergencyCall emergencyCall = new EmergencyCall(0, numPatients, emergencyLocation, patientIdList);
+
+            emergencyCallDirectory.put(MainController.createId(), emergencyCall);
+            patientDirectory.putAll(patients);
+            patientQueue.addAll(patients.entrySet());
+
+            System.out.println("new call #" + numCalls);
         }
     }
 
