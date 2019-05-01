@@ -16,19 +16,20 @@ public class TableItem {
         this.status = "Status : Incomplete";
     }
 
-    public TableItem(String callId,String ambulanceId, String status){
-        this.ambulanceId = ambulanceId;
+    public TableItem(String callId,String patientId, String status){
+        this.patientId = patientId;
         this.callId = callId;
         this.status = status;
     }
-    public TableItem(String ambulanceId, String callId,String condition, String status){
+    public TableItem(String callId,String patientId,String condition, String status){
         this.ambulanceId = ambulanceId;
         this.callId = callId;
         this.status = status;
         this.condition=condition;
     }
 
-    public String getCondition() {
+
+	public String getCondition() {
 		return condition;
 	}
 
@@ -71,7 +72,7 @@ public class TableItem {
 		return patientId;
 	}
 
-	public void setPatientId(String patientId) {
+	public void setPatientId(String spatientId) {
 		this.patientId = patientId;
 	}
 

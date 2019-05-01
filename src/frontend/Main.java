@@ -1,10 +1,14 @@
 package frontend;
 import javafx.animation.KeyFrame;  
-import javafx.animation.Timeline; 
+import javafx.animation.Timeline;
+
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import emergencyCharacteristicFunction.EmergencyCall;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -94,14 +98,17 @@ public class Main extends Application {
  
         ObservableList<TableItem> tableItem = FXCollections.observableArrayList();
         Iterator it = mc.getEmergencyCallDirectory().entrySet().iterator();
-        tableItem.add(new TableItem("ambulance #01 ", "call #22 ","Stable","incomplete"));
-        tableItem.add(new TableItem( "ambulance #09 ","call #24 ","Critical","incomplete"));
-        tableItem.add(new TableItem("ambulance #10 ","call #2 ", "Stable","incomplete"));
-        while (it.hasNext()) { 
-            Map.Entry pair = (Map.Entry)it.next();
+
+        Map<Integer, EmergencyCall> test = mc.getEmergencyCallDirectory();
+            for (Map.Entry<Integer, EmergencyCall> entry : test.entrySet()) {
+                Integer key = entry.getKey();
+                EmergencyCall value = entry.getValue();
+                for(int count=0;count<value.getNumPatients();count++) {
+                tableItem.add(new TableItem("call ID:"+key,String.valueOf(value.getPatients().get(count)),"incomplete"));
+               
+                }
+            }
         
-        tableItem.add(new TableItem("ambulance #22", "call#"+pair.getKey()+" Time:"+pair.getValue().getClass().,"n/a","complete"));
-        }
 
         System.out.println(mc.getEmergencyCallDirectory().keySet().toString()+" emergency call id's");
         System.out.println(mc.getEmergencyCallDirectory().size()+" calls");
