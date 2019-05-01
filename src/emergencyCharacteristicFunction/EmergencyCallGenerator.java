@@ -8,48 +8,28 @@ import models.Point;
 
 import java.util.*;
 
-public class EmergencyCallGenerator implements Runnable {
-    private final Map<Integer, EmergencyCall> emergencyCallDirectory;
-    private final Map<Integer, Patient> patientDirectory;
-    private final Queue<Map.Entry<Integer, Patient>> patientQueue;
-
-    public EmergencyCallGenerator(
-            Map<Integer, EmergencyCall> emergencyCallDirectory, Map<Integer, Patient> patientDirectory,
-            Queue<Map.Entry<Integer, Patient>> patientQueue
+public class EmergencyCallGenerator {
+    public static void getCalls(
+            Map<Integer, EmergencyCall> emergencyCallDirectory, Map<Integer, Patient> patientDirectory
     ) {
-        this.emergencyCallDirectory = emergencyCallDirectory;
-        this.patientDirectory = patientDirectory;
-        this.patientQueue = patientQueue;
-    }
+        for (int numCalls = 0; numCalls < 80; numCalls++) {
+            int numPatients = getRandomNumPatients();
+            Point emergencyLocation = getRandomEmergencyLocation();
 
-    @Override
-    public void run() {
-        while (!Thread.currentThread().isInterrupted()) {
-            try {
-                int spawnTime = (int) (Math.random() * 10 + 1); // 1 - 10 seconds
-                Thread.sleep(spawnTime * 1000);
-
-                int numPatients = getRandomNumPatients();
-                Point emergencyLocation = getRandomEmergencyLocation();
-
-                Map<Integer, Patient> patients = new LinkedHashMap<>();
-                for (int i = 0; i < numPatients; i++) {
-                    patients.put(MainController.createId(), spawnPatient(emergencyLocation));
-                }
-
-                List<Integer> patientIdList = new LinkedList<>(patients.keySet());
-                EmergencyCall emergencyCall = new EmergencyCall(0, numPatients, emergencyLocation, patientIdList);
-
-                emergencyCallDirectory.put(MainController.createId(), emergencyCall);
-                patientDirectory.putAll(patients);
-                patientQueue.addAll(patients.entrySet());
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
+            Map<Integer, Patient> patients = new LinkedHashMap<>();
+            for (int i = 0; i < numPatients; i++) {
+                patients.put(MainController.createId(), spawnPatient(emergencyLocation));
             }
+
+            List<Integer> patientIdList = new LinkedList<>(patients.keySet());
+            EmergencyCall emergencyCall = new EmergencyCall(numCalls, numPatients, emergencyLocation, patientIdList);
+
+            emergencyCallDirectory.put(MainController.createId(), emergencyCall);
+            patientDirectory.putAll(patients);
         }
     }
 
-    private Patient spawnPatient(Point location) {
+    private static Patient spawnPatient(Point location) {
         int injurySeverityRoll = (int) (Math.random() * 101);
         InjurySeverity injurySeverity;
         if (injurySeverityRoll <= 90) {
@@ -61,7 +41,7 @@ public class EmergencyCallGenerator implements Runnable {
         return new Patient(location, injurySeverity);
     }
 
-    private int getRandomNumPatients() {
+    private static int getRandomNumPatients() {
         int numPatientsRoll = (int) (Math.random() * 101);
         if (numPatientsRoll <= 50) {
             return 1;
@@ -76,7 +56,7 @@ public class EmergencyCallGenerator implements Runnable {
         }
     }
 
-    private Point getRandomEmergencyLocation() {
+    private static Point getRandomEmergencyLocation() {
         int emergencyX = (int) (Math.random() * (MapGrid.MAP_SIZE_X + 1));
         int emergencyY = (int) (Math.random() * (MapGrid.MAP_SIZE_Y + 1));
         return new Point(emergencyX, emergencyY);

@@ -1,9 +1,6 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TableColumn?>
-<?import javafx.collections.FXCollections?>
-
-<?import gui.AssignmentEntry?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
 <GridPane fx:controller="gui.GUIController"
           xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10">
@@ -30,10 +27,5 @@
                 </cellValueFactory>
             </TableColumn>
         </columns>
-        <items>
-            <FXCollections fx:factory="observableArrayList">
-                <AssignmentEntry callID="1" patientID="2" assignedAmbulanceID="3" status="In Progress"/>
-            </FXCollections>
-        </items>
     </TableView>
 </GridPane>
