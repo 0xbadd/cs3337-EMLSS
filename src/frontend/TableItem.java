@@ -16,7 +16,7 @@ public class TableItem {
         this.status = "Status : Incomplete";
     }
 
-    public TableItem(String ambulanceId, String callId, String status){
+    public TableItem(String callId,String ambulanceId, String status){
         this.ambulanceId = ambulanceId;
         this.callId = callId;
         this.status = status;

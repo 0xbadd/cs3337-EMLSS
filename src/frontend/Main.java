@@ -22,7 +22,7 @@ import javafx.util.Duration;
 import mainController.MainController;
 
 public class Main extends Application {
-	static int i=0;
+
     Stage window;
     TableView<TableItem> table;
 
@@ -55,7 +55,7 @@ public class Main extends Application {
         progressColumn.setMinWidth(100);
         progressColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
         TableColumn<TableItem, String> resultColumn = new TableColumn<>("Result");
-        patientCondition.setMinWidth(100);
+        resultColumn.setMinWidth(100);
         resultColumn.setCellValueFactory(new PropertyValueFactory<>("result"));
         TableColumn<TableItem, String> patientColumn = new TableColumn<>("Patient");
         patientColumn.setMinWidth(100);
@@ -94,18 +94,15 @@ public class Main extends Application {
  
         ObservableList<TableItem> tableItem = FXCollections.observableArrayList();
         Iterator it = mc.getEmergencyCallDirectory().entrySet().iterator();
-        tableItem.add(new TableItem("call #22 ","ambulance #01 ", "Stable","incomplete"));
-        tableItem.add(new TableItem( "call #24 ","ambulance #09 ","Critical","incomplete"));
-        tableItem.add(new TableItem("call #2 ","ambulance #10 ", "Stable","incomplete"));
+        tableItem.add(new TableItem("ambulance #01 ", "call #22 ","Stable","incomplete"));
+        tableItem.add(new TableItem( "ambulance #09 ","call #24 ","Critical","incomplete"));
+        tableItem.add(new TableItem("ambulance #10 ","call #2 ", "Stable","incomplete"));
         while (it.hasNext()) { 
             Map.Entry pair = (Map.Entry)it.next();
         
-        tableItem.add(new TableItem("ambulance #22", "call#"+pair.getKey(),"n/a","complete"));
+        tableItem.add(new TableItem("ambulance #22", "call#"+pair.getKey()+" Time:"+pair.getValue().getClass().,"n/a","complete"));
         }
-       
-        i++;
-        if(i==5)
-            tableItem.get(0).setResult("DEAD");
+
         System.out.println(mc.getEmergencyCallDirectory().keySet().toString()+" emergency call id's");
         System.out.println(mc.getEmergencyCallDirectory().size()+" calls");
         System.out.println(mc.getAssignments().size()+" assignments");
