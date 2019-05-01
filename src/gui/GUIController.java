@@ -28,7 +28,7 @@ public class GUIController {
 
         Timeline updater = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
             for (Map.Entry<Integer, EmergencyCall> callEntry : mc.getEmergencyCallDirectory().entrySet()) {
-                for (int patientID : callEntry.getValue().getPatients()) {
+                for (int patientID : callEntry.getValue().getPatientIDList()) {
                     if (!getPatientIDs().contains(patientID)) {
                         addAssignment(callEntry.getKey().toString(), Integer.toString(patientID), "test", "test");
                     }

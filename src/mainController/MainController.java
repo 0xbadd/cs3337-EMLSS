@@ -7,7 +7,6 @@ import emergencyCharacteristicFunction.EmergencyCallGenerator;
 import models.*;
 
 import java.util.*;
-import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class MainController {
@@ -19,12 +18,14 @@ public class MainController {
     private final Map<Integer, Hospital> hospitalDirectory;
     private final List<Assignment> assignments;
     private final Queue<Map.Entry<Integer, Patient>> patientQueue;
+    private final Queue<Map.Entry<Integer, EmergencyCall>> emergencyCallQueue;
     private final AssignmentGenerator assignmentGenerator;
     private final MapGrid mapGrid;
 
     public MainController() {
         idGen = new AtomicInteger();
         emergencyCallDirectory = new LinkedHashMap<>();
+        emergencyCallQueue = new LinkedList<>();
         homeBaseDirectory = generateHomeBases();
         ambulanceDirectory = generateAmbulances(homeBaseDirectory);
         patientDirectory = new LinkedHashMap<>();
@@ -36,8 +37,9 @@ public class MainController {
     }
 
     public void startAcceptingEmergencyCalls() {
-        EmergencyCallGenerator.getCalls(emergencyCallDirectory, patientDirectory);
-        while (!patientDirectory.isEmpty()) {
+        EmergencyCallGenerator.getCalls(emergencyCallQueue, patientDirectory);
+        while (!emergencyCallQueue.isEmpty() || !assignments.isEmpty()) {
+            receiveCall();
             managePatientPickup();
             advanceAssignments();
             try {
@@ -45,6 +47,18 @@ public class MainController {
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
+        }
+    }
+
+    private void receiveCall() {
+        Map.Entry<Integer, EmergencyCall> emergencyCallEntry = emergencyCallQueue.poll();
+        assert emergencyCallEntry != null;
+        emergencyCallDirectory.put(emergencyCallEntry.getKey(), emergencyCallEntry.getValue());
+
+        List<Integer> patientIDs = emergencyCallEntry.getValue().getPatientIDList();
+        for (int id : patientIDs) {
+            Patient patient = patientDirectory.get(id);
+            patientQueue.add(new AbstractMap.SimpleEntry<>(id, patient));
         }
     }
 
