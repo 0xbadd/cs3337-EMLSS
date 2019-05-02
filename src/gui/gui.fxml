@@ -2,8 +2,11 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.control.Label?>
 <GridPane fx:controller="gui.GUIController"
           xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10">
+    <Label style="-fx-font: NORMAL 20 Tahoma;" text="Emergency Calls" GridPane.columnIndex="0" GridPane.rowIndex="0">
+    </Label>
     <TableView fx:id="callTable" GridPane.columnIndex="0" GridPane.rowIndex="1">
         <columns>
             <TableColumn text="Call ID" prefWidth="50">
