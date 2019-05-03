@@ -27,13 +27,13 @@ public class GUIController {
         executor.submit(emls);
 
         Timeline updater = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
-            for (Map.Entry<Integer, EmergencyCall> callEntry : mc.getEmergencyCallDirectory().entrySet()) {
-                boolean hasCall = getCallIDs().contains(callEntry.getKey());
-                if (!hasCall) {
-                    String callID = callEntry.getKey().toString();
-                    String time = Integer.toString(callEntry.getValue().getTime());
-                    String numPatients = Integer.toString(callEntry.getValue().getNumPatients());
-                    String location = callEntry.getValue().getLocation().asString();
+            for (Map.Entry<Integer, EmergencyCall> callDirectoryEntry : mc.getEmergencyCallDirectory().entrySet()) {
+                boolean tableHasCall = getCallTableIDs().contains(callDirectoryEntry.getKey());
+                if (!tableHasCall) {
+                    String callID = callDirectoryEntry.getKey().toString();
+                    String time = Integer.toString(callDirectoryEntry.getValue().getTime());
+                    String numPatients = Integer.toString(callDirectoryEntry.getValue().getNumPatients());
+                    String location = callDirectoryEntry.getValue().getLocation().asString();
                     addCall(callID, time, numPatients, location);
                 }
             }
@@ -50,7 +50,7 @@ public class GUIController {
         callTable.getItems().add(new CallEntry(callID, time, numPatients, location));
     }
 
-    private List<Integer> getCallIDs() {
+    private List<Integer> getCallTableIDs() {
         ObservableList<CallEntry> entries = callTable.getItems();
         List<Integer> IDs = new ArrayList<>();
         for (CallEntry entry : entries) {
