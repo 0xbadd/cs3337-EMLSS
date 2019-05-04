@@ -10,7 +10,7 @@ import java.util.*;
 
 public class EmergencyCallGenerator {
     public static void getCalls(
-            Map<Integer, EmergencyCall> emergencyCallDirectory, Map<Integer, Patient> patientDirectory
+            Queue<Map.Entry<Integer, EmergencyCall>> emergencyCallQueue, Map<Integer, Patient> patientDirectory
     ) {
         for (int numCalls = 0; numCalls < 80; numCalls++) {
             int numPatients = getRandomNumPatients();
@@ -24,7 +24,7 @@ public class EmergencyCallGenerator {
             List<Integer> patientIdList = new LinkedList<>(patients.keySet());
             EmergencyCall emergencyCall = new EmergencyCall(numCalls, numPatients, emergencyLocation, patientIdList);
 
-            emergencyCallDirectory.put(MainController.createId(), emergencyCall);
+            emergencyCallQueue.add(new AbstractMap.SimpleEntry<>(MainController.createId(), emergencyCall));
             patientDirectory.putAll(patients);
         }
     }

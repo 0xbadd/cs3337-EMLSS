@@ -19,7 +19,7 @@ public class GUIController {
     private final MainController mc = new MainController();
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
     @FXML
-    private TableView<AssignmentEntry> assignmentsTable;
+    private TableView<CallEntry> callTable;
 
     @FXML
     private void initialize() {
@@ -27,11 +27,14 @@ public class GUIController {
         executor.submit(emls);
 
         Timeline updater = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
-            for (Map.Entry<Integer, EmergencyCall> callEntry : mc.getEmergencyCallDirectory().entrySet()) {
-                for (int patientID : callEntry.getValue().getPatients()) {
-                    if (!getPatientIDs().contains(patientID)) {
-                        addAssignment(callEntry.getKey().toString(), Integer.toString(patientID), "test", "test");
-                    }
+            for (Map.Entry<Integer, EmergencyCall> callDirectoryEntry : mc.getEmergencyCallDirectory().entrySet()) {
+                boolean tableHasCall = getCallTableIDs().contains(callDirectoryEntry.getKey());
+                if (!tableHasCall) {
+                    String callID = callDirectoryEntry.getKey().toString();
+                    String time = Integer.toString(callDirectoryEntry.getValue().getTime());
+                    String numPatients = Integer.toString(callDirectoryEntry.getValue().getNumPatients());
+                    String location = callDirectoryEntry.getValue().getLocation().asString();
+                    addCall(callID, time, numPatients, location);
                 }
             }
         }));
@@ -43,15 +46,15 @@ public class GUIController {
         executor.shutdownNow();
     }
 
-    private void addAssignment(String callID, String patientID, String assignedAmbulanceID, String status) {
-        assignmentsTable.getItems().add(new AssignmentEntry(callID, patientID, assignedAmbulanceID, status));
+    private void addCall(String callID, String time, String numPatients, String location) {
+        callTable.getItems().add(new CallEntry(callID, time, numPatients, location));
     }
 
-    private List<Integer> getPatientIDs() {
-        ObservableList<AssignmentEntry> entries = assignmentsTable.getItems();
+    private List<Integer> getCallTableIDs() {
+        ObservableList<CallEntry> entries = callTable.getItems();
         List<Integer> IDs = new ArrayList<>();
-        for (AssignmentEntry entry : entries) {
-            IDs.add(Integer.parseInt(entry.getPatientID()));
+        for (CallEntry entry : entries) {
+            IDs.add(Integer.parseInt(entry.getCallID()));
         }
         return IDs;
     }

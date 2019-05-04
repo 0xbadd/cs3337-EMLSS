@@ -29,7 +29,7 @@ public class EmergencyCall {
         return location;
     }
 
-    public List<Integer> getPatients() {
+    public List<Integer> getPatientIDList() {
         return patientIdList;
     }
 
