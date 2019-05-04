@@ -1,7 +1,7 @@
 package models;
 
 public enum InjurySeverity {
-    LIFE_THREATENING(3), NON_LIFE_THREATENING(1);
+    LIFE_THREATENING(3), MODERATELY_INJURED(2), NON_LIFE_THREATENING(1);
 
     private int priority;
 

@@ -32,8 +32,10 @@ public class EmergencyCallGenerator {
     private static Patient spawnPatient(Point location) {
         int injurySeverityRoll = (int) (Math.random() * 101);
         InjurySeverity injurySeverity;
-        if (injurySeverityRoll <= 90) {
+        if (injurySeverityRoll <= 70) {
             injurySeverity = InjurySeverity.NON_LIFE_THREATENING;
+        } else if (injurySeverityRoll <= 90) {
+            injurySeverity = InjurySeverity.MODERATELY_INJURED;
         } else {
             injurySeverity = InjurySeverity.LIFE_THREATENING;
         }
