@@ -39,6 +39,7 @@ public class MainController {
     public void startAcceptingEmergencyCalls() {
         Logger.startNew();
         EmergencyCallGenerator.getCalls(emergencyCallQueue, patientDirectory);
+        Logger.assignmentsHeader();
         while (!emergencyCallQueue.isEmpty() || !assignments.isEmpty()) {
             receiveCall();
             managePatientPickup();
@@ -68,7 +69,8 @@ public class MainController {
             Map<Integer, Ambulance> availableAmbulanceDirectory = getAvailableAmbulances();
             Map.Entry<Integer, Patient> patientEntry = patientQueue.poll();
             assert patientEntry != null;
-            assignmentGenerator.makePatientAssignment(mapGrid, patientEntry, availableAmbulanceDirectory);
+            Assignment pickupAssignment = assignmentGenerator.makePatientAssignment(mapGrid, patientEntry, availableAmbulanceDirectory);
+            assignments.add(pickupAssignment);
         }
     }
 
@@ -86,7 +88,8 @@ public class MainController {
                     assignments.remove(assignment);
                     if (patientDirectory.containsKey(destinationId)) {
                         ambulance.loadPatient(destinationId);
-                        assignmentGenerator.makeHospitalAssignment(mapGrid, new AbstractMap.SimpleEntry<>(ambulanceId, ambulance), hospitalDirectory);
+                        Assignment dropOffAssignment = assignmentGenerator.makeHospitalAssignment(mapGrid, new AbstractMap.SimpleEntry<>(ambulanceId, ambulance), hospitalDirectory);
+                        Logger.log("DROPOFF\t" + dropOffAssignment.getAmbulanceId() + "\t" + dropOffAssignment.getDestinationId());
                     } else if (hospitalDirectory.containsKey(destinationId)) {
                         if (ambulance.hasPatient()) {
                             int patientId = ambulance.unloadPatient();

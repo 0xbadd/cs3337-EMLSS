@@ -1,5 +1,6 @@
 package ambulanceAssignmentGenerator;
 
+import mainController.Logger;
 import models.*;
 
 import java.util.*;
@@ -18,6 +19,8 @@ public class AssignmentGenerator {
         int ambulanceId = getShortestDistance(patientLocation, availableAmbulanceLocations);
         Point ambulanceLocation = availableAmbulanceDirectory.get(ambulanceId).getLocation();
         Stack<Point> path = PathFinder.getPath(mapGrid, ambulanceLocation, patientLocation);
+
+        Logger.log("PICKUP\t" + ambulanceId + "\t" + patient.getKey());
 
         return new Assignment(ambulanceId, patient.getKey(), path);
     }

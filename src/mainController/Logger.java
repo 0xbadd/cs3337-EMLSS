@@ -50,4 +50,22 @@ public class Logger {
             e.printStackTrace();
         }
     }
+
+    public static void assignmentsHeader() {
+        try {
+            File file = new File(filename);
+
+            FileWriter fw = new FileWriter(file, true);
+            BufferedWriter bw = new BufferedWriter(fw);
+            PrintWriter pw = new PrintWriter(bw);
+
+            pw.println("");
+            pw.println("Assignments");
+            pw.println("Type\tAmbulance ID\tDestination ID\t");
+
+            pw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
