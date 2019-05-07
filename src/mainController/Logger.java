@@ -8,9 +8,6 @@ public class Logger {
     public static void log(String txt) {
         try {
             File file = new File(filename);
-            if (!file.exists()) {
-                file.createNewFile();
-            }
 
             FileWriter fw = new FileWriter(file, true);
             BufferedWriter bw = new BufferedWriter(fw);
@@ -26,9 +23,15 @@ public class Logger {
     }
 
     public static void startNew() {
-        File file = new File(filename);
-        if (file.exists()) {
-            file.delete();
+        try {
+            File file = new File(filename);
+            if (file.exists()) {
+                file.delete();
+            } else {
+                file.createNewFile();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
