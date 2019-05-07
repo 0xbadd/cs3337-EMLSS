@@ -89,11 +89,13 @@ public class MainController {
                     if (patientDirectory.containsKey(destinationId)) {
                         ambulance.loadPatient(destinationId);
                         Assignment dropOffAssignment = assignmentGenerator.makeHospitalAssignment(mapGrid, new AbstractMap.SimpleEntry<>(ambulanceId, ambulance), hospitalDirectory);
-                        Logger.log("DROPOFF\t" + dropOffAssignment.getAmbulanceId() + "\t" + dropOffAssignment.getDestinationId());
+                        Logger.log("DROPOFF\t" + ambulanceId + "\t" + dropOffAssignment.getDestinationId());
                     } else if (hospitalDirectory.containsKey(destinationId)) {
                         if (ambulance.hasPatient()) {
                             int patientId = ambulance.unloadPatient();
                             patientDirectory.remove(patientId);
+                            Assignment returnAssignment = assignmentGenerator.makeHomeBaseAssignment(mapGrid, new AbstractMap.SimpleEntry<>(ambulanceId, ambulance), homeBaseDirectory);
+                            Logger.log("RETURN\t" + ambulanceId + "\t" + returnAssignment.getDestinationId());
                         }
                     }
                 }
