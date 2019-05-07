@@ -34,4 +34,21 @@ public class Logger {
             e.printStackTrace();
         }
     }
+
+    public static void emergencyCallHeader() {
+        try {
+            File file = new File(filename);
+
+            FileWriter fw = new FileWriter(file, true);
+            BufferedWriter bw = new BufferedWriter(fw);
+            PrintWriter pw = new PrintWriter(bw);
+
+            pw.println("Emergency Calls");
+            pw.println("ID\tTime\tNumber of patients\tLocation\t");
+
+            pw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

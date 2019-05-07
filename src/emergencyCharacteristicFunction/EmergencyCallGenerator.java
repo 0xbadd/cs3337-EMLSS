@@ -1,5 +1,6 @@
 package emergencyCharacteristicFunction;
 
+import mainController.Logger;
 import mainController.MainController;
 import models.InjurySeverity;
 import models.MapGrid;

@@ -37,6 +37,7 @@ public class MainController {
     }
 
     public void startAcceptingEmergencyCalls() {
+        Logger.startNew();
         EmergencyCallGenerator.getCalls(emergencyCallQueue, patientDirectory);
         while (!emergencyCallQueue.isEmpty() || !assignments.isEmpty()) {
             receiveCall();
