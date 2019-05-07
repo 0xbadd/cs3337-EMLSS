@@ -13,7 +13,8 @@ public class EmergencyCallGenerator {
     public static void getCalls(
             Queue<Map.Entry<Integer, EmergencyCall>> emergencyCallQueue, Map<Integer, Patient> patientDirectory
     ) {
-        for (int numCalls = 0; numCalls < 80; numCalls++) {
+        Logger.emergencyCallHeader();
+        for (int numCalls = 0; numCalls < 30; numCalls++) {
             int numPatients = getRandomNumPatients();
             Point emergencyLocation = getRandomEmergencyLocation();
 
@@ -23,9 +24,12 @@ public class EmergencyCallGenerator {
             }
 
             List<Integer> patientIdList = new LinkedList<>(patients.keySet());
-            EmergencyCall emergencyCall = new EmergencyCall(numCalls, numPatients, emergencyLocation, patientIdList);
+            int time = numCalls + 1200;
+            EmergencyCall emergencyCall = new EmergencyCall(time, numPatients, emergencyLocation, patientIdList);
 
-            emergencyCallQueue.add(new AbstractMap.SimpleEntry<>(MainController.createId(), emergencyCall));
+            int callID = MainController.createId();
+            Logger.log(callID + "\t" + emergencyCall.getLogString());
+            emergencyCallQueue.add(new AbstractMap.SimpleEntry<>(callID, emergencyCall));
             patientDirectory.putAll(patients);
         }
     }

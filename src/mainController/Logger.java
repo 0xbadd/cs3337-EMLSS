@@ -13,7 +13,6 @@ public class Logger {
             BufferedWriter bw = new BufferedWriter(fw);
             PrintWriter pw = new PrintWriter(bw);
 
-            System.out.println(txt);
             pw.println(txt);
 
             pw.close();
