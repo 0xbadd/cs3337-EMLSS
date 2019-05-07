@@ -3,9 +3,11 @@ package mainController;
 import java.io.*;
 
 public class Logger {
+    private static String filename = "AssignmentsLog.txt";
+
     public static void log(String txt) {
         try {
-            File file = new File("AssignmentsLog.txt");
+            File file = new File(filename);
             if (!file.exists()) {
                 file.createNewFile();
             }
@@ -20,6 +22,13 @@ public class Logger {
             pw.close();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public static void startNew() {
+        File file = new File(filename);
+        if (file.exists()) {
+            file.delete();
         }
     }
 }
