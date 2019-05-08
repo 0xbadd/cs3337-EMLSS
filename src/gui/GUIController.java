@@ -29,7 +29,7 @@ public class GUIController {
         Runnable emls = mc::startAcceptingEmergencyCalls;
         executor.submit(emls);
 
-        Timeline updater = new Timeline(new KeyFrame(Duration.seconds(.5), event -> {
+        Timeline updater = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
             for (Map.Entry<Integer, EmergencyCall> callDirectoryEntry : mc.getEmergencyCallDirectory().entrySet()) {
                 boolean tableHasCall = getCallTableIDs().contains(callDirectoryEntry.getKey());
                 if (!tableHasCall) {
