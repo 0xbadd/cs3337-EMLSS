@@ -45,7 +45,7 @@ public class EmergencyCallGenerator {
             injurySeverity = InjurySeverity.LIFE_THREATENING;
         }
 
-        return new Patient(location, injurySeverity);
+        return new Patient("Bob", location, injurySeverity);
     }
 
     private static int getRandomNumPatients() {

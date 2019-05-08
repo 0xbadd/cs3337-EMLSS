@@ -43,7 +43,7 @@ public class Logger {
             PrintWriter pw = new PrintWriter(bw);
 
             pw.println("Emergency Calls");
-            pw.println("ID\tTime\tNumber of patients\tLocation\t");
+            pw.println("ID\tTime\tNumber of patients\tLocation");
 
             pw.close();
         } catch (IOException e) {
@@ -61,7 +61,7 @@ public class Logger {
 
             pw.println("");
             pw.println("Assignments");
-            pw.println("Type\tAmbulance ID\tDestination ID\t");
+            pw.println("Type\tAmbulance Name\tDestination Name\t");
 
             pw.close();
         } catch (IOException e) {

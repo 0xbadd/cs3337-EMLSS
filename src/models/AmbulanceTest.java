@@ -1,7 +1,5 @@
 package models;
 
-import models.Ambulance;
-import models.Point;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -10,7 +8,7 @@ class AmbulanceTest {
 
     @Test
     void driveTo() {
-        Ambulance ambulance = new Ambulance(new Point(0, 0), 0);
+        Ambulance ambulance = new Ambulance("ambulance", new Point(0, 0), 0);
         ambulance.driveTo(new Point(1, 1));
         Point expected = new Point(1, 1);
         Point actual = ambulance.getLocation();
@@ -19,7 +17,7 @@ class AmbulanceTest {
 
     @Test
     void loadPatient() {
-        Ambulance ambulance = new Ambulance(new Point(0, 0), 0);
+        Ambulance ambulance = new Ambulance("ambulance", new Point(0, 0), 0);
         int patientId = 3;
         ambulance.loadPatient(patientId);
 
@@ -30,7 +28,7 @@ class AmbulanceTest {
 
     @Test
     void unloadPatient() {
-        Ambulance ambulance = new Ambulance(new Point(0, 0), 0);
+        Ambulance ambulance = new Ambulance("ambulance", new Point(0, 0), 0);
         int patientId = 3;
         ambulance.loadPatient(patientId);
 
@@ -41,7 +39,7 @@ class AmbulanceTest {
 
     @Test
     void hasPatientTrueCase() {
-        Ambulance ambulance = new Ambulance(new Point(0, 0), 0);
+        Ambulance ambulance = new Ambulance("ambulance", new Point(0, 0), 0);
         int patientId = 3;
         ambulance.loadPatient(patientId);
 
@@ -50,14 +48,14 @@ class AmbulanceTest {
 
     @Test
     void hasPatientFalseCase() {
-        Ambulance ambulance = new Ambulance(new Point(0, 0), 0);
+        Ambulance ambulance = new Ambulance("ambulance", new Point(0, 0), 0);
 
         assertFalse(ambulance.hasPatient());
     }
 
     @Test
     void getLoadedPatientId() {
-        Ambulance ambulance = new Ambulance(new Point(0, 0), 0);
+        Ambulance ambulance = new Ambulance("ambulance", new Point(0, 0), 0);
         int patientId = 3;
         ambulance.loadPatient(patientId);
 
@@ -68,7 +66,7 @@ class AmbulanceTest {
 
     @Test
     void getLocation() {
-        Ambulance ambulance = new Ambulance(new Point(0, 1), 0);
+        Ambulance ambulance = new Ambulance("ambulance", new Point(0, 1), 0);
         Point expected = new Point(0, 1);
         Point actual = ambulance.getLocation();
         assertEquals(expected, actual);
@@ -76,7 +74,7 @@ class AmbulanceTest {
 
     @Test
     void getFuel() {
-        Ambulance ambulance = new Ambulance(new Point(0, 1), 0);
+        Ambulance ambulance = new Ambulance("ambulance", new Point(0, 1), 0);
         double expected = 100.0;
         double actual = ambulance.getFuel();
         assertEquals(expected, actual);
@@ -84,7 +82,7 @@ class AmbulanceTest {
 
     @Test
     void getHomeBase() {
-        Ambulance ambulance = new Ambulance(new Point(0, 1), 0);
+        Ambulance ambulance = new Ambulance("ambulance", new Point(0, 1), 0);
         int expected = 0;
         int actual = ambulance.getHomeBase();
         assertEquals(expected, actual);
@@ -92,7 +90,7 @@ class AmbulanceTest {
 
     @Test
     void setFuel() {
-        Ambulance ambulance = new Ambulance(new Point(0, 1), 0);
+        Ambulance ambulance = new Ambulance("ambulance", new Point(0, 1), 0);
         ambulance.setFuel(50.0);
         double expected = 50.0;
         double actual = ambulance.getFuel();
@@ -101,7 +99,7 @@ class AmbulanceTest {
 
     @Test
     void setHomeBase() {
-        Ambulance ambulance = new Ambulance(new Point(0, 1), 0);
+        Ambulance ambulance = new Ambulance("ambulance", new Point(0, 1), 0);
         ambulance.setHomeBase(10);
         int expected = 10;
         int actual = ambulance.getHomeBase();

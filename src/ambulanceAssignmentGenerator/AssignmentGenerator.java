@@ -17,17 +17,20 @@ public class AssignmentGenerator {
             Point ambulanceLocation = pair.getValue().getLocation();
             availableAmbulanceLocations.put(id, ambulanceLocation);
         }
-        int ambulanceId = getShortestDistance(patientLocation, availableAmbulanceLocations);
-        Point ambulanceLocation = availableAmbulanceDirectory.get(ambulanceId).getLocation();
+
+        int ambulanceID = getShortestDistance(patientLocation, availableAmbulanceLocations);
+        String ambulanceName = availableAmbulanceDirectory.get(ambulanceID).getName();
+        Point ambulanceLocation = availableAmbulanceDirectory.get(ambulanceID).getLocation();
         Stack<Point> path = PathFinder.getPath(mapGrid, ambulanceLocation, patientLocation);
+        String patientName = patientEntry.getValue().getName();
 
-        Logger.log("PICKUP\t" + ambulanceId + "\t" + patientEntry.getKey());
+        Logger.log("PICKUP\t" + ambulanceName + "\t" + patientEntry.getKey());
 
-        return new Assignment(ambulanceId, patientEntry.getKey(), path);
+        return new Assignment(ambulanceName, ambulanceID, patientName, patientEntry.getKey(), path);
     }
 
     public Assignment makeHospitalAssignment(
-            MapGrid mapGrid, Map.Entry<Integer, Ambulance> ambulance, Map<Integer, Hospital> hospitalDirectory
+            MapGrid mapGrid, Map.Entry<Integer, Ambulance> ambulanceEntry, Map<Integer, Hospital> hospitalDirectory
     ) {
         Map<Integer, Point> hospitalLocations = new LinkedHashMap<>();
         for (Map.Entry<Integer, Hospital> pair : hospitalDirectory.entrySet()) {
@@ -35,28 +38,34 @@ public class AssignmentGenerator {
             Point hospitalLocation = pair.getValue().getLocation();
             hospitalLocations.put(id, hospitalLocation);
         }
-        Point ambulanceLocation = ambulance.getValue().getLocation();
-        int hospitalId = getShortestDistance(ambulanceLocation, hospitalLocations);
-        Point hospitalLocation = hospitalDirectory.get(hospitalId).getLocation();
+
+        String ambulanceName = ambulanceEntry.getValue().getName();
+        Point ambulanceLocation = ambulanceEntry.getValue().getLocation();
+        int hospitalID = getShortestDistance(ambulanceLocation, hospitalLocations);
+        String hospitalName = hospitalDirectory.get(hospitalID).getName();
+        Point hospitalLocation = hospitalDirectory.get(hospitalID).getLocation();
         Stack<Point> path = PathFinder.getPath(mapGrid, ambulanceLocation, hospitalLocation);
 
-        return new Assignment(ambulance.getKey(), hospitalId, path);
+        return new Assignment(ambulanceName, ambulanceEntry.getKey(), hospitalName, hospitalID, path);
     }
 
     public Assignment makeHomeBaseAssignment(
-            MapGrid mapGrid, Map.Entry<Integer, Ambulance> ambulance, Map<Integer, HomeBase> homeBaseDirectory
+            MapGrid mapGrid, Map.Entry<Integer, Ambulance> ambulanceEntry, Map<Integer, HomeBase> homeBaseDirectory
     ) {
-        int homeBaseId = ambulance.getValue().getHomeBase();
-        Point homeBaseLocation = homeBaseDirectory.get(homeBaseId).getLocation();
-        Point ambulanceLocation = ambulance.getValue().getLocation();
+        String ambulanceName = ambulanceEntry.getValue().getName();
+        int homeBaseID = ambulanceEntry.getValue().getHomeBase();
+        String homebaseName = homeBaseDirectory.get(homeBaseID).getName();
+        Point homeBaseLocation = homeBaseDirectory.get(homeBaseID).getLocation();
+        Point ambulanceLocation = ambulanceEntry.getValue().getLocation();
         Stack<Point> path = PathFinder.getPath(mapGrid, ambulanceLocation, homeBaseLocation);
 
-        return new Assignment(ambulance.getKey(), homeBaseId, path);
+        return new Assignment(ambulanceName, ambulanceEntry.getKey(), homebaseName, homeBaseID, path);
     }
 
     int getShortestDistance(Point startPoint, Map<Integer, Point> endPoints) {
         Map<Double, Integer> distances = new LinkedHashMap<>();
         LinkedList<Double> distancesList = new LinkedList<>();
+
         for (Map.Entry<Integer, Point> pair : endPoints.entrySet()) {
             int id = pair.getKey();
             Point endPoint = pair.getValue();

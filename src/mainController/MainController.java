@@ -85,26 +85,26 @@ public class MainController {
         if (!assignments.isEmpty()) {
             List<Assignment> toRemove = new LinkedList<>();
             for (Assignment assignment : assignments) {
-                int ambulanceId = assignment.getAmbulanceId();
+                int ambulanceId = assignment.getAmbulanceID();
                 Ambulance ambulance = ambulanceDirectory.get(ambulanceId);
                 Point nextDestination = assignment.getNextMovementPoint();
 
                 ambulance.driveTo(nextDestination);
 
                 if (assignment.getPath().empty()) {
-                    int destinationId = assignment.getDestinationId();
+                    int destinationId = assignment.getDestinationID();
                     toRemove.add(assignment);
                     if (patientDirectory.containsKey(destinationId)) {
                         ambulance.loadPatient(destinationId);
                         Assignment dropOffAssignment = assignmentGenerator.makeHospitalAssignment(mapGrid, new AbstractMap.SimpleEntry<>(ambulanceId, ambulance), hospitalDirectory);
-                        Logger.log("DROPOFF\t" + ambulanceId + "\t" + dropOffAssignment.getDestinationId());
+                        Logger.log("DROPOFF\t" + ambulance.getName() + "\t" + dropOffAssignment.getDestinationName());
                         System.out.println("[-] DROPOFF " + dropOffAssignment.getPrintString());
                     } else if (hospitalDirectory.containsKey(destinationId)) {
                         if (ambulance.hasPatient()) {
                             int patientId = ambulance.unloadPatient();
                             patientDirectory.remove(patientId);
                             Assignment returnAssignment = assignmentGenerator.makeHomeBaseAssignment(mapGrid, new AbstractMap.SimpleEntry<>(ambulanceId, ambulance), homeBaseDirectory);
-                            Logger.log("RETURN\t" + ambulanceId + "\t" + returnAssignment.getDestinationId());
+                            Logger.log("RETURN\t" + ambulance.getName() + "\t" + returnAssignment.getDestinationName());
                             System.out.println("[*] RETURN " + returnAssignment.getPrintString());
                         }
                     }
@@ -128,7 +128,7 @@ public class MainController {
 
     private boolean isAmbulanceAvailable(int ambulanceId) {
         for (Assignment assignment : this.assignments) {
-            if (assignment.getAmbulanceId() == ambulanceId) {
+            if (assignment.getAmbulanceID() == ambulanceId) {
                 return false;
             }
         }

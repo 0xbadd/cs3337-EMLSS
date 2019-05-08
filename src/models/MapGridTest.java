@@ -1,7 +1,5 @@
 package models;
 
-import models.MapGrid;
-import models.Point;
 import org.junit.jupiter.api.Test;
 
 import java.util.LinkedList;
