@@ -83,6 +83,7 @@ public class MainController {
 
     private void advanceAssignments() {
         if (!assignments.isEmpty()) {
+            List<Assignment> toRemove = new LinkedList<>();
             for (Assignment assignment : assignments) {
                 int ambulanceId = assignment.getAmbulanceId();
                 Ambulance ambulance = ambulanceDirectory.get(ambulanceId);
@@ -92,7 +93,7 @@ public class MainController {
 
                 if (assignment.getPath().empty()) {
                     int destinationId = assignment.getDestinationId();
-                    assignments.remove(assignment);
+                    toRemove.add(assignment);
                     if (patientDirectory.containsKey(destinationId)) {
                         ambulance.loadPatient(destinationId);
                         Assignment dropOffAssignment = assignmentGenerator.makeHospitalAssignment(mapGrid, new AbstractMap.SimpleEntry<>(ambulanceId, ambulance), hospitalDirectory);
@@ -109,6 +110,7 @@ public class MainController {
                     }
                 }
             }
+            assignments.removeAll(toRemove);
         }
     }
 
