@@ -3,18 +3,24 @@ package gui;
 import javafx.beans.property.SimpleStringProperty;
 
 public class AssignmentEntry {
+    private final int ID;
     private final SimpleStringProperty type = new SimpleStringProperty("");
     private final SimpleStringProperty ambulanceName = new SimpleStringProperty("");
     private final SimpleStringProperty destinationName = new SimpleStringProperty("");
 
     public AssignmentEntry() {
-        this("", "", "");
+        this(0, "", "", "");
     }
 
-    public AssignmentEntry(String type, String ambulanceName, String destinationName) {
+    public AssignmentEntry(int ID, String type, String ambulanceName, String destinationName) {
+        this.ID = ID;
         setType(type);
         setAmbulanceName(ambulanceName);
         setDestinationName(destinationName);
+    }
+
+    public int getID() {
+        return ID;
     }
 
     public String getType() {

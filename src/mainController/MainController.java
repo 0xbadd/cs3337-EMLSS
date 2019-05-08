@@ -16,7 +16,7 @@ public class MainController {
     private final Map<Integer, Patient> patientDirectory;
     private final Map<Integer, HomeBase> homeBaseDirectory;
     private final Map<Integer, Hospital> hospitalDirectory;
-    private final List<Assignment> assignments;
+    private final Map<Integer, Assignment> assignmentDirectory;
     private final Queue<PatientEntry> patientQueue;
     private final Queue<Map.Entry<Integer, EmergencyCall>> emergencyCallQueue;
     private final AssignmentGenerator assignmentGenerator;
@@ -30,7 +30,7 @@ public class MainController {
         ambulanceDirectory = generateAmbulances(homeBaseDirectory);
         patientDirectory = new LinkedHashMap<>();
         hospitalDirectory = generateHospitals();
-        assignments = new LinkedList<>();
+        assignmentDirectory = new LinkedHashMap<>();
         patientQueue = new PriorityQueue<>();
         assignmentGenerator = new AssignmentGenerator();
         mapGrid = new MapGrid();
@@ -40,7 +40,7 @@ public class MainController {
         Logger.startNew();
         EmergencyCallGenerator.getCalls(emergencyCallQueue, patientDirectory);
         Logger.assignmentsHeader();
-        while (!emergencyCallQueue.isEmpty() || !assignments.isEmpty()) {
+        while (!emergencyCallQueue.isEmpty() || !assignmentDirectory.isEmpty()) {
             receiveCall();
             managePatientPickup();
             advanceAssignments();
@@ -77,14 +77,15 @@ public class MainController {
             assert patientEntry != null;
             Assignment pickupAssignment = assignmentGenerator.makePatientAssignment(mapGrid, patientEntry, availableAmbulanceDirectory);
             System.out.println("[+] PICKUP " + pickupAssignment.getPrintString());
-            assignments.add(pickupAssignment);
+            assignmentDirectory.put(createId(), pickupAssignment);
         }
     }
 
     private void advanceAssignments() {
-        if (!assignments.isEmpty()) {
-            List<Assignment> toRemove = new LinkedList<>();
-            for (Assignment assignment : assignments) {
+        if (!assignmentDirectory.isEmpty()) {
+            Set<Integer> toRemove = new HashSet<>();
+            for (Map.Entry<Integer, Assignment> assignmentEntry : assignmentDirectory.entrySet()) {
+                Assignment assignment = assignmentEntry.getValue();
                 int ambulanceId = assignment.getAmbulanceID();
                 Ambulance ambulance = ambulanceDirectory.get(ambulanceId);
                 Point nextDestination = assignment.getNextMovementPoint();
@@ -93,24 +94,26 @@ public class MainController {
 
                 if (assignment.getPath().empty()) {
                     int destinationId = assignment.getDestinationID();
-                    toRemove.add(assignment);
+                    toRemove.add(assignmentEntry.getKey());
                     if (patientDirectory.containsKey(destinationId)) {
                         ambulance.loadPatient(destinationId);
                         Assignment dropOffAssignment = assignmentGenerator.makeHospitalAssignment(mapGrid, new AbstractMap.SimpleEntry<>(ambulanceId, ambulance), hospitalDirectory);
-                        Logger.log("DROPOFF\t" + ambulance.getName() + "\t" + dropOffAssignment.getDestinationName());
+                        Logger.log("DROPOFF\t\t" + ambulance.getName() + "\t\t\t" + dropOffAssignment.getDestinationName());
                         System.out.println("[-] DROPOFF " + dropOffAssignment.getPrintString());
+                        assignmentDirectory.put(createId(), dropOffAssignment);
                     } else if (hospitalDirectory.containsKey(destinationId)) {
                         if (ambulance.hasPatient()) {
                             int patientId = ambulance.unloadPatient();
                             patientDirectory.remove(patientId);
                             Assignment returnAssignment = assignmentGenerator.makeHomeBaseAssignment(mapGrid, new AbstractMap.SimpleEntry<>(ambulanceId, ambulance), homeBaseDirectory);
-                            Logger.log("RETURN\t" + ambulance.getName() + "\t" + returnAssignment.getDestinationName());
+                            Logger.log("RETURN\t\t" + ambulance.getName() + "\t\t\t" + returnAssignment.getDestinationName());
                             System.out.println("[*] RETURN " + returnAssignment.getPrintString());
+                            assignmentDirectory.put(createId(), returnAssignment);
                         }
                     }
                 }
             }
-            assignments.removeAll(toRemove);
+            assignmentDirectory.keySet().removeAll(toRemove);
         }
     }
 
@@ -127,7 +130,7 @@ public class MainController {
     }
 
     private boolean isAmbulanceAvailable(int ambulanceId) {
-        for (Assignment assignment : this.assignments) {
+        for (Assignment assignment : assignmentDirectory.values()) {
             if (assignment.getAmbulanceID() == ambulanceId) {
                 return false;
             }
@@ -187,7 +190,7 @@ public class MainController {
         return hospitalDirectory;
     }
 
-    public List<Assignment> getAssignments() {
-        return assignments;
+    public Map<Integer, Assignment> getAssignmentDirectory() {
+        return assignmentDirectory;
     }
 }

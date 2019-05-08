@@ -10,7 +10,6 @@ import javafx.scene.control.TableView;
 import javafx.util.Duration;
 import mainController.MainController;
 
-import javax.swing.text.TabableView;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -30,7 +29,7 @@ public class GUIController {
         Runnable emls = mc::startAcceptingEmergencyCalls;
         executor.submit(emls);
 
-        Timeline updater = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
+        Timeline updater = new Timeline(new KeyFrame(Duration.seconds(.5), event -> {
             for (Map.Entry<Integer, EmergencyCall> callDirectoryEntry : mc.getEmergencyCallDirectory().entrySet()) {
                 boolean tableHasCall = getCallTableIDs().contains(callDirectoryEntry.getKey());
                 if (!tableHasCall) {
@@ -41,13 +40,14 @@ public class GUIController {
                     addCall(callID, time, numPatients, location);
                 }
             }
-            for (Assignment assignment : mc.getAssignments()) {
-                boolean tableHasAssignment = assignmentsTable.getItems().contains(assignment);
+            for (Map.Entry<Integer, Assignment> assignmentEntry : mc.getAssignmentDirectory().entrySet()) {
+                boolean tableHasAssignment = getAssignmentTableIDs().contains(assignmentEntry.getKey());
                 if (!tableHasAssignment) {
+                    Assignment assignment = assignmentEntry.getValue();
                     String type = assignment.getType().getText();
                     String ambulanceName = assignment.getAmbulanceName();
                     String destinationName = assignment.getDestinationName();
-                    addAssignment(type, ambulanceName, destinationName);
+                    addAssignment(assignmentEntry.getKey(), type, ambulanceName, destinationName);
                 }
             }
         }));
@@ -63,8 +63,17 @@ public class GUIController {
         callTable.getItems().add(new CallEntry(callID, time, numPatients, location));
     }
 
-    private void addAssignment(String type, String ambulanceName, String destinationName) {
-        assignmentsTable.getItems().add(new AssignmentEntry(type, ambulanceName, destinationName));
+    private void addAssignment(int ID, String type, String ambulanceName, String destinationName) {
+        assignmentsTable.getItems().add(new AssignmentEntry(ID, type, ambulanceName, destinationName));
+    }
+
+    private List<Integer> getAssignmentTableIDs() {
+        ObservableList<AssignmentEntry> entries = assignmentsTable.getItems();
+        List<Integer> IDs = new ArrayList<>();
+        for (AssignmentEntry entry : entries) {
+            IDs.add(entry.getID());
+        }
+        return IDs;
     }
 
     private List<Integer> getCallTableIDs() {
