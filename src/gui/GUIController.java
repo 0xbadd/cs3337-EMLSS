@@ -1,5 +1,6 @@
 package gui;
 
+import ambulanceAssignmentGenerator.Assignment;
 import emergencyCharacteristicFunction.EmergencyCall;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -9,6 +10,7 @@ import javafx.scene.control.TableView;
 import javafx.util.Duration;
 import mainController.MainController;
 
+import javax.swing.text.TabableView;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +20,8 @@ import java.util.concurrent.Executors;
 public class GUIController {
     private final MainController mc = new MainController();
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
+    @FXML
+    private TableView<AssignmentEntry> assignmentsTable;
     @FXML
     private TableView<CallEntry> callTable;
 
@@ -37,6 +41,15 @@ public class GUIController {
                     addCall(callID, time, numPatients, location);
                 }
             }
+            for (Assignment assignment : mc.getAssignments()) {
+                boolean tableHasAssignment = assignmentsTable.getItems().contains(assignment);
+                if (!tableHasAssignment) {
+                    String type = assignment.getType().getText();
+                    String ambulanceName = assignment.getAmbulanceName();
+                    String destinationName = assignment.getDestinationName();
+                    addAssignment(type, ambulanceName, destinationName);
+                }
+            }
         }));
         updater.setCycleCount(Timeline.INDEFINITE);
         updater.play();
@@ -48,6 +61,10 @@ public class GUIController {
 
     private void addCall(String callID, String time, String numPatients, String location) {
         callTable.getItems().add(new CallEntry(callID, time, numPatients, location));
+    }
+
+    private void addAssignment(String type, String ambulanceName, String destinationName) {
+        assignmentsTable.getItems().add(new AssignmentEntry(type, ambulanceName, destinationName));
     }
 
     private List<Integer> getCallTableIDs() {

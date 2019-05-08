@@ -45,7 +45,7 @@
                     <PropertyValueFactory property="ambulanceName"/>
                 </cellValueFactory>
             </TableColumn>
-            <TableColumn text="Time of Call" prefWidth="100">
+            <TableColumn text="Destination Name" prefWidth="100">
                 <cellValueFactory>
                     <PropertyValueFactory property="destinationName"/>
                 </cellValueFactory>

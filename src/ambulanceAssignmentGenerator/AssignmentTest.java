@@ -14,7 +14,7 @@ class AssignmentTest {
         Stack<Point> actualPath = new Stack<>();
         actualPath.push(new Point(1,1));
         actualPath.push(new Point(2, 2));
-        Assignment assignment = new Assignment("ambulance", 0, "destination", 1, actualPath);
+        Assignment assignment = new Assignment(AssignmentType.PICKUP, "ambulance", 0, "destination", 1, actualPath);
 
         Point expected = new Point(2,2);
         Point actual = assignment.getNextMovementPoint();
@@ -26,7 +26,7 @@ class AssignmentTest {
         Stack<Point> actualPath = new Stack<>();
         actualPath.push(new Point(1,1));
         actualPath.push(new Point(2, 2));
-        Assignment assignment = new Assignment("ambulance", 0, "destination", 1, actualPath);
+        Assignment assignment = new Assignment(AssignmentType.PICKUP, "ambulance", 0, "destination", 1, actualPath);
 
         int expected = 0;
         int actual = assignment.getAmbulanceID();
@@ -38,7 +38,7 @@ class AssignmentTest {
         Stack<Point> actualPath = new Stack<>();
         actualPath.push(new Point(1,1));
         actualPath.push(new Point(2, 2));
-        Assignment assignment = new Assignment("ambulance",0, "destination", 1, actualPath);
+        Assignment assignment = new Assignment(AssignmentType.PICKUP, "ambulance",0, "destination", 1, actualPath);
 
         int expected = 1;
         int actual = assignment.getDestinationID();
@@ -50,7 +50,7 @@ class AssignmentTest {
         Stack<Point> actualPath = new Stack<>();
         actualPath.push(new Point(1,1));
         actualPath.push(new Point(2, 2));
-        Assignment assignment = new Assignment("ambulance",0, "destination", 1, actualPath);
+        Assignment assignment = new Assignment(AssignmentType.PICKUP, "ambulance",0, "destination", 1, actualPath);
 
         Stack<Point> expected = new Stack<>();
         expected.push(new Point(1,1));
@@ -65,8 +65,8 @@ class AssignmentTest {
         path1.push(new Point(1,1));
         Stack<Point> path2 = new Stack<>();
         path2.push(new Point(1,1));
-        Assignment assignment1 = new Assignment("ambulance", 0, "destination", 1, path1);
-        Assignment assignment2 = new Assignment("ambulance",0, "destination", 1, path2);
+        Assignment assignment1 = new Assignment(AssignmentType.PICKUP, "ambulance", 0, "destination", 1, path1);
+        Assignment assignment2 = new Assignment(AssignmentType.PICKUP, "ambulance",0, "destination", 1, path2);
         assertEquals(assignment1, assignment2);
     }
 }
