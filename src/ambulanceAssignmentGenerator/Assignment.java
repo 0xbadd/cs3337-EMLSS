@@ -5,13 +5,17 @@ import models.Point;
 import java.util.Stack;
 
 public class Assignment {
-    private final int ambulanceId;
-    private final int destinationId;
+    private final String ambulanceName;
+    private final int ambulanceID;
+    private final String destinationName;
+    private final int destinationID;
     private final Stack<Point> path;
 
-    public Assignment(int ambulanceId, int destinationId, Stack<Point> path) {
-        this.ambulanceId = ambulanceId;
-        this.destinationId = destinationId;
+    public Assignment(String ambulanceName, int ambulanceID, String destinationName, int destinationID, Stack<Point> path) {
+        this.ambulanceName = ambulanceName;
+        this.ambulanceID = ambulanceID;
+        this.destinationName = destinationName;
+        this.destinationID = destinationID;
         this.path = path;
     }
 
@@ -19,12 +23,20 @@ public class Assignment {
         return path.pop();
     }
 
-    public int getAmbulanceId() {
-        return ambulanceId;
+    public String getAmbulanceName() {
+        return ambulanceName;
     }
 
-    public int getDestinationId() {
-        return destinationId;
+    public int getAmbulanceID() {
+        return ambulanceID;
+    }
+
+    public String getDestinationName() {
+        return destinationName;
+    }
+
+    public int getDestinationID() {
+        return destinationID;
     }
 
     public Stack<Point> getPath() {
@@ -42,14 +54,21 @@ public class Assignment {
         }
 
         Assignment other = (Assignment) obj;
-        return (this.ambulanceId == other.ambulanceId) && (this.destinationId == other.destinationId) && (this.path.equals(other.path));
+        return (this.ambulanceID == other.ambulanceID) && (this.destinationID == other.destinationID) && (this.path.equals(other.path));
+    }
+
+    public String getPrintString() {
+        return "Assignment {" +
+                "Ambulance Name = " + ambulanceName +
+                ", Destination Name = " + destinationName +
+                "}";
     }
 
     @Override
     public String toString() {
         return "Assignment {" +
-                "Ambulance ID = " + ambulanceId +
-                ", Destination ID = " + destinationId +
+                "Ambulance ID = " + ambulanceID +
+                ", Destination ID = " + destinationID +
                 ", Path = " + path +
                 '}';
     }

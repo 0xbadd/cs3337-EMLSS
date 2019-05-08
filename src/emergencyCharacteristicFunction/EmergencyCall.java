@@ -33,8 +33,12 @@ public class EmergencyCall {
         return patientIdList;
     }
 
+    public String getLogString() {
+        return time + "\t" + numPatients + "\t\t\t" + location.toString();
+    }
+
     public String toString() {
-        return "EmergencyCall {" +
+        return "[!] EmergencyCall {" +
                 "Time Of Call = " + time +
                 ", Number Of Patients = " + numPatients +
                 ", Location = " + location +

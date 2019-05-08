@@ -17,7 +17,7 @@ public class MainController {
     private final Map<Integer, HomeBase> homeBaseDirectory;
     private final Map<Integer, Hospital> hospitalDirectory;
     private final List<Assignment> assignments;
-    private final Queue<Map.Entry<Integer, Patient>> patientQueue;
+    private final Queue<PatientEntry> patientQueue;
     private final Queue<Map.Entry<Integer, EmergencyCall>> emergencyCallQueue;
     private final AssignmentGenerator assignmentGenerator;
     private final MapGrid mapGrid;
@@ -37,7 +37,9 @@ public class MainController {
     }
 
     public void startAcceptingEmergencyCalls() {
+        Logger.startNew();
         EmergencyCallGenerator.getCalls(emergencyCallQueue, patientDirectory);
+        Logger.assignmentsHeader();
         while (!emergencyCallQueue.isEmpty() || !assignments.isEmpty()) {
             receiveCall();
             managePatientPickup();
@@ -51,49 +53,64 @@ public class MainController {
     }
 
     private void receiveCall() {
-        Map.Entry<Integer, EmergencyCall> emergencyCallEntry = emergencyCallQueue.poll();
-        assert emergencyCallEntry != null;
-        emergencyCallDirectory.put(emergencyCallEntry.getKey(), emergencyCallEntry.getValue());
+        if (!emergencyCallQueue.isEmpty()) {
+            Map.Entry<Integer, EmergencyCall> emergencyCallEntry = emergencyCallQueue.poll();
+            assert emergencyCallEntry != null;
+            emergencyCallDirectory.put(emergencyCallEntry.getKey(), emergencyCallEntry.getValue());
+            System.out.println(emergencyCallEntry.getValue().toString());
 
-        List<Integer> patientIDs = emergencyCallEntry.getValue().getPatientIDList();
-        for (int id : patientIDs) {
-            Patient patient = patientDirectory.get(id);
-            patientQueue.add(new AbstractMap.SimpleEntry<>(id, patient));
+            List<Integer> patientIDs = emergencyCallEntry.getValue().getPatientIDList();
+            for (int id : patientIDs) {
+                Patient patient = patientDirectory.get(id);
+                patientQueue.add(new PatientEntry(id, patient));
+            }
         }
     }
 
     private void managePatientPickup() {
         if (!patientQueue.isEmpty()) {
             Map<Integer, Ambulance> availableAmbulanceDirectory = getAvailableAmbulances();
-            Map.Entry<Integer, Patient> patientEntry = patientQueue.poll();
+            if (availableAmbulanceDirectory.isEmpty()) {
+                return;
+            }
+            PatientEntry patientEntry = patientQueue.poll();
             assert patientEntry != null;
-            assignmentGenerator.makePatientAssignment(mapGrid, patientEntry, availableAmbulanceDirectory);
+            Assignment pickupAssignment = assignmentGenerator.makePatientAssignment(mapGrid, patientEntry, availableAmbulanceDirectory);
+            System.out.println("[+] PICKUP " + pickupAssignment.getPrintString());
+            assignments.add(pickupAssignment);
         }
     }
 
     private void advanceAssignments() {
         if (!assignments.isEmpty()) {
+            List<Assignment> toRemove = new LinkedList<>();
             for (Assignment assignment : assignments) {
-                int ambulanceId = assignment.getAmbulanceId();
+                int ambulanceId = assignment.getAmbulanceID();
                 Ambulance ambulance = ambulanceDirectory.get(ambulanceId);
                 Point nextDestination = assignment.getNextMovementPoint();
 
                 ambulance.driveTo(nextDestination);
 
                 if (assignment.getPath().empty()) {
-                    int destinationId = assignment.getDestinationId();
-                    assignments.remove(assignment);
+                    int destinationId = assignment.getDestinationID();
+                    toRemove.add(assignment);
                     if (patientDirectory.containsKey(destinationId)) {
                         ambulance.loadPatient(destinationId);
-                        assignmentGenerator.makeHospitalAssignment(mapGrid, new AbstractMap.SimpleEntry<>(ambulanceId, ambulance), hospitalDirectory);
+                        Assignment dropOffAssignment = assignmentGenerator.makeHospitalAssignment(mapGrid, new AbstractMap.SimpleEntry<>(ambulanceId, ambulance), hospitalDirectory);
+                        Logger.log("DROPOFF\t" + ambulance.getName() + "\t" + dropOffAssignment.getDestinationName());
+                        System.out.println("[-] DROPOFF " + dropOffAssignment.getPrintString());
                     } else if (hospitalDirectory.containsKey(destinationId)) {
                         if (ambulance.hasPatient()) {
                             int patientId = ambulance.unloadPatient();
                             patientDirectory.remove(patientId);
+                            Assignment returnAssignment = assignmentGenerator.makeHomeBaseAssignment(mapGrid, new AbstractMap.SimpleEntry<>(ambulanceId, ambulance), homeBaseDirectory);
+                            Logger.log("RETURN\t" + ambulance.getName() + "\t" + returnAssignment.getDestinationName());
+                            System.out.println("[*] RETURN " + returnAssignment.getPrintString());
                         }
                     }
                 }
             }
+            assignments.removeAll(toRemove);
         }
     }
 
@@ -111,7 +128,7 @@ public class MainController {
 
     private boolean isAmbulanceAvailable(int ambulanceId) {
         for (Assignment assignment : this.assignments) {
-            if (assignment.getAmbulanceId() == ambulanceId) {
+            if (assignment.getAmbulanceID() == ambulanceId) {
                 return false;
             }
         }
@@ -120,27 +137,29 @@ public class MainController {
 
     private Map<Integer, Ambulance> generateAmbulances(Map<Integer, HomeBase> homeBases) {
         Map<Integer, Ambulance> ambulances = new LinkedHashMap<>();
-        // just test locations
         for (Map.Entry<Integer, HomeBase> homeBaseEntry: homeBases.entrySet()) {
-            ambulances.put(createId(), new Ambulance(homeBaseEntry.getValue().getLocation(), homeBaseEntry.getKey()));
-            homeBaseEntry.getValue().houseAmbulance();
+            HomeBase homeBase = homeBaseEntry.getValue();
+            int homeBaseCapacity = homeBaseEntry.getValue().getCurrentCapacity();
+            for (int i = 0; i < homeBaseCapacity; i++) {
+                String name = homeBase.getName().substring(0, homeBase.getName().indexOf(' ')) + " " + (i + 1);
+                ambulances.put(createId(), new Ambulance(name, homeBase.getLocation(), homeBaseEntry.getKey()));
+                homeBaseEntry.getValue().houseAmbulance();
+            }
         }
         return ambulances;
     }
 
     private Map<Integer, HomeBase> generateHomeBases() {
         Map<Integer, HomeBase> homeBases = new LinkedHashMap<>();
-        // just test locations
-        homeBases.put(createId(), (new HomeBase(new Point(25, 10), 3)));
-        homeBases.put(createId(), (new HomeBase(new Point(80, 80), 3)));
-        homeBases.put(createId(), (new HomeBase(new Point(80, 60), 3)));
+        homeBases.put(createId(), (new HomeBase("Alpha Station", new Point(25, 10), 3)));
+        homeBases.put(createId(), (new HomeBase("Beta Station", new Point(80, 80), 3)));
+        homeBases.put(createId(), (new HomeBase("Charlie Station", new Point(80, 60), 3)));
         return homeBases;
     }
 
     private Map<Integer, Hospital> generateHospitals() {
         Map<Integer, Hospital> hospitals = new LinkedHashMap<>();
-        // just test locations
-        hospitals.put(createId(), (new Hospital(new Point(55, 55))));
+        hospitals.put(createId(), (new Hospital(new Point(55, 55), "Mercy Hospital")));
         return hospitals;
     }
 

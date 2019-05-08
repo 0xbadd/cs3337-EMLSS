@@ -33,7 +33,7 @@ public class GUIController {
                     String callID = callDirectoryEntry.getKey().toString();
                     String time = Integer.toString(callDirectoryEntry.getValue().getTime());
                     String numPatients = Integer.toString(callDirectoryEntry.getValue().getNumPatients());
-                    String location = callDirectoryEntry.getValue().getLocation().asString();
+                    String location = callDirectoryEntry.getValue().getLocation().toString();
                     addCall(callID, time, numPatients, location);
                 }
             }
