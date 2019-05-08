@@ -137,7 +137,6 @@ public class MainController {
 
     private Map<Integer, Ambulance> generateAmbulances(Map<Integer, HomeBase> homeBases) {
         Map<Integer, Ambulance> ambulances = new LinkedHashMap<>();
-        // just test locations
         for (Map.Entry<Integer, HomeBase> homeBaseEntry: homeBases.entrySet()) {
             ambulances.put(createId(), new Ambulance(homeBaseEntry.getValue().getLocation(), homeBaseEntry.getKey()));
             homeBaseEntry.getValue().houseAmbulance();
@@ -147,7 +146,6 @@ public class MainController {
 
     private Map<Integer, HomeBase> generateHomeBases() {
         Map<Integer, HomeBase> homeBases = new LinkedHashMap<>();
-        // just test locations
         homeBases.put(createId(), (new HomeBase(new Point(25, 10), 3)));
         homeBases.put(createId(), (new HomeBase(new Point(80, 80), 3)));
         homeBases.put(createId(), (new HomeBase(new Point(80, 60), 3)));
@@ -156,7 +154,6 @@ public class MainController {
 
     private Map<Integer, Hospital> generateHospitals() {
         Map<Integer, Hospital> hospitals = new LinkedHashMap<>();
-        // just test locations
         hospitals.put(createId(), (new Hospital(new Point(55, 55))));
         return hospitals;
     }
