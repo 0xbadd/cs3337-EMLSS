@@ -7,6 +7,10 @@ import models.MapGrid;
 import models.Patient;
 import models.Point;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.*;
 
 public class EmergencyCallGenerator {
@@ -45,7 +49,7 @@ public class EmergencyCallGenerator {
             injurySeverity = InjurySeverity.LIFE_THREATENING;
         }
 
-        return new Patient("Bob", location, injurySeverity);
+        return new Patient(getRandomName(), location, injurySeverity);
     }
 
     private static int getRandomNumPatients() {
@@ -67,5 +71,32 @@ public class EmergencyCallGenerator {
         int emergencyX = (int) (Math.random() * (MapGrid.MAP_SIZE_X + 1));
         int emergencyY = (int) (Math.random() * (MapGrid.MAP_SIZE_Y + 1));
         return new Point(emergencyX, emergencyY);
+    }
+
+    private static String getRandomName() {
+        String randomName = "Bob";
+        try {
+            // Read in the file into a list of strings
+            BufferedReader reader = new BufferedReader(new FileReader("names.txt"));
+            List<String> lines = new ArrayList<String>();
+
+            try {
+                String line = reader.readLine();
+
+                while( line != null ) {
+                    lines.add(line);
+                    line = reader.readLine();
+                }
+
+                // Choose a random one from the list
+                Random r = new Random();
+                randomName = lines.get(r.nextInt(lines.size()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return randomName;
     }
 }
