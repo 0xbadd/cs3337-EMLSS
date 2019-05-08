@@ -31,4 +31,26 @@
             </TableColumn>
         </columns>
     </TableView>
+    <Label style="-fx-font: NORMAL 20 Tahoma;" text="Assignments" GridPane.columnIndex="1" GridPane.rowIndex="0">
+    </Label>
+    <TableView fx:id="assignmentsTable" GridPane.columnIndex="1" GridPane.rowIndex="1">
+        <columns>
+            <TableColumn text="Type" prefWidth="75">
+                <cellValueFactory>
+                    <PropertyValueFactory property="type"/>
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="Ambulance Name" prefWidth="150">
+                <cellValueFactory>
+                    <PropertyValueFactory property="ambulanceName"/>
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="Time of Call" prefWidth="100">
+                <cellValueFactory>
+                    <PropertyValueFactory property="destinationName"/>
+                </cellValueFactory>
+            </TableColumn>
+
+        </columns>
+    </TableView>
 </GridPane>
