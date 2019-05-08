@@ -56,6 +56,7 @@ public class MainController {
         Map.Entry<Integer, EmergencyCall> emergencyCallEntry = emergencyCallQueue.poll();
         assert emergencyCallEntry != null;
         emergencyCallDirectory.put(emergencyCallEntry.getKey(), emergencyCallEntry.getValue());
+        System.out.println(emergencyCallEntry.getValue().toString());
 
         List<Integer> patientIDs = emergencyCallEntry.getValue().getPatientIDList();
         for (int id : patientIDs) {
@@ -70,6 +71,7 @@ public class MainController {
             Map.Entry<Integer, Patient> patientEntry = patientQueue.poll();
             assert patientEntry != null;
             Assignment pickupAssignment = assignmentGenerator.makePatientAssignment(mapGrid, patientEntry, availableAmbulanceDirectory);
+            System.out.println("PICKUP " + pickupAssignment.toString());
             assignments.add(pickupAssignment);
         }
     }
@@ -90,12 +92,14 @@ public class MainController {
                         ambulance.loadPatient(destinationId);
                         Assignment dropOffAssignment = assignmentGenerator.makeHospitalAssignment(mapGrid, new AbstractMap.SimpleEntry<>(ambulanceId, ambulance), hospitalDirectory);
                         Logger.log("DROPOFF\t" + ambulanceId + "\t" + dropOffAssignment.getDestinationId());
+                        System.out.println("DROPOFF " + dropOffAssignment.toString());
                     } else if (hospitalDirectory.containsKey(destinationId)) {
                         if (ambulance.hasPatient()) {
                             int patientId = ambulance.unloadPatient();
                             patientDirectory.remove(patientId);
                             Assignment returnAssignment = assignmentGenerator.makeHomeBaseAssignment(mapGrid, new AbstractMap.SimpleEntry<>(ambulanceId, ambulance), homeBaseDirectory);
                             Logger.log("RETURN\t" + ambulanceId + "\t" + returnAssignment.getDestinationId());
+                            System.out.println("RETURN " + returnAssignment.toString());
                         }
                     }
                 }
