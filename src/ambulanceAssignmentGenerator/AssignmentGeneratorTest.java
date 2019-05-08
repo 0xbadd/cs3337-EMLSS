@@ -1,5 +1,6 @@
 package ambulanceAssignmentGenerator;
 
+import mainController.PatientEntry;
 import models.*;
 import org.junit.jupiter.api.Test;
 
@@ -12,7 +13,7 @@ class AssignmentGeneratorTest {
     @Test
     void makePatientAssignment() {
         MapGrid mapGrid = new MapGrid();
-        Map.Entry<Integer, Patient> patient = new AbstractMap.SimpleEntry<>(0, new Patient(new Point(3, 0), InjurySeverity.NON_LIFE_THREATENING));
+        PatientEntry patientEntry = new PatientEntry(0, new Patient(new Point(3, 0), InjurySeverity.NON_LIFE_THREATENING));
         Map<Integer, Ambulance> ambulances = new LinkedHashMap<>();
         ambulances.put(1, new Ambulance(new Point(6, 6), 10));
         ambulances.put(2, new Ambulance(new Point(5, 0), 10));
@@ -24,7 +25,7 @@ class AssignmentGeneratorTest {
         expectedPath.push(new Point(4, 0));
 
         Assignment expected = new Assignment(2, 0, expectedPath);
-        Assignment actual = assignmentGenerator.makePatientAssignment(mapGrid, patient, ambulances);
+        Assignment actual = assignmentGenerator.makePatientAssignment(mapGrid, patientEntry, ambulances);
         assertEquals(expected, actual);
     }
 

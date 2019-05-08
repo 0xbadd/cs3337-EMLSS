@@ -1,16 +1,17 @@
 package ambulanceAssignmentGenerator;
 
 import mainController.Logger;
+import mainController.PatientEntry;
 import models.*;
 
 import java.util.*;
 
 public class AssignmentGenerator {
     public Assignment makePatientAssignment(
-            MapGrid mapGrid, Map.Entry<Integer, Patient> patient, Map<Integer, Ambulance> availableAmbulanceDirectory
+            MapGrid mapGrid, PatientEntry patientEntry, Map<Integer, Ambulance> availableAmbulanceDirectory
     ) {
         Map<Integer, Point> availableAmbulanceLocations = new LinkedHashMap<>();
-        Point patientLocation = patient.getValue().getLocation();
+        Point patientLocation = patientEntry.getValue().getLocation();
         for (Map.Entry<Integer, Ambulance> pair : availableAmbulanceDirectory.entrySet()) {
             int id = pair.getKey();
             Point ambulanceLocation = pair.getValue().getLocation();
@@ -20,9 +21,9 @@ public class AssignmentGenerator {
         Point ambulanceLocation = availableAmbulanceDirectory.get(ambulanceId).getLocation();
         Stack<Point> path = PathFinder.getPath(mapGrid, ambulanceLocation, patientLocation);
 
-        Logger.log("PICKUP\t" + ambulanceId + "\t" + patient.getKey());
+        Logger.log("PICKUP\t" + ambulanceId + "\t" + patientEntry.getKey());
 
-        return new Assignment(ambulanceId, patient.getKey(), path);
+        return new Assignment(ambulanceId, patientEntry.getKey(), path);
     }
 
     public Assignment makeHospitalAssignment(
