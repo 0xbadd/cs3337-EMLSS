@@ -24,9 +24,9 @@ public class AssignmentGenerator {
         Stack<Point> path = PathFinder.getPath(mapGrid, ambulanceLocation, patientLocation);
         String patientName = patientEntry.getValue().getName();
 
-        Logger.log("PICKUP\t" + ambulanceName + "\t" + patientEntry.getKey());
+        Logger.log("PICKUP" + "\t\t" + ambulanceName + "\t\t\t" + patientEntry.getKey());
 
-        return new Assignment(ambulanceName, ambulanceID, patientName, patientEntry.getKey(), path);
+        return new Assignment(AssignmentType.PICKUP, ambulanceName, ambulanceID, patientName, patientEntry.getKey(), path);
     }
 
     public Assignment makeHospitalAssignment(
@@ -46,7 +46,7 @@ public class AssignmentGenerator {
         Point hospitalLocation = hospitalDirectory.get(hospitalID).getLocation();
         Stack<Point> path = PathFinder.getPath(mapGrid, ambulanceLocation, hospitalLocation);
 
-        return new Assignment(ambulanceName, ambulanceEntry.getKey(), hospitalName, hospitalID, path);
+        return new Assignment(AssignmentType.DROPOFF, ambulanceName, ambulanceEntry.getKey(), hospitalName, hospitalID, path);
     }
 
     public Assignment makeHomeBaseAssignment(
@@ -54,12 +54,12 @@ public class AssignmentGenerator {
     ) {
         String ambulanceName = ambulanceEntry.getValue().getName();
         int homeBaseID = ambulanceEntry.getValue().getHomeBase();
-        String homebaseName = homeBaseDirectory.get(homeBaseID).getName();
+        String homeBaseName = homeBaseDirectory.get(homeBaseID).getName();
         Point homeBaseLocation = homeBaseDirectory.get(homeBaseID).getLocation();
         Point ambulanceLocation = ambulanceEntry.getValue().getLocation();
         Stack<Point> path = PathFinder.getPath(mapGrid, ambulanceLocation, homeBaseLocation);
 
-        return new Assignment(ambulanceName, ambulanceEntry.getKey(), homebaseName, homeBaseID, path);
+        return new Assignment(AssignmentType.RETURN, ambulanceName, ambulanceEntry.getKey(), homeBaseName, homeBaseID, path);
     }
 
     int getShortestDistance(Point startPoint, Map<Integer, Point> endPoints) {

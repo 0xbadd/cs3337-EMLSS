@@ -5,13 +5,15 @@ import models.Point;
 import java.util.Stack;
 
 public class Assignment {
+    private final AssignmentType type;
     private final String ambulanceName;
     private final int ambulanceID;
     private final String destinationName;
     private final int destinationID;
     private final Stack<Point> path;
 
-    public Assignment(String ambulanceName, int ambulanceID, String destinationName, int destinationID, Stack<Point> path) {
+    public Assignment(AssignmentType type, String ambulanceName, int ambulanceID, String destinationName, int destinationID, Stack<Point> path) {
+        this.type = type;
         this.ambulanceName = ambulanceName;
         this.ambulanceID = ambulanceID;
         this.destinationName = destinationName;
@@ -21,6 +23,10 @@ public class Assignment {
 
     public Point getNextMovementPoint() {
         return path.pop();
+    }
+
+    public AssignmentType getType() {
+        return type;
     }
 
     public String getAmbulanceName() {

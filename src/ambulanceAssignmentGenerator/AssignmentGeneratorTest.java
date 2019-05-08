@@ -24,7 +24,7 @@ class AssignmentGeneratorTest {
         expectedPath.push(new Point(3, 0));
         expectedPath.push(new Point(4, 0));
 
-        Assignment expected = new Assignment("ambulance 2", 2, "bob", 0, expectedPath);
+        Assignment expected = new Assignment(AssignmentType.PICKUP, "ambulance 2", 2, "bob", 0, expectedPath);
         Assignment actual = assignmentGenerator.makePatientAssignment(mapGrid, patientEntry, ambulances);
         assertEquals(expected, actual);
     }
@@ -46,7 +46,7 @@ class AssignmentGeneratorTest {
         expectedPath.push(new Point(0, 2));
         expectedPath.push(new Point(0, 1));
 
-        Assignment expected = new Assignment("ambulance", 2, "hospital 1", 0, expectedPath);
+        Assignment expected = new Assignment(AssignmentType.PICKUP, "ambulance", 2, "hospital 1", 0, expectedPath);
         Assignment actual = assignmentGenerator.makeHospitalAssignment(mapGrid, ambulanceEntry, hospitalDirectory);
         assertEquals(expected, actual);
     }
@@ -65,7 +65,7 @@ class AssignmentGeneratorTest {
         expectedPath.push(new Point(3, 2));
         expectedPath.push(new Point(3, 1));
 
-        Assignment expected = new Assignment("ambulance", 0, "home base 1", 1, expectedPath);
+        Assignment expected = new Assignment(AssignmentType.PICKUP, "ambulance", 0, "home base 1", 1, expectedPath);
         Assignment actual = assignmentGenerator.makeHomeBaseAssignment(mapGrid, ambulanceEntry, homeBaseDirectory);
         assertEquals(expected, actual);
     }

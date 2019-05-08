@@ -1,5 +1,6 @@
 package gui;
 
+import ambulanceAssignmentGenerator.Assignment;
 import emergencyCharacteristicFunction.EmergencyCall;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -19,6 +20,8 @@ public class GUIController {
     private final MainController mc = new MainController();
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
     @FXML
+    private TableView<AssignmentEntry> assignmentsTable;
+    @FXML
     private TableView<CallEntry> callTable;
 
     @FXML
@@ -37,6 +40,16 @@ public class GUIController {
                     addCall(callID, time, numPatients, location);
                 }
             }
+            for (Map.Entry<Integer, Assignment> assignmentEntry : mc.getAssignmentDirectory().entrySet()) {
+                boolean tableHasAssignment = getAssignmentTableIDs().contains(assignmentEntry.getKey());
+                if (!tableHasAssignment) {
+                    Assignment assignment = assignmentEntry.getValue();
+                    String type = assignment.getType().getText();
+                    String ambulanceName = assignment.getAmbulanceName();
+                    String destinationName = assignment.getDestinationName();
+                    addAssignment(assignmentEntry.getKey(), type, ambulanceName, destinationName);
+                }
+            }
         }));
         updater.setCycleCount(Timeline.INDEFINITE);
         updater.play();
@@ -48,6 +61,19 @@ public class GUIController {
 
     private void addCall(String callID, String time, String numPatients, String location) {
         callTable.getItems().add(new CallEntry(callID, time, numPatients, location));
+    }
+
+    private void addAssignment(int ID, String type, String ambulanceName, String destinationName) {
+        assignmentsTable.getItems().add(new AssignmentEntry(ID, type, ambulanceName, destinationName));
+    }
+
+    private List<Integer> getAssignmentTableIDs() {
+        ObservableList<AssignmentEntry> entries = assignmentsTable.getItems();
+        List<Integer> IDs = new ArrayList<>();
+        for (AssignmentEntry entry : entries) {
+            IDs.add(entry.getID());
+        }
+        return IDs;
     }
 
     private List<Integer> getCallTableIDs() {
