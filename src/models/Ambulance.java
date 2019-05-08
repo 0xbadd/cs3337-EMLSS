@@ -1,12 +1,14 @@
 package models;
 
 public class Ambulance {
+    private final String name;
     private Point location;
     private double fuel;
     private int homeBase;
     private int loadedPatientId;
 
-    public Ambulance(Point location, int homeBase) {
+    public Ambulance(String name, Point location, int homeBase) {
+        this.name = name;
         this.location = location;
         this.fuel = 100.0;
         this.homeBase = homeBase;
@@ -29,6 +31,10 @@ public class Ambulance {
 
     public boolean hasPatient() {
         return loadedPatientId != 0;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public Point getLocation() {

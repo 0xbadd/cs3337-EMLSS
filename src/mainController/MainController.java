@@ -138,23 +138,28 @@ public class MainController {
     private Map<Integer, Ambulance> generateAmbulances(Map<Integer, HomeBase> homeBases) {
         Map<Integer, Ambulance> ambulances = new LinkedHashMap<>();
         for (Map.Entry<Integer, HomeBase> homeBaseEntry: homeBases.entrySet()) {
-            ambulances.put(createId(), new Ambulance(homeBaseEntry.getValue().getLocation(), homeBaseEntry.getKey()));
-            homeBaseEntry.getValue().houseAmbulance();
+            HomeBase homeBase = homeBaseEntry.getValue();
+            int homeBaseCapacity = homeBaseEntry.getValue().getCurrentCapacity();
+            for (int i = 0; i < homeBaseCapacity; i++) {
+                String name = homeBase.getName().substring(0, homeBase.getName().indexOf(' ')) + " " + (i + 1);
+                ambulances.put(createId(), new Ambulance(name, homeBase.getLocation(), homeBaseEntry.getKey()));
+                homeBaseEntry.getValue().houseAmbulance();
+            }
         }
         return ambulances;
     }
 
     private Map<Integer, HomeBase> generateHomeBases() {
         Map<Integer, HomeBase> homeBases = new LinkedHashMap<>();
-        homeBases.put(createId(), (new HomeBase(new Point(25, 10), 3)));
-        homeBases.put(createId(), (new HomeBase(new Point(80, 80), 3)));
-        homeBases.put(createId(), (new HomeBase(new Point(80, 60), 3)));
+        homeBases.put(createId(), (new HomeBase("Alpha Station", new Point(25, 10), 3)));
+        homeBases.put(createId(), (new HomeBase("Beta Station", new Point(80, 80), 3)));
+        homeBases.put(createId(), (new HomeBase("Charlie Station", new Point(80, 60), 3)));
         return homeBases;
     }
 
     private Map<Integer, Hospital> generateHospitals() {
         Map<Integer, Hospital> hospitals = new LinkedHashMap<>();
-        hospitals.put(createId(), (new Hospital(new Point(55, 55))));
+        hospitals.put(createId(), (new Hospital(new Point(55, 55), "Mercy Hospital")));
         return hospitals;
     }
 
