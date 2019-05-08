@@ -76,7 +76,7 @@ public class MainController {
             PatientEntry patientEntry = patientQueue.poll();
             assert patientEntry != null;
             Assignment pickupAssignment = assignmentGenerator.makePatientAssignment(mapGrid, patientEntry, availableAmbulanceDirectory);
-            System.out.println("[+] PICKUP " + pickupAssignment.toString());
+            System.out.println("[+] PICKUP " + pickupAssignment.getPrintString());
             assignments.add(pickupAssignment);
         }
     }
@@ -97,14 +97,14 @@ public class MainController {
                         ambulance.loadPatient(destinationId);
                         Assignment dropOffAssignment = assignmentGenerator.makeHospitalAssignment(mapGrid, new AbstractMap.SimpleEntry<>(ambulanceId, ambulance), hospitalDirectory);
                         Logger.log("DROPOFF\t" + ambulanceId + "\t" + dropOffAssignment.getDestinationId());
-                        System.out.println("[-] DROPOFF " + dropOffAssignment.toString());
+                        System.out.println("[-] DROPOFF " + dropOffAssignment.getPrintString());
                     } else if (hospitalDirectory.containsKey(destinationId)) {
                         if (ambulance.hasPatient()) {
                             int patientId = ambulance.unloadPatient();
                             patientDirectory.remove(patientId);
                             Assignment returnAssignment = assignmentGenerator.makeHomeBaseAssignment(mapGrid, new AbstractMap.SimpleEntry<>(ambulanceId, ambulance), homeBaseDirectory);
                             Logger.log("RETURN\t" + ambulanceId + "\t" + returnAssignment.getDestinationId());
-                            System.out.println("[*] RETURN " + returnAssignment.toString());
+                            System.out.println("[*] RETURN " + returnAssignment.getPrintString());
                         }
                     }
                 }
