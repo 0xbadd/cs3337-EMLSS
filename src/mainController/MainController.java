@@ -84,6 +84,7 @@ public class MainController {
     private void advanceAssignments() {
         if (!assignmentDirectory.isEmpty()) {
             Set<Integer> toRemove = new HashSet<>();
+            Set<Map.Entry<Integer, Assignment>> toAdd = new HashSet<>();
             for (Map.Entry<Integer, Assignment> assignmentEntry : assignmentDirectory.entrySet()) {
                 Assignment assignment = assignmentEntry.getValue();
                 int ambulanceId = assignment.getAmbulanceID();
@@ -100,7 +101,7 @@ public class MainController {
                         Assignment dropOffAssignment = assignmentGenerator.makeHospitalAssignment(mapGrid, new AbstractMap.SimpleEntry<>(ambulanceId, ambulance), hospitalDirectory);
                         Logger.log("DROPOFF\t\t" + ambulance.getName() + "\t\t\t" + dropOffAssignment.getDestinationName());
                         System.out.println("[-] DROPOFF " + dropOffAssignment.getPrintString());
-                        assignmentDirectory.put(createId(), dropOffAssignment);
+                        toAdd.add(new AbstractMap.SimpleEntry<>(createId(), dropOffAssignment));
                     } else if (hospitalDirectory.containsKey(destinationId)) {
                         if (ambulance.hasPatient()) {
                             int patientId = ambulance.unloadPatient();
@@ -108,12 +109,13 @@ public class MainController {
                             Assignment returnAssignment = assignmentGenerator.makeHomeBaseAssignment(mapGrid, new AbstractMap.SimpleEntry<>(ambulanceId, ambulance), homeBaseDirectory);
                             Logger.log("RETURN\t\t" + ambulance.getName() + "\t\t\t" + returnAssignment.getDestinationName());
                             System.out.println("[*] RETURN " + returnAssignment.getPrintString());
-                            assignmentDirectory.put(createId(), returnAssignment);
+                            toAdd.add(new AbstractMap.SimpleEntry<>(createId(), returnAssignment));
                         }
                     }
                 }
             }
             assignmentDirectory.keySet().removeAll(toRemove);
+            assignmentDirectory.entrySet().addAll(toAdd);
         }
     }
 
