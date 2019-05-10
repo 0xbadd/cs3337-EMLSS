@@ -68,17 +68,20 @@ public class MainController {
     }
 
     private void managePatientPickup() {
-        if (!patientQueue.isEmpty()) {
+        List<PatientEntry> toAdd = new LinkedList<>();
+        while (!patientQueue.isEmpty()) {
             Map<Integer, Ambulance> availableAmbulanceDirectory = getAvailableAmbulances();
-            if (availableAmbulanceDirectory.isEmpty()) {
-                return;
-            }
             PatientEntry patientEntry = patientQueue.poll();
             assert patientEntry != null;
+            if (availableAmbulanceDirectory.isEmpty()) {
+                toAdd.add(patientEntry);
+                continue;
+            }
             Assignment pickupAssignment = assignmentGenerator.makePatientAssignment(mapGrid, patientEntry, availableAmbulanceDirectory);
             System.out.println("[+] PICKUP " + pickupAssignment.getPrintString());
             assignmentDirectory.put(createId(), pickupAssignment);
         }
+        patientQueue.addAll(toAdd);
     }
 
     private void advanceAssignments() {
