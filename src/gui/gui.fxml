@@ -1,0 +1,56 @@
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.control.Label?>
+<GridPane fx:controller="gui.GUIController"
+          xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10">
+    <Label style="-fx-font: NORMAL 20 Tahoma;" text="Emergency Calls" GridPane.columnIndex="0" GridPane.rowIndex="0">
+    </Label>
+    <TableView fx:id="callTable" GridPane.columnIndex="0" GridPane.rowIndex="1">
+        <columns>
+            <TableColumn text="Call ID" prefWidth="50">
+                <cellValueFactory>
+                    <PropertyValueFactory property="callID"/>
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="Time of Call" prefWidth="100">
+                <cellValueFactory>
+                    <PropertyValueFactory property="time"/>
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="Number of Patients" prefWidth="150">
+                <cellValueFactory>
+                    <PropertyValueFactory property="numPatients"/>
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="Location of Call" prefWidth="100">
+                <cellValueFactory>
+                    <PropertyValueFactory property="location"/>
+                </cellValueFactory>
+            </TableColumn>
+        </columns>
+    </TableView>
+    <Label style="-fx-font: NORMAL 20 Tahoma;" text="Assignments" GridPane.columnIndex="1" GridPane.rowIndex="0">
+    </Label>
+    <TableView fx:id="assignmentsTable" GridPane.columnIndex="1" GridPane.rowIndex="1">
+        <columns>
+            <TableColumn text="Type" prefWidth="75">
+                <cellValueFactory>
+                    <PropertyValueFactory property="type"/>
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="Ambulance Name" prefWidth="150">
+                <cellValueFactory>
+                    <PropertyValueFactory property="ambulanceName"/>
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="Destination Name" prefWidth="150">
+                <cellValueFactory>
+                    <PropertyValueFactory property="destinationName"/>
+                </cellValueFactory>
+            </TableColumn>
+
+        </columns>
+    </TableView>
+</GridPane>

@@ -1,14 +1,12 @@
-package backend.simulation;
-
-import javafx.geometry.Point2D;
+package models;
 
 public class HomeBase {
-    private final int id;
-    private final Point2D location;
+    private final String name;
+    private final Point location;
     private int currentCapacity;
 
-    HomeBase(int id, Point2D location, int initialCapacity) {
-        this.id = id;
+    public HomeBase(String name, Point location, int initialCapacity) {
+        this.name = name;
         this.location = location;
         this.currentCapacity = initialCapacity;
     }
@@ -17,11 +15,11 @@ public class HomeBase {
         currentCapacity--;
     }
 
-    public int getId() {
-        return id;
+    public String getName() {
+        return name;
     }
 
-    public Point2D getLocation() {
+    public Point getLocation() {
         return location;
     }
 
