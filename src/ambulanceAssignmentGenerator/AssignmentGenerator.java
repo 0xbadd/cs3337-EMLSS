@@ -24,8 +24,6 @@ public class AssignmentGenerator {
         Stack<Point> path = PathFinder.getPath(mapGrid, ambulanceLocation, patientLocation);
         String patientName = patientEntry.getValue().getName();
 
-        Logger.log("PICKUP" + "\t\t" + ambulanceName + "\t\t\t" + patientEntry.getKey());
-
         return new Assignment(AssignmentType.PICKUP, ambulanceName, ambulanceID, patientName, patientEntry.getKey(), path);
     }
 

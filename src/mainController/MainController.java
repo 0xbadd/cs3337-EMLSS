@@ -77,6 +77,7 @@ public class MainController {
                 continue;
             }
             Assignment pickupAssignment = assignmentGenerator.makePatientAssignment(mapGrid, patientEntry, availableAmbulanceDirectory);
+            Logger.log(pickupAssignment.getLogString());
             assignmentDirectory.put(createId(), pickupAssignment);
         }
         patientQueue.addAll(toAdd);
@@ -100,14 +101,14 @@ public class MainController {
                     if (patientDirectory.containsKey(destinationId)) {
                         ambulance.loadPatient(destinationId);
                         Assignment dropOffAssignment = assignmentGenerator.makeHospitalAssignment(mapGrid, new AbstractMap.SimpleEntry<>(ambulanceId, ambulance), hospitalDirectory);
-                        Logger.log("DROPOFF\t\t" + ambulance.getName() + "\t\t\t" + dropOffAssignment.getDestinationName());
+                        Logger.log(dropOffAssignment.getLogString());
                         toAdd.put(createId(), dropOffAssignment);
                     } else if (hospitalDirectory.containsKey(destinationId)) {
                         if (ambulance.hasPatient()) {
                             int patientId = ambulance.unloadPatient();
                             patientDirectory.remove(patientId);
                             Assignment returnAssignment = assignmentGenerator.makeHomeBaseAssignment(mapGrid, new AbstractMap.SimpleEntry<>(ambulanceId, ambulance), homeBaseDirectory);
-                            Logger.log("RETURN\t\t" + ambulance.getName() + "\t\t\t" + returnAssignment.getDestinationName());
+                            Logger.log(returnAssignment.getLogString());
                             toAdd.put(createId(), returnAssignment);
                         }
                     }

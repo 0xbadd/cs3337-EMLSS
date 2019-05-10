@@ -34,7 +34,7 @@ public class EmergencyCall {
     }
 
     public String getLogString() {
-        return time + "\t" + numPatients + "\t\t\t" + location.toString();
+        return time + "\t" + numPatients + "\t\t\t\t\t" + location.toString();
     }
 
     public String toString() {

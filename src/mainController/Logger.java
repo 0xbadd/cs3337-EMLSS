@@ -61,7 +61,7 @@ public class Logger {
 
             pw.println("");
             pw.println("Assignments");
-            pw.println("Type\t\tAmbulance Name\t\t\tDestination Name");
+            pw.println("Type\t\tAmbulance Name\t\tDestination Name");
 
             pw.close();
         } catch (IOException e) {
