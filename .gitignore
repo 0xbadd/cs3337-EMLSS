@@ -203,3 +203,7 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+### Project
+
+AssignmentsLog.txt

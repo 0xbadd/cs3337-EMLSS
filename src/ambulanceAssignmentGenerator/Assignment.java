@@ -63,11 +63,13 @@ public class Assignment {
         return (this.ambulanceID == other.ambulanceID) && (this.destinationID == other.destinationID) && (this.path.equals(other.path));
     }
 
-    public String getPrintString() {
-        return "Assignment {" +
-                "Ambulance Name = " + ambulanceName +
-                ", Destination Name = " + destinationName +
-                "}";
+    public String getLogString() {
+        return String.format(
+                "%-8s\t%-8s\t\t\t%s",
+                type.getText(),
+                ambulanceName,
+                destinationName
+        );
     }
 
     @Override
