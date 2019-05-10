@@ -63,13 +63,6 @@ public class Assignment {
         return (this.ambulanceID == other.ambulanceID) && (this.destinationID == other.destinationID) && (this.path.equals(other.path));
     }
 
-    public String getPrintString() {
-        return "Assignment {" +
-                "Ambulance Name = " + ambulanceName +
-                ", Destination Name = " + destinationName +
-                "}";
-    }
-
     @Override
     public String toString() {
         return "Assignment {" +

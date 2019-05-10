@@ -38,7 +38,7 @@ public class EmergencyCall {
     }
 
     public String toString() {
-        return "[!] EmergencyCall {" +
+        return "EmergencyCall {" +
                 "Time Of Call = " + time +
                 ", Number Of Patients = " + numPatients +
                 ", Location = " + location +

@@ -57,7 +57,6 @@ public class MainController {
             Map.Entry<Integer, EmergencyCall> emergencyCallEntry = emergencyCallQueue.poll();
             assert emergencyCallEntry != null;
             emergencyCallDirectory.put(emergencyCallEntry.getKey(), emergencyCallEntry.getValue());
-            System.out.println(emergencyCallEntry.getValue().toString());
 
             List<Integer> patientIDs = emergencyCallEntry.getValue().getPatientIDList();
             for (int id : patientIDs) {
@@ -78,7 +77,6 @@ public class MainController {
                 continue;
             }
             Assignment pickupAssignment = assignmentGenerator.makePatientAssignment(mapGrid, patientEntry, availableAmbulanceDirectory);
-            System.out.println("[+] PICKUP " + pickupAssignment.getPrintString());
             assignmentDirectory.put(createId(), pickupAssignment);
         }
         patientQueue.addAll(toAdd);
@@ -103,7 +101,6 @@ public class MainController {
                         ambulance.loadPatient(destinationId);
                         Assignment dropOffAssignment = assignmentGenerator.makeHospitalAssignment(mapGrid, new AbstractMap.SimpleEntry<>(ambulanceId, ambulance), hospitalDirectory);
                         Logger.log("DROPOFF\t\t" + ambulance.getName() + "\t\t\t" + dropOffAssignment.getDestinationName());
-                        System.out.println("[-] DROPOFF " + dropOffAssignment.getPrintString());
                         toAdd.put(createId(), dropOffAssignment);
                     } else if (hospitalDirectory.containsKey(destinationId)) {
                         if (ambulance.hasPatient()) {
@@ -111,7 +108,6 @@ public class MainController {
                             patientDirectory.remove(patientId);
                             Assignment returnAssignment = assignmentGenerator.makeHomeBaseAssignment(mapGrid, new AbstractMap.SimpleEntry<>(ambulanceId, ambulance), homeBaseDirectory);
                             Logger.log("RETURN\t\t" + ambulance.getName() + "\t\t\t" + returnAssignment.getDestinationName());
-                            System.out.println("[*] RETURN " + returnAssignment.getPrintString());
                             toAdd.put(createId(), returnAssignment);
                         }
                     }
