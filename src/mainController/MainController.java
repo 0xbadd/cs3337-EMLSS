@@ -177,22 +177,6 @@ public class MainController {
         return emergencyCallDirectory;
     }
 
-    public Map<Integer, Ambulance> getAmbulanceDirectory() {
-        return ambulanceDirectory;
-    }
-
-    public Map<Integer, Patient> getPatientDirectory() {
-        return patientDirectory;
-    }
-
-    public Map<Integer, HomeBase> getHomeBaseDirectory() {
-        return homeBaseDirectory;
-    }
-
-    public Map<Integer, Hospital> getHospitalDirectory() {
-        return hospitalDirectory;
-    }
-
     public Map<Integer, Assignment> getAssignmentDirectory() {
         return assignmentDirectory;
     }
