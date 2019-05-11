@@ -2,6 +2,7 @@ package mainController;
 
 import ambulanceAssignmentGenerator.AssignmentGenerator;
 import ambulanceAssignmentGenerator.Assignment;
+import ambulanceAssignmentGenerator.AssignmentType;
 import emergencyCharacteristicFunction.EmergencyCall;
 import emergencyCharacteristicFunction.EmergencyCallGenerator;
 import models.*;
@@ -68,6 +69,7 @@ public class MainController {
 
     private void managePatientPickup() {
         List<PatientEntry> toAdd = new LinkedList<>();
+        Set<Integer> toRemove = new HashSet<>();
         while (!patientQueue.isEmpty()) {
             Map<Integer, Ambulance> availableAmbulanceDirectory = getAvailableAmbulances();
             PatientEntry patientEntry = patientQueue.poll();
@@ -77,10 +79,19 @@ public class MainController {
                 continue;
             }
             Assignment pickupAssignment = assignmentGenerator.makePatientAssignment(mapGrid, patientEntry, availableAmbulanceDirectory);
+
+            for (Map.Entry<Integer, Assignment> assignmentEntry : assignmentDirectory.entrySet()) {
+                if (assignmentEntry.getValue().getAmbulanceID() == pickupAssignment.getAmbulanceID()
+                        && assignmentEntry.getValue().getType() == AssignmentType.RETURN) {
+                    toRemove.add(assignmentEntry.getKey());
+                }
+            }
+
             Logger.log(pickupAssignment.getLogString());
             assignmentDirectory.put(createId(), pickupAssignment);
         }
         patientQueue.addAll(toAdd);
+        assignmentDirectory.keySet().removeAll(toRemove);
     }
 
     private void advanceAssignments() {
@@ -134,7 +145,8 @@ public class MainController {
 
     private boolean isAmbulanceAvailable(int ambulanceId) {
         for (Assignment assignment : assignmentDirectory.values()) {
-            if (assignment.getAmbulanceID() == ambulanceId) {
+            if (assignment.getAmbulanceID() == ambulanceId
+                    && (assignment.getType() == AssignmentType.PICKUP || assignment.getType() == AssignmentType.DROPOFF)) {
                 return false;
             }
         }
