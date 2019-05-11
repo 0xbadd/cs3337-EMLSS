@@ -158,14 +158,14 @@ public class MainController {
     private Map<Integer, HomeBase> generateHomeBases() {
         Map<Integer, HomeBase> homeBases = new LinkedHashMap<>();
         homeBases.put(createId(), (new HomeBase("Alpha Station", new Point(25, 10), 3)));
-        homeBases.put(createId(), (new HomeBase("Beta Station", new Point(80, 80), 3)));
-        homeBases.put(createId(), (new HomeBase("Charlie Station", new Point(80, 60), 3)));
+        homeBases.put(createId(), (new HomeBase("Beta Station", new Point(10, 80), 3)));
+        homeBases.put(createId(), (new HomeBase("Charlie Station", new Point(75, 65), 3)));
         return homeBases;
     }
 
     private Map<Integer, Hospital> generateHospitals() {
         Map<Integer, Hospital> hospitals = new LinkedHashMap<>();
-        hospitals.put(createId(), (new Hospital(new Point(55, 55), "Mercy Hospital")));
+        hospitals.put(createId(), (new Hospital(new Point(50, 50), "Mercy Hospital")));
         return hospitals;
     }
 
