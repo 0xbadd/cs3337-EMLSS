@@ -2,6 +2,7 @@ package mainController;
 
 import ambulanceAssignmentGenerator.AssignmentGenerator;
 import ambulanceAssignmentGenerator.Assignment;
+import ambulanceAssignmentGenerator.AssignmentType;
 import emergencyCharacteristicFunction.EmergencyCall;
 import emergencyCharacteristicFunction.EmergencyCallGenerator;
 import models.*;
@@ -68,6 +69,7 @@ public class MainController {
 
     private void managePatientPickup() {
         List<PatientEntry> toAdd = new LinkedList<>();
+        Set<Integer> toRemove = new HashSet<>();
         while (!patientQueue.isEmpty()) {
             Map<Integer, Ambulance> availableAmbulanceDirectory = getAvailableAmbulances();
             PatientEntry patientEntry = patientQueue.poll();
@@ -77,10 +79,19 @@ public class MainController {
                 continue;
             }
             Assignment pickupAssignment = assignmentGenerator.makePatientAssignment(mapGrid, patientEntry, availableAmbulanceDirectory);
+
+            for (Map.Entry<Integer, Assignment> assignmentEntry : assignmentDirectory.entrySet()) {
+                if (assignmentEntry.getValue().getAmbulanceID() == pickupAssignment.getAmbulanceID()
+                        && assignmentEntry.getValue().getType() == AssignmentType.RETURN) {
+                    toRemove.add(assignmentEntry.getKey());
+                }
+            }
+
             Logger.log(pickupAssignment.getLogString());
             assignmentDirectory.put(createId(), pickupAssignment);
         }
         patientQueue.addAll(toAdd);
+        assignmentDirectory.keySet().removeAll(toRemove);
     }
 
     private void advanceAssignments() {
@@ -134,7 +145,8 @@ public class MainController {
 
     private boolean isAmbulanceAvailable(int ambulanceId) {
         for (Assignment assignment : assignmentDirectory.values()) {
-            if (assignment.getAmbulanceID() == ambulanceId) {
+            if (assignment.getAmbulanceID() == ambulanceId
+                    && (assignment.getType() == AssignmentType.PICKUP || assignment.getType() == AssignmentType.DROPOFF)) {
                 return false;
             }
         }
@@ -157,15 +169,17 @@ public class MainController {
 
     private Map<Integer, HomeBase> generateHomeBases() {
         Map<Integer, HomeBase> homeBases = new LinkedHashMap<>();
-        homeBases.put(createId(), (new HomeBase("Alpha Station", new Point(25, 10), 3)));
-        homeBases.put(createId(), (new HomeBase("Beta Station", new Point(80, 80), 3)));
-        homeBases.put(createId(), (new HomeBase("Charlie Station", new Point(80, 60), 3)));
+        homeBases.put(createId(), (new HomeBase("Alpha Station", new Point(25, 10), 3, 60)));
+        homeBases.put(createId(), (new HomeBase("Beta Station", new Point(10, 80), 3, 60)));
+        homeBases.put(createId(), (new HomeBase("Charlie Station", new Point(75, 65), 3, 60)));
         return homeBases;
     }
 
     private Map<Integer, Hospital> generateHospitals() {
         Map<Integer, Hospital> hospitals = new LinkedHashMap<>();
-        hospitals.put(createId(), (new Hospital(new Point(55, 55), "Mercy Hospital")));
+        hospitals.put(createId(), (new Hospital(new Point(50, 70), "Mercy Hospital")));
+        hospitals.put(createId(), (new Hospital(new Point(35, 25), "Alverado Medical Center")));
+        hospitals.put(createId(), (new Hospital(new Point(75, 35), "Sharp Memorial Hospital")));
         return hospitals;
     }
 
@@ -175,22 +189,6 @@ public class MainController {
 
     public Map<Integer, EmergencyCall> getEmergencyCallDirectory() {
         return emergencyCallDirectory;
-    }
-
-    public Map<Integer, Ambulance> getAmbulanceDirectory() {
-        return ambulanceDirectory;
-    }
-
-    public Map<Integer, Patient> getPatientDirectory() {
-        return patientDirectory;
-    }
-
-    public Map<Integer, HomeBase> getHomeBaseDirectory() {
-        return homeBaseDirectory;
-    }
-
-    public Map<Integer, Hospital> getHospitalDirectory() {
-        return hospitalDirectory;
     }
 
     public Map<Integer, Assignment> getAssignmentDirectory() {

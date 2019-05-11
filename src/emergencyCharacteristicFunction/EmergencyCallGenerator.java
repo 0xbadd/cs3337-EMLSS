@@ -54,13 +54,13 @@ public class EmergencyCallGenerator {
 
     private static int getRandomNumPatients() {
         int numPatientsRoll = (int) (Math.random() * 101);
-        if (numPatientsRoll <= 50) {
+        if (numPatientsRoll <= 70) {
             return 1;
-        } else if (numPatientsRoll <= 70) {
-            return 2;
         } else if (numPatientsRoll <= 85) {
-            return 3;
+            return 2;
         } else if (numPatientsRoll <= 95) {
+            return 3;
+        } else if (numPatientsRoll <= 98) {
             return 4;
         } else {
             return 5;
