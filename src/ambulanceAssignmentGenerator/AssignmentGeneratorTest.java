@@ -56,8 +56,8 @@ class AssignmentGeneratorTest {
         MapGrid mapGrid = new MapGrid();
         Map.Entry<Integer, Ambulance> ambulanceEntry = new AbstractMap.SimpleEntry<>(0, new Ambulance("ambulance", new Point(3, 0), 1));
         Map<Integer, HomeBase> homeBaseDirectory = new LinkedHashMap<>();
-        homeBaseDirectory.put(1, new HomeBase("home base 1", new Point(3, 3), 3));
-        homeBaseDirectory.put(2, new HomeBase( "home base 2", new Point(1, 7), 3));
+        homeBaseDirectory.put(1, new HomeBase("home base 1", new Point(3, 3), 3, 60));
+        homeBaseDirectory.put(2, new HomeBase( "home base 2", new Point(1, 7), 3, 60));
         AssignmentGenerator assignmentGenerator = new AssignmentGenerator();
 
         Stack<Point> expectedPath = new Stack<>();
