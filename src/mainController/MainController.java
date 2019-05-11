@@ -177,7 +177,9 @@ public class MainController {
 
     private Map<Integer, Hospital> generateHospitals() {
         Map<Integer, Hospital> hospitals = new LinkedHashMap<>();
-        hospitals.put(createId(), (new Hospital(new Point(50, 50), "Mercy Hospital")));
+        hospitals.put(createId(), (new Hospital(new Point(50, 70), "Mercy Hospital")));
+        hospitals.put(createId(), (new Hospital(new Point(35, 25), "Alverado Medical Center")));
+        hospitals.put(createId(), (new Hospital(new Point(75, 35), "Sharp Memorial Hospital")));
         return hospitals;
     }
 
